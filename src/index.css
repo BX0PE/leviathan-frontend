@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+
+  body {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Big, glove-friendly focus rings — always visible, never removed */
+  :focus-visible {
+    outline: 3px solid #1E3A5F;
+    outline-offset: 2px;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer components {
+  /* Signature element: a measuring-tape progress bar with tick marks,
+     styled after a builder's tape measure rather than a generic bar. */
+  .tape-track {
+    position: relative;
+    height: 14px;
+    border-radius: 999px;
+    background: #DFDBCF;
+    overflow: hidden;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(23, 25, 26, 0.14) 0,
+      rgba(23, 25, 26, 0.14) 1px,
+      transparent 1px,
+      transparent 10%
+    );
+  }
+
+  .tape-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 300ms ease;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.35) 0,
+      rgba(255, 255, 255, 0.35) 1px,
+      transparent 1px,
+      transparent 10%
+    );
+  }
+}
