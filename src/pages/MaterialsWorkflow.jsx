@@ -5,11 +5,11 @@ import Button from '../components/Button.jsx'
 import WorkflowStepper from '../components/WorkflowStepper.jsx'
 import { smetaPositionsForMaterials, makeMaterialDraft } from '../mock/materials.js'
 
-// Прототип без бэкенда: показывает всю цепочку из брифа —
-// Проектировщик → Согласование → Отправка на объект → Получение
-// прорабом. Состояние живёт только в этой странице, ничего никуда
-// не отправляется. Нужен, чтобы свериться с боссом по процессу,
-// прежде чем подключать реальные API.
+// Prototips bez bēkenda: parāda visu procesu no brīfa —
+// Projektētājs → Saskaņošana → Nosūtīšana uz objektu → Saņemšana
+// priekšniekam. Stāvoklis dzīvo tikai šajā lapā, nekas nekur
+// netiek sūtīts. Nepieciešams, lai saskaņotu procesu ar priekšnieku,
+// pirms pievienot reālos API.
 export default function MaterialsWorkflow() {
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
@@ -50,24 +50,24 @@ export default function MaterialsWorkflow() {
 
   return (
     <div className="min-h-screen bg-concrete pb-8">
-      <Header title="Материалы — макет процесса" onBack={() => navigate('/cases')} />
+      <Header title="Materiāli — procesa makets" onBack={() => navigate('/cases')} />
       <WorkflowStepper current={step} />
 
       {step === 0 && (
         <div className="px-4 pt-4">
           <p className="text-sm text-asphalt-soft mb-4">
-            Проектировщик берёт позицию сметы и вносит материал для неё.
+            Projektētājs ņem tāmes pozīciju un ievada tai materiālu.
           </p>
 
           {items.some((it) => it.status === 'needs_changes') && (
             <div className="bg-caution/20 border border-caution rounded-card px-4 py-3 mb-4">
-              <p className="font-semibold text-sm mb-1">Заказчик просит изменить</p>
+              <p className="font-semibold text-sm mb-1">Pasūtītājs lūdz izmaiņas</p>
               <p className="text-sm text-asphalt-soft">{items[0]?.comment}</p>
             </div>
           )}
 
           <div className="bg-card rounded-card shadow-sm px-4 py-4 mb-4">
-            <label className="block text-sm font-medium text-asphalt-soft mb-1">Позиция сметы</label>
+            <label className="block text-sm font-medium text-asphalt-soft mb-1">Tāmes pozīcija</label>
             <select
               value={form.positionId}
               onChange={(e) => setForm({ ...form, positionId: e.target.value })}
@@ -80,16 +80,16 @@ export default function MaterialsWorkflow() {
               ))}
             </select>
 
-            <label className="block text-sm font-medium text-asphalt-soft mb-1">Материал</label>
+            <label className="block text-sm font-medium text-asphalt-soft mb-1">Materiāls</label>
             <input
               type="text"
-              placeholder="Например, цемент М400"
+              placeholder="Piemēram, cements M400"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               className="w-full min-h-tap rounded-card border-2 border-asphalt-soft bg-white px-3 mb-3"
             />
 
-            <label className="block text-sm font-medium text-asphalt-soft mb-1">Количество</label>
+            <label className="block text-sm font-medium text-asphalt-soft mb-1">Daudzums</label>
             <input
               type="number"
               placeholder="0"
@@ -99,14 +99,14 @@ export default function MaterialsWorkflow() {
             />
 
             <Button variant="dark" onClick={addItem}>
-              + Добавить в список
+              + Pievienot sarakstam
             </Button>
           </div>
 
           {items.length > 0 && (
             <div className="bg-card rounded-card shadow-sm px-4 py-3 mb-4">
               <h2 className="font-display font-semibold text-sm uppercase tracking-wider text-rebar mb-2">
-                Внесённые материалы
+                Ievadītie materiāli
               </h2>
               {items.map((it) => (
                 <div key={it.id} className="flex justify-between py-2 border-b border-concrete-dim last:border-b-0">
@@ -120,7 +120,7 @@ export default function MaterialsWorkflow() {
           )}
 
           <Button variant="primary" onClick={sendForReview} disabled={items.length === 0}>
-            Отправить на согласование
+            Nosūtīt saskaņošanai
           </Button>
         </div>
       )}
@@ -128,7 +128,7 @@ export default function MaterialsWorkflow() {
       {step === 1 && (
         <div className="px-4 pt-4">
           <p className="text-sm text-asphalt-soft mb-4">
-            Заказчик и прораб видят список и либо одобряют, либо просят изменить.
+            Pasūtītājs un priekšnieks redz sarakstu un vai nu apstiprina, vai lūdz izmaiņas.
           </p>
 
           <div className="bg-card rounded-card shadow-sm px-4 py-3 mb-4">
@@ -144,12 +144,12 @@ export default function MaterialsWorkflow() {
 
           <div className="bg-card rounded-card shadow-sm px-4 py-3 mb-4">
             <label className="block text-sm font-medium text-asphalt-soft mb-1">
-              Комментарий (если нужно что-то изменить)
+              Komentārs (ja nepieciešamas izmaiņas)
             </label>
             <textarea
               value={reviewComment}
               onChange={(e) => setReviewComment(e.target.value)}
-              placeholder="Например: замените марку цемента"
+              placeholder="Piemēram: nomainiet cementa marku"
               rows={2}
               className="w-full rounded-card border-2 border-asphalt-soft bg-white px-3 py-2"
             />
@@ -157,10 +157,10 @@ export default function MaterialsWorkflow() {
 
           <div className="flex flex-col gap-3">
             <Button variant="primary" onClick={approveAll}>
-              ✓ Одобрить
+              ✓ Apstiprināt
             </Button>
             <Button variant="outline" onClick={requestChanges} disabled={!reviewComment.trim()}>
-              Отправить на доработку
+              Nosūtīt labošanai
             </Button>
           </div>
         </div>
@@ -169,13 +169,13 @@ export default function MaterialsWorkflow() {
       {step === 2 && (
         <div className="px-6 pt-10 flex flex-col items-center text-center">
           <div className="text-5xl mb-4">✅</div>
-          <h2 className="font-display font-semibold text-xl mb-2">Материалы одобрены</h2>
+          <h2 className="font-display font-semibold text-xl mb-2">Materiāli apstiprināti</h2>
           <p className="text-asphalt-soft mb-8 max-w-xs">
-            Список отправлен на объект. Как только материалы придут, прораб подтверждает получение.
+            Saraksts nosūtīts uz objektu. Kad materiāli pienāks, priekšnieks apstiprina saņemšanu.
           </p>
           <div className="w-full max-w-xs">
             <Button variant="primary" onClick={confirmReceipt}>
-              Прораб: подтвердить получение
+              Priekšnieks: apstiprināt saņemšanu
             </Button>
           </div>
         </div>
@@ -184,7 +184,7 @@ export default function MaterialsWorkflow() {
       {step === 3 && (
         <div className="px-4 pt-4">
           <p className="text-sm text-asphalt-soft mb-4">
-            Прораб сверяет, что реально приехало на объект, по каждой позиции.
+            Priekšnieks pārbauda, kas reāli pienācis uz objektu, pa katru pozīciju.
           </p>
 
           <div className="bg-card rounded-card shadow-sm px-4 py-3 mb-4">
@@ -193,11 +193,11 @@ export default function MaterialsWorkflow() {
                 <div className="flex justify-between mb-2">
                   <span className="font-medium">{it.name}</span>
                   <span className="font-mono text-asphalt-soft">
-                    заказано: {it.quantity} {it.unit}
+                    pasūtīts: {it.quantity} {it.unit}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <label className="text-sm text-asphalt-soft shrink-0">Пришло:</label>
+                  <label className="text-sm text-asphalt-soft shrink-0">Pienāca:</label>
                   <input
                     type="number"
                     placeholder={it.quantity}
@@ -212,10 +212,10 @@ export default function MaterialsWorkflow() {
           </div>
 
           <Button variant="primary" onClick={() => navigate('/cases')}>
-            Подтвердить получение
+            Apstiprināt saņemšanu
           </Button>
           <p className="text-xs text-asphalt-soft text-center mt-3">
-            Дальше расход материалов списывается на уже существующем экране объекта, вместе с объёмами работ.
+            Tālāk materiālu patēriņš tiek norakstīts esošajā objekta ekrānā, kopā ar darbu apjomiem.
           </p>
         </div>
       )}

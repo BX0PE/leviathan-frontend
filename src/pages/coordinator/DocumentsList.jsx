@@ -11,10 +11,10 @@ const CONF_BADGE = {
 }
 
 const CONF_LABEL = {
-  exact:   'Авто точное',
-  partial: 'Авто частичное',
-  manual:  'Вручную',
-  none:    'Не привязан',
+  exact:   'Auto precīzs',
+  partial: 'Auto daļējs',
+  manual:  'Manuāli',
+  none:    'Nav piesaistīts',
 }
 
 export default function DocumentsList() {
@@ -36,24 +36,24 @@ export default function DocumentsList() {
 
   return (
     <div className="min-h-screen bg-concrete pb-10">
-      <Header title="Документы объекта" onBack />
+      <Header title="Objekta dokumenti" onBack />
 
       <div className="px-4 pt-4 flex flex-col gap-4">
-        {loading && <p className="text-asphalt-soft">Загружаем…</p>}
+        {loading && <p className="text-asphalt-soft">Ielādējam…</p>}
 
         {!loading && docs.length === 0 && (
           <div className="bg-card rounded-card shadow-sm px-4 py-8 text-center">
             <p className="text-4xl mb-3">📭</p>
-            <p className="font-semibold text-asphalt">Документов нет</p>
-            <p className="text-sm text-asphalt-soft mt-1">Загрузи PDF через кнопку на странице объекта</p>
+            <p className="font-semibold text-asphalt">Dokumentu nav</p>
+            <p className="text-sm text-asphalt-soft mt-1">Augšupielādē PDF ar pogu objekta lapā</p>
           </div>
         )}
 
-        {/* Непривязанные — требуют внимания */}
+        {/* Nav piesaistīti — nepieciešama uzmanība */}
         {unmatched.length > 0 && (
           <div>
             <h2 className="font-display font-semibold text-sm uppercase tracking-wider text-danger mb-2">
-              ⚠ Не привязаны ({unmatched.length})
+              ⚠ Nav piesaistīti ({unmatched.length})
             </h2>
             <div className="flex flex-col gap-2">
               {unmatched.map((d) => (
@@ -63,11 +63,11 @@ export default function DocumentsList() {
           </div>
         )}
 
-        {/* Привязанные */}
+        {/* Piesaistīti */}
         {matched.length > 0 && (
           <div>
             <h2 className="font-display font-semibold text-sm uppercase tracking-wider text-rebar mb-2">
-              Привязаны ({matched.length})
+              Piesaistīti ({matched.length})
             </h2>
             <div className="flex flex-col gap-2">
               {matched.map((d) => (
@@ -99,7 +99,7 @@ function DocCard({ doc, caseId, onNavigate }) {
           onClick={() => onNavigate(`/documents/${doc.id}/link?case=${caseId}`)}
           className="mt-2 text-xs text-brand underline underline-offset-2"
         >
-          Привязать вручную →
+          Piesaistīt manuāli →
         </button>
       )}
     </div>

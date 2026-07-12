@@ -7,21 +7,21 @@ const ROLES = [
     icon: '📋',
     title: 'Koordinators',
     subtitle: 'Būvdarbu vadītājs',
-    desc: 'Загрузка смет и документов, дашборд прогресса',
+    desc: 'Tāmju un dokumentu augšupielāde, progresa pārskats',
   },
   {
     key: 'foreman',
     icon: '👷',
     title: 'Priekšnieks',
     subtitle: 'Darbu veicējs',
-    desc: 'Ввод выполненных работ каждый день',
+    desc: 'Ikdienas izpildīto darbu ievade',
   },
   {
     key: 'supervisor',
     icon: '🔍',
     title: 'Uzraugs',
     subtitle: 'Būvuzraugs',
-    desc: 'Проверка и подтверждение записей прораба',
+    desc: 'Būvdarbu vadītāja ierakstu pārbaude un apstiprināšana',
   },
 ]
 
@@ -38,7 +38,7 @@ export default function RoleSelect() {
       <h1 className="font-display font-bold text-2xl text-white mb-1 tracking-wide">
         LEVIATHAN
       </h1>
-      <p className="text-concrete-dim mb-10 text-sm">Выбери свою роль</p>
+      <p className="text-concrete-dim mb-10 text-sm">Izvēlies savu lomu</p>
 
       <div className="w-full max-w-sm flex flex-col gap-4">
         {ROLES.map((r) => (

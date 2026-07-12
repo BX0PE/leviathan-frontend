@@ -32,13 +32,13 @@ export default function CoordinatorCaseDetail() {
   if (loading) return (
     <div className="min-h-screen bg-concrete">
       <Header title="…" onBack />
-      <p className="px-4 pt-6 text-asphalt-soft">Загружаем дашборд…</p>
+      <p className="px-4 pt-6 text-asphalt-soft">Ielādējam pārskatu…</p>
     </div>
   )
 
   if (error) return (
     <div className="min-h-screen bg-concrete">
-      <Header title="Ошибка" onBack />
+      <Header title="Kļūda" onBack />
       <p className="px-4 pt-6 text-danger">{error}</p>
     </div>
   )
@@ -51,39 +51,39 @@ export default function CoordinatorCaseDetail() {
 
       <div className="px-4 pt-4 flex flex-col gap-4">
 
-        {/* ── Общий прогресс ── */}
+        {/* ── Kopējais progress ── */}
         <div className="bg-card rounded-card shadow-sm px-4 py-4">
           <div className="flex justify-between items-baseline mb-1">
             <h2 className="font-display font-semibold text-sm uppercase tracking-wider text-rebar">
-              Общий прогресс
+              Kopējais progress
             </h2>
             <span className="font-mono font-bold text-xl text-brand">{progress.overall_percent}%</span>
           </div>
           <ProgressBar percent={progress.overall_percent} />
           <div className="flex gap-4 mt-3 text-xs text-asphalt-soft">
-            <span>Всего позиций: <b className="text-asphalt">{progress.total_positions}</b></span>
-            <span>Начато: <b className="text-asphalt">{progress.started}</b></span>
-            <span>Завершено: <b className="text-asphalt">{progress.completed}</b></span>
+            <span>Pozīciju kopā: <b className="text-asphalt">{progress.total_positions}</b></span>
+            <span>Sāktas: <b className="text-asphalt">{progress.started}</b></span>
+            <span>Pabeigtas: <b className="text-asphalt">{progress.completed}</b></span>
           </div>
         </div>
 
-        {/* ── Статусы ── */}
+        {/* ── Statusi ── */}
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-card rounded-card shadow-sm px-4 py-3 text-center">
             <p className="text-2xl font-bold text-caution">{pending_sync}</p>
-            <p className="text-xs text-asphalt-soft mt-1">Ожидают BIS</p>
+            <p className="text-xs text-asphalt-soft mt-1">Gaida BIS</p>
           </div>
           <div className="bg-card rounded-card shadow-sm px-4 py-3 text-center">
             <p className="text-2xl font-bold text-brand">{documents.matched}<span className="text-asphalt-soft font-normal text-sm">/{documents.total}</span></p>
-            <p className="text-xs text-asphalt-soft mt-1">Документов привязано</p>
+            <p className="text-xs text-asphalt-soft mt-1">Dokumenti piesaistīti</p>
           </div>
         </div>
 
-        {/* ── Прогресс по группам ── */}
+        {/* ── Progress pa sadaļām ── */}
         {groups.length > 0 && (
           <div className="bg-card rounded-card shadow-sm px-4 py-4">
             <h2 className="font-display font-semibold text-sm uppercase tracking-wider text-rebar mb-3">
-              По разделам
+              Pa sadaļām
             </h2>
             <div className="flex flex-col gap-3">
               {groups.map((g) => (
@@ -94,7 +94,7 @@ export default function CoordinatorCaseDetail() {
                   </div>
                   <ProgressBar percent={g.percent} />
                   <p className="text-xs text-asphalt-soft mt-0.5">
-                    {g.used} / {g.planned} · {g.positions_count} позиций
+                    {g.used} / {g.planned} · {g.positions_count} pozīcijas
                   </p>
                 </div>
               ))}
@@ -102,7 +102,7 @@ export default function CoordinatorCaseDetail() {
           </div>
         )}
 
-        {/* ── Действия координатора ── */}
+        {/* ── Koordinatora darbības ── */}
         <div className="flex flex-col gap-2">
           <button
             onClick={() => navigate(`/cases/${id}/import-estimate`)}
@@ -110,7 +110,7 @@ export default function CoordinatorCaseDetail() {
           >
             <span className="text-xl">📊</span>
             <div>
-              <p>Загрузить смету</p>
+              <p>Augšupielādēt tāmi</p>
               <p className="font-normal opacity-75 text-xs">Excel LBN 501-17</p>
             </div>
           </button>
@@ -120,8 +120,8 @@ export default function CoordinatorCaseDetail() {
           >
             <span className="text-xl">📄</span>
             <div>
-              <p>Загрузить документы</p>
-              <p className="font-normal text-asphalt-soft text-xs">PDF паспорта и сертификаты</p>
+              <p>Augšupielādēt dokumentus</p>
+              <p className="font-normal text-asphalt-soft text-xs">PDF pases un sertifikāti</p>
             </div>
           </button>
           {documents.total > 0 && (
@@ -131,22 +131,22 @@ export default function CoordinatorCaseDetail() {
             >
               <span className="text-xl">🗂</span>
               <div>
-                <p>Документы объекта</p>
+                <p>Objekta dokumenti</p>
                 <p className="font-normal text-asphalt-soft text-xs">
                   {documents.unmatched > 0
-                    ? `${documents.unmatched} не привязано — требуют внимания`
-                    : `${documents.total} документов, все привязаны`}
+                    ? `${documents.unmatched} nav piesaistīti — nepieciešama uzmanība`
+                    : `${documents.total} dokumenti, visi piesaistīti`}
                 </p>
               </div>
             </button>
           )}
         </div>
 
-        {/* ── Последние записи прораба ── */}
+        {/* ── Jaunākie ieraksti ── */}
         {recent_entries.length > 0 && (
           <div className="bg-card rounded-card shadow-sm px-4 py-4">
             <h2 className="font-display font-semibold text-sm uppercase tracking-wider text-rebar mb-3">
-              Последние записи прораба
+              Jaunākie ieraksti
             </h2>
             <div className="flex flex-col gap-2">
               {recent_entries.map((e) => (
@@ -158,7 +158,7 @@ export default function CoordinatorCaseDetail() {
                   <div className="text-right">
                     <p className="font-mono text-sm font-semibold">{e.quantity_used} {e.unit}</p>
                     <span className={`text-xs ${e.synced ? 'text-go' : 'text-caution'}`}>
-                      {e.synced ? '✓ BIS' : '⏳ очередь'}
+                      {e.synced ? '✓ BIS' : '⏳ rinda'}
                     </span>
                   </div>
                 </div>

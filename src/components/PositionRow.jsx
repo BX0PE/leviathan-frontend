@@ -8,11 +8,11 @@ export default function PositionRow({ position, value, onChange }) {
         <p className="font-body font-semibold text-base leading-snug">{name}</p>
       </div>
       <p className="font-mono text-sm text-asphalt-soft mb-2">
-        план {quantity_planned} {unit} · сделано {quantity_used} {unit}
+        plāns {quantity_planned} {unit} · izdarīts {quantity_used} {unit}
       </p>
       <TapeProgress used={quantity_used} planned={quantity_planned} />
       <div className="mt-3 flex items-center gap-3">
-        <label className="text-sm font-medium text-asphalt-soft shrink-0">Сегодня:</label>
+        <label className="text-sm font-medium text-asphalt-soft shrink-0">Šodien:</label>
         <input
           type="number"
           inputMode="decimal"

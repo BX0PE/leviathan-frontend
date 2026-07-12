@@ -9,7 +9,7 @@ function todayIso() {
 }
 
 function todayDisplay() {
-  return new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })
+  return new Date().toLocaleDateString('lv-LV', { day: '2-digit', month: '2-digit', year: 'numeric' })
 }
 
 export default function ConfirmSubmit() {
@@ -33,7 +33,7 @@ export default function ConfirmSubmit() {
       const result = await submitEntries({ caseId: Number(id), date: todayIso(), items })
       navigate(`/cases/${id}/status`, { state: { ok: true, synced: result.synced, count: result.created } })
     } catch (error) {
-      navigate(`/cases/${id}/status`, { state: { ok: false, message: 'Не удалось отправить. Попробуйте ещё раз.' } })
+      navigate(`/cases/${id}/status`, { state: { ok: false, message: 'Neizdevās nosūtīt. Mēģini vēlreiz.' } })
     }
   }
 
@@ -41,7 +41,7 @@ export default function ConfirmSubmit() {
     <div className="min-h-screen bg-concrete flex flex-col">
       <Header title={caseName} onBack={true} />
       <div className="flex-1 px-6 pt-8 flex flex-col items-center">
-        <h2 className="font-display font-semibold text-xl mb-6 text-center">Проверь перед отправкой</h2>
+        <h2 className="font-display font-semibold text-xl mb-6 text-center">Pārbaudi pirms nosūtīšanas</h2>
         <p className="font-mono text-sm text-asphalt-soft mb-6">📅 {todayDisplay()}</p>
 
         <div className="w-full bg-card rounded-card shadow-sm px-4 py-3 mb-8">
@@ -57,10 +57,10 @@ export default function ConfirmSubmit() {
 
         <div className="w-full flex flex-col gap-3 mt-auto pb-8">
           <Button variant="primary" onClick={handleConfirm}>
-            ✓ Отправить
+            ✓ Nosūtīt
           </Button>
           <Button variant="outline" onClick={() => navigate(-1)}>
-            ← Изменить
+            ← Labot
           </Button>
         </div>
       </div>

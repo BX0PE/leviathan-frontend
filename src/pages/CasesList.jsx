@@ -4,7 +4,7 @@ import Header from '../components/Header.jsx'
 import { fetchCases } from '../api/cases.js'
 import { clearAll, getRole } from '../api/auth.js'
 
-const STAGE_LABEL = { active: 'Активный', done: 'Завершён' }
+const STAGE_LABEL = { active: 'Aktīvs', done: 'Pabeigts' }
 const STAGE_ICON = { active: '🏗', done: '🏠' }
 
 export default function CasesList() {
@@ -26,7 +26,7 @@ export default function CasesList() {
   }, [])
 
   const role = getRole()
-  const ROLE_LABEL = { coordinator: '📋 Координатор', foreman: '👷 Прораб', supervisor: '🔍 Надзор' }
+  const ROLE_LABEL = { coordinator: '📋 Koordinators', foreman: '👷 Priekšnieks', supervisor: '🔍 Uzraugs' }
 
   function handleLogout() {
     clearAll()
@@ -41,22 +41,22 @@ export default function CasesList() {
           <div className="flex items-center gap-3">
             {role && <span className="text-xs text-concrete-dim">{ROLE_LABEL[role]}</span>}
             <button onClick={handleLogout} className="text-sm text-concrete-dim font-medium min-h-tap px-2">
-              Выход
+              Iziet
             </button>
           </div>
         }
       />
       <div className="px-4 pt-4">
-        <h2 className="font-display font-semibold text-xl mb-3">Мои объекты</h2>
+        <h2 className="font-display font-semibold text-xl mb-3">Mani objekti</h2>
 
         <button
           onClick={() => navigate('/materials-demo')}
           className="w-full text-left mb-4 bg-brand/10 border border-brand rounded-card px-4 py-3 text-brand font-medium min-h-tap"
         >
-          Макет: согласование материалов →
+          Makets: materiālu saskaņošana →
         </button>
 
-        {loading && <p className="text-asphalt-soft">Загружаем объекты…</p>}
+        {loading && <p className="text-asphalt-soft">Ielādējam objektus…</p>}
 
         <div className="flex flex-col gap-3">
           {cases.map((c) => (
@@ -68,7 +68,7 @@ export default function CasesList() {
               <span className="text-2xl">{STAGE_ICON[c.stage] || '🏢'}</span>
               <div>
                 <p className="font-semibold text-base">{c.name}</p>
-                <p className="text-sm text-asphalt-soft">Рига · {STAGE_LABEL[c.stage] || c.stage}</p>
+                <p className="text-sm text-asphalt-soft">Rīga · {STAGE_LABEL[c.stage] || c.stage}</p>
               </div>
             </button>
           ))}

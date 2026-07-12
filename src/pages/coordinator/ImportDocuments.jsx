@@ -5,9 +5,9 @@ import Button from '../../components/Button.jsx'
 import { importDocuments } from '../../api/coordinator.js'
 
 const CONFIDENCE_LABEL = {
-  exact:   { text: 'Точное',     color: 'text-go   bg-go/10' },
-  partial: { text: 'Частичное',  color: 'text-caution bg-caution/10' },
-  none:    { text: 'Не найдено', color: 'text-danger bg-danger/10' },
+  exact:   { text: 'Precīzs',     color: 'text-go   bg-go/10' },
+  partial: { text: 'Daļējs',      color: 'text-caution bg-caution/10' },
+  none:    { text: 'Nav atrasts', color: 'text-danger bg-danger/10' },
 }
 
 export default function ImportDocuments() {
@@ -23,7 +23,7 @@ export default function ImportDocuments() {
 
   function handleFiles(incoming) {
     const pdfs = Array.from(incoming).filter((f) => f.name.match(/\.pdf$/i))
-    if (pdfs.length === 0) { setError('Только PDF файлы'); return }
+    if (pdfs.length === 0) { setError('Tikai PDF faili'); return }
     setFiles(pdfs)
     setError(null)
     setResult(null)
@@ -51,14 +51,14 @@ export default function ImportDocuments() {
 
   return (
     <div className="min-h-screen bg-concrete pb-10">
-      <Header title="Загрузить документы" onBack />
+      <Header title="Augšupielādēt dokumentus" onBack />
 
       <div className="px-4 pt-4 flex flex-col gap-4">
         <p className="text-sm text-asphalt-soft">
-          Загрузи паспорта и сертификаты (atbilstības dokumenti). Система автоматически сопоставит их с позициями сметы.
+          Augšupielādē pases un sertifikātus (atbilstības dokumenti). Sistēma automātiski tos saskaņos ar tāmes pozīcijām.
         </p>
 
-        {/* Зона загрузки */}
+        {/* Augšupielādes zona */}
         <div
           onClick={() => inputRef.current?.click()}
           onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
@@ -78,10 +78,10 @@ export default function ImportDocuments() {
           />
           <p className="text-4xl mb-3">📄</p>
           {files.length > 0
-            ? <p className="font-semibold text-asphalt">{files.length} файл{files.length > 1 ? 'а' : ''} выбрано</p>
-            : <p className="text-asphalt-soft">Перетащи PDF-файлы или нажми</p>
+            ? <p className="font-semibold text-asphalt">Izvēlēti: {files.length} PDF</p>
+            : <p className="text-asphalt-soft">Velc PDF failus šeit vai nospied</p>
           }
-          <p className="text-xs text-asphalt-soft mt-1">Можно сразу несколько</p>
+          <p className="text-xs text-asphalt-soft mt-1">Var izvēlēties vairākus</p>
         </div>
 
         {files.length > 0 && !result && (
@@ -96,30 +96,30 @@ export default function ImportDocuments() {
 
         {!result && (
           <Button variant="primary" onClick={handleUpload} disabled={files.length === 0 || loading}>
-            {loading ? `Обрабатываем ${files.length} файл…` : `Загрузить ${files.length > 0 ? files.length + ' PDF' : ''}`}
+            {loading ? `Apstrādājam ${files.length} failu…` : `Augšupielādēt${files.length > 0 ? ' ' + files.length + ' PDF' : ''}`}
           </Button>
         )}
 
-        {/* Результат */}
+        {/* Rezultāts */}
         {result && (
           <div className="flex flex-col gap-3">
             <div className="bg-card rounded-card shadow-sm px-4 py-4">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-2xl">✅</span>
-                <p className="font-semibold text-asphalt">Обработано {result.processed} документов</p>
+                <p className="font-semibold text-asphalt">Apstrādāti {result.processed} dokumenti</p>
               </div>
               <div className="flex gap-4 text-sm">
                 <div className="text-center">
                   <p className="font-bold text-xl text-go">{result.matched}</p>
-                  <p className="text-asphalt-soft text-xs">привязано</p>
+                  <p className="text-asphalt-soft text-xs">piesaistīti</p>
                 </div>
                 <div className="text-center">
                   <p className="font-bold text-xl text-caution">{result.unmatched}</p>
-                  <p className="text-asphalt-soft text-xs">не найдено</p>
+                  <p className="text-asphalt-soft text-xs">nav atrasti</p>
                 </div>
                 <div className="text-center">
                   <p className="font-bold text-xl text-danger">{result.errors}</p>
-                  <p className="text-asphalt-soft text-xs">ошибок</p>
+                  <p className="text-asphalt-soft text-xs">kļūdas</p>
                 </div>
               </div>
             </div>
@@ -141,7 +141,7 @@ export default function ImportDocuments() {
                     <p className="text-xs text-go mt-1">→ {r.matched_position}</p>
                   )}
                   {r.status === 'unmatched' && (
-                    <p className="text-xs text-caution mt-1">Привяжи вручную в разделе "Документы"</p>
+                    <p className="text-xs text-caution mt-1">Piesaisti manuāli sadaļā "Dokumenti"</p>
                   )}
                   {(r.status === 'error' || r.status === 'skipped') && (
                     <p className="text-xs text-danger mt-1">{r.reason}</p>
@@ -153,11 +153,11 @@ export default function ImportDocuments() {
             <div className="flex flex-col gap-2 mt-2">
               {result.unmatched > 0 && (
                 <Button variant="outline" onClick={() => navigate(`/cases/${id}/documents`)}>
-                  Привязать вручную →
+                  Piesaistīt manuāli →
                 </Button>
               )}
               <Button variant="primary" onClick={() => navigate(`/cases/${id}`)}>
-                Вернуться к объекту
+                Atgriezties pie objekta
               </Button>
             </div>
           </div>

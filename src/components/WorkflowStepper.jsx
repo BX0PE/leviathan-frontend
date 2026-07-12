@@ -1,4 +1,4 @@
-const STEPS = ['Проектировщик', 'Согласование', 'Отправка', 'Получение']
+const STEPS = ['Projektētājs', 'Saskaņošana', 'Nosūtīšana', 'Saņemšana']
 
 export default function WorkflowStepper({ current }) {
   return (

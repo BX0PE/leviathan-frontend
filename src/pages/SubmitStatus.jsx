@@ -12,18 +12,18 @@ export default function SubmitStatus() {
   let icon, title, body, tone
   if (!ok) {
     icon = '❌'
-    title = 'Ошибка'
-    body = state?.message || 'Не удалось отправить данные.'
+    title = 'Kļūda'
+    body = state?.message || 'Neizdevās nosūtīt datus.'
     tone = 'text-danger'
   } else if (synced) {
     icon = '✅'
-    title = 'Отправлено!'
-    body = `${count} ${plural(count)} создано в BIS`
+    title = 'Nosūtīts!'
+    body = `${count} ${plural(count)} BIS`
     tone = 'text-go'
   } else {
     icon = '📶'
-    title = 'Сохранено офлайн'
-    body = 'Данные сохранены локально и отправятся в BIS автоматически при восстановлении связи.'
+    title = 'Saglabāts bezsaistē'
+    body = 'Dati saglabāti lokāli un tiks nosūtīti uz BIS automātiski, kad atjaunosies savienojums.'
     tone = 'text-caution'
   }
 
@@ -34,7 +34,7 @@ export default function SubmitStatus() {
       <p className="text-concrete-dim mb-10 leading-relaxed max-w-xs">{body}</p>
       <div className="w-full max-w-xs">
         <Button variant="primary" onClick={() => navigate('/cases')}>
-          На главную
+          Uz sākumu
         </Button>
       </div>
     </div>
@@ -42,9 +42,5 @@ export default function SubmitStatus() {
 }
 
 function plural(n) {
-  const mod10 = n % 10
-  const mod100 = n % 100
-  if (mod10 === 1 && mod100 !== 11) return 'запись'
-  if ([2, 3, 4].includes(mod10) && ![12, 13, 14].includes(mod100)) return 'записи'
-  return 'записей'
+  return n === 1 ? 'ieraksts izveidots' : 'ieraksti izveidoti'
 }

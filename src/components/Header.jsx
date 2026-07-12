@@ -8,7 +8,7 @@ export default function Header({ title, onBack, right }) {
         {onBack && (
           <button
             onClick={() => (onBack === true ? navigate(-1) : onBack())}
-            aria-label="Назад"
+            aria-label="Atpakaļ"
             className="min-h-tap min-w-[48px] -ml-2 flex items-center justify-center text-2xl"
           >
             ←

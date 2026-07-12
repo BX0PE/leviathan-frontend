@@ -48,39 +48,39 @@ export default function LinkDocument() {
 
   if (loading) return (
     <div className="min-h-screen bg-concrete">
-      <Header title="Привязать документ" onBack />
-      <p className="px-4 pt-6 text-asphalt-soft">Загружаем…</p>
+      <Header title="Piesaistīt dokumentu" onBack />
+      <p className="px-4 pt-6 text-asphalt-soft">Ielādējam…</p>
     </div>
   )
 
   if (!doc) return (
     <div className="min-h-screen bg-concrete">
-      <Header title="Ошибка" onBack />
-      <p className="px-4 pt-6 text-danger">Документ не найден</p>
+      <Header title="Kļūda" onBack />
+      <p className="px-4 pt-6 text-danger">Dokuments nav atrasts</p>
     </div>
   )
 
   return (
     <div className="min-h-screen bg-concrete pb-32">
-      <Header title="Привязать документ" onBack />
+      <Header title="Piesaistīt dokumentu" onBack />
 
       <div className="px-4 pt-4 flex flex-col gap-4">
 
-        {/* Инфо о документе */}
+        {/* Dokumenta info */}
         <div className="bg-card rounded-card shadow-sm px-4 py-3">
-          <p className="text-xs text-asphalt-soft uppercase tracking-wider mb-1">Документ</p>
+          <p className="text-xs text-asphalt-soft uppercase tracking-wider mb-1">Dokuments</p>
           <p className="font-semibold text-asphalt">📄 {doc.filename}</p>
           {doc.product_name && <p className="text-sm text-asphalt-soft mt-0.5">{doc.product_name}</p>}
           {doc.manufacturer  && <p className="text-sm text-asphalt-soft">{doc.manufacturer}</p>}
           {doc.dop_number    && <p className="text-xs text-asphalt-soft mt-1">DoP: {doc.dop_number}</p>}
         </div>
 
-        {/* Поиск позиции */}
+        {/* Pozīcijas meklēšana */}
         <div>
-          <p className="text-xs text-asphalt-soft uppercase tracking-wider mb-2">Выбери позицию сметы</p>
+          <p className="text-xs text-asphalt-soft uppercase tracking-wider mb-2">Izvēlies tāmes pozīciju</p>
           <input
             type="text"
-            placeholder="Поиск по названию…"
+            placeholder="Meklēt pēc nosaukuma…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full bg-card border border-concrete-dim rounded-card px-4 py-2 text-sm text-asphalt placeholder-asphalt-soft outline-none focus:border-brand mb-3"
@@ -88,7 +88,7 @@ export default function LinkDocument() {
 
           <div className="flex flex-col gap-2 max-h-96 overflow-y-auto">
             {filtered.length === 0 && (
-              <p className="text-sm text-asphalt-soft text-center py-4">Ничего не найдено</p>
+              <p className="text-sm text-asphalt-soft text-center py-4">Nekas nav atrasts</p>
             )}
             {filtered.map((p) => (
               <button
@@ -115,10 +115,10 @@ export default function LinkDocument() {
         {error && <p className="text-sm text-danger bg-danger/10 rounded-card px-4 py-3">{error}</p>}
       </div>
 
-      {/* Кнопка фиксированная снизу */}
+      {/* Fiksētā poga apakšā */}
       <div className="fixed bottom-0 inset-x-0 bg-concrete border-t border-concrete-dim px-4 py-3">
         <Button variant="primary" onClick={handleSave} disabled={!selected || saving}>
-          {saving ? 'Сохраняем…' : selected ? 'Привязать к выбранной позиции' : 'Выбери позицию'}
+          {saving ? 'Saglabājam…' : selected ? 'Piesaistīt izvēlētajai pozīcijai' : 'Izvēlies pozīciju'}
         </Button>
       </div>
     </div>

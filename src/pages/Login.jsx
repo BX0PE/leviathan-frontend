@@ -12,7 +12,7 @@ export default function Login() {
       saveToken(data.token)
       navigate('/role-select')
     } catch (e) {
-      alert('Не удалось подключиться к бэкенду.')
+      alert('Neizdevās savienoties ar serveri.')
     }
   }
 
@@ -24,19 +24,19 @@ export default function Login() {
         </div>
         <h1 className="font-display font-bold text-3xl tracking-wide mb-2">LEVIATHAN</h1>
         <p className="text-concrete-dim mb-10 leading-relaxed">
-          Автоматизация BIS
+          BIS automatizācija
           <br />
-          для прорабов
+          būvdarbu vadītājiem
         </p>
         <Button variant="primary" onClick={goToBisLogin}>
-          Войти через BIS
+          Pieteikties ar BIS
         </Button>
 
         <button
           onClick={handleDemoLogin}
           className="mt-4 text-sm text-concrete-dim underline underline-offset-2 min-h-tap"
         >
-          Демо-вход
+          Demo pieteikšanās
         </button>
       </div>
     </div>

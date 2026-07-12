@@ -6,7 +6,7 @@ import Button from '../components/Button.jsx'
 import { fetchCases, fetchPositions } from '../api/cases.js'
 
 function today() {
-  return new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })
+  return new Date().toLocaleDateString('lv-LV', { day: '2-digit', month: '2-digit', year: 'numeric' })
 }
 
 export default function CaseDetail() {
@@ -59,9 +59,9 @@ export default function CaseDetail() {
     <div className="min-h-screen bg-concrete pb-28">
       <Header title={caseName || '…'} onBack={true} />
       <div className="px-4 pt-4">
-        <p className="font-mono text-sm text-asphalt-soft mb-4">📅 Сегодня: {today()}</p>
+        <p className="font-mono text-sm text-asphalt-soft mb-4">📅 Šodien: {today()}</p>
 
-        {loading && <p className="text-asphalt-soft">Загружаем позиции…</p>}
+        {loading && <p className="text-asphalt-soft">Ielādējam pozīcijas…</p>}
 
         {groups.map(([groupName, items]) => (
           <section key={groupName} className="bg-card rounded-card shadow-sm mb-4 px-4 py-3">
@@ -79,7 +79,7 @@ export default function CaseDetail() {
 
       <div className="fixed bottom-0 inset-x-0 bg-concrete border-t border-concrete-dim px-4 py-3">
         <Button variant="primary" onClick={handleSubmit} disabled={filledCount === 0}>
-          Отправить в BIS
+          Nosūtīt uz BIS
         </Button>
       </div>
     </div>

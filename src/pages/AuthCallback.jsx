@@ -21,7 +21,7 @@ export default function AuthCallback() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-asphalt text-white">
-      <p className="font-display tracking-wide">Входим…</p>
+      <p className="font-display tracking-wide">Pieslēdzamies…</p>
     </div>
   )
 }

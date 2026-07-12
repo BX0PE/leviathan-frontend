@@ -18,7 +18,7 @@ export default function ImportEstimate() {
   function handleFile(f) {
     if (!f) return
     if (!f.name.match(/\.(xlsx|xls)$/i)) {
-      setError('Только Excel файлы (.xlsx, .xls)')
+      setError('Tikai Excel faili (.xlsx, .xls)')
       return
     }
     setFile(f)
@@ -48,14 +48,14 @@ export default function ImportEstimate() {
 
   return (
     <div className="min-h-screen bg-concrete pb-10">
-      <Header title="Загрузить смету" onBack />
+      <Header title="Augšupielādēt tāmi" onBack />
 
       <div className="px-4 pt-4 flex flex-col gap-4">
         <p className="text-sm text-asphalt-soft">
-          Формат: Excel LBN 501-17 (многолистовой). Позиции будут автоматически созданы в системе.
+          Formāts: Excel LBN 501-17 (daudzlapu). Pozīcijas tiks automātiski izveidotas sistēmā.
         </p>
 
-        {/* Зона загрузки */}
+        {/* Augšupielādes zona */}
         <div
           onClick={() => inputRef.current?.click()}
           onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
@@ -75,7 +75,7 @@ export default function ImportEstimate() {
           <p className="text-4xl mb-3">📊</p>
           {file
             ? <p className="font-semibold text-asphalt">{file.name}</p>
-            : <p className="text-asphalt-soft">Перетащи файл сюда или нажми</p>
+            : <p className="text-asphalt-soft">Velc failu šeit vai nospied</p>
           }
           <p className="text-xs text-asphalt-soft mt-1">.xlsx / .xls</p>
         </div>
@@ -84,39 +84,39 @@ export default function ImportEstimate() {
 
         {!result && (
           <Button variant="primary" onClick={handleUpload} disabled={!file || loading}>
-            {loading ? 'Парсим смету…' : 'Загрузить'}
+            {loading ? 'Apstrādājam tāmi…' : 'Augšupielādēt'}
           </Button>
         )}
 
-        {/* Результат */}
+        {/* Rezultāts */}
         {result && (
           <div className="bg-card rounded-card shadow-sm px-4 py-4 flex flex-col gap-3">
             <div className="flex items-center gap-2">
               <span className="text-2xl">✅</span>
               <div>
-                <p className="font-semibold text-asphalt">Смета загружена</p>
-                <p className="text-xs text-asphalt-soft">{result.filename} · {result.sheets_processed?.length || 0} листов</p>
+                <p className="font-semibold text-asphalt">Tāme augšupielādēta</p>
+                <p className="text-xs text-asphalt-soft">{result.filename} · {result.sheets_processed?.length || 0} lapas</p>
               </div>
             </div>
 
             <div className="flex gap-4 text-sm">
               <div className="text-center">
                 <p className="font-bold text-xl text-brand">{result.positions_created}</p>
-                <p className="text-asphalt-soft text-xs">создано</p>
+                <p className="text-asphalt-soft text-xs">izveidots</p>
               </div>
               <div className="text-center">
                 <p className="font-bold text-xl text-asphalt">{result.positions_updated}</p>
-                <p className="text-asphalt-soft text-xs">обновлено</p>
+                <p className="text-asphalt-soft text-xs">atjaunots</p>
               </div>
               <div className="text-center">
                 <p className="font-bold text-xl text-asphalt">{result.total}</p>
-                <p className="text-asphalt-soft text-xs">всего</p>
+                <p className="text-asphalt-soft text-xs">kopā</p>
               </div>
             </div>
 
             {result.preview?.length > 0 && (
               <div>
-                <p className="text-xs text-asphalt-soft uppercase tracking-wider mb-2">Первые позиции</p>
+                <p className="text-xs text-asphalt-soft uppercase tracking-wider mb-2">Pirmās pozīcijas</p>
                 {result.preview.map((p, i) => (
                   <div key={i} className="flex justify-between py-1.5 border-b border-concrete-dim last:border-b-0 text-sm">
                     <span className="text-asphalt">{p.nr} · {p.name}</span>
@@ -127,7 +127,7 @@ export default function ImportEstimate() {
             )}
 
             <Button variant="outline" onClick={() => navigate(`/cases/${id}`)}>
-              Вернуться к объекту
+              Atgriezties pie objekta
             </Button>
           </div>
         )}
