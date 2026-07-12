@@ -1,20 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button.jsx'
 import { goToBisLogin, saveToken } from '../api/auth.js'
+import { client } from '../api/client.js'
 
 export default function Login() {
   const navigate = useNavigate()
 
-  // Dev-only shortcut: вызывает POST /api/auth/demo и получает настоящий JWT.
-  // Vite автоматически убирает этот блок из production-сборки (import.meta.env.DEV).
-  async function handleDevLogin() {
+  async function handleDemoLogin() {
     try {
-      const res = await fetch('/api/auth/demo', { method: 'POST' })
-      const data = await res.json()
+      const { data } = await client.post('/auth/demo')
       saveToken(data.token)
       navigate('/role-select')
     } catch (e) {
-      alert('Не удалось подключиться к бэкенду. Убедись что сервер запущен на порту 8000.')
+      alert('Не удалось подключиться к бэкенду.')
     }
   }
 
@@ -34,14 +32,12 @@ export default function Login() {
           Войти через BIS
         </Button>
 
-        {import.meta.env.DEV && (
-          <button
-            onClick={handleDevLogin}
-            className="mt-4 text-sm text-concrete-dim underline underline-offset-2 min-h-tap"
-          >
-            Войти с мок-данными (для разработки)
-          </button>
-        )}
+        <button
+          onClick={handleDemoLogin}
+          className="mt-4 text-sm text-concrete-dim underline underline-offset-2 min-h-tap"
+        >
+          Демо-вход
+        </button>
       </div>
     </div>
   )
