@@ -2,6 +2,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import Button from '../components/Button.jsx'
 import { submitEntries } from '../api/cases.js'
+import { useToast } from '../components/Toast.jsx'
 
 function todayIso() {
   return new Date().toISOString().slice(0, 10)
@@ -23,12 +24,15 @@ export default function ConfirmSubmit() {
   }
 
   const { caseName, items } = state
+  const toast = useToast()
 
   async function handleConfirm() {
     try {
       const result = await submitEntries({ caseId: Number(id), date: todayIso(), items })
+      toast.add({ type: 'success', message: `${result.created} ieraksti nosūtīti uz BIS` })
       navigate(`/cases/${id}/status`, { state: { ok: true, synced: result.synced, count: result.created } })
     } catch (error) {
+      toast.add({ type: 'error', message: 'Neizdevās nosūtīt. Mēģini vēlreiz.' })
       navigate(`/cases/${id}/status`, { state: { ok: false, message: 'Neizdevās nosūtīt. Mēģini vēlreiz.' } })
     }
   }
