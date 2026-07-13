@@ -176,7 +176,7 @@ export default function Landing() {
           <img src={logo} alt="LEVIATHAN" className="h-7 select-none" draggable={false} />
           <div className="flex-1" />
           <a
-            href="mailto:hello@leviathan.lv"
+            href="mailto:leviathanworkgroup@gmail.com"
             className="font-mono text-[11px] text-white/60 tracking-widest uppercase hover:text-white transition px-3 py-1"
           >
             Pieprasīt demo
@@ -344,16 +344,16 @@ export default function Landing() {
             </div>
             <div className="flex flex-col gap-3">
               <a
-                href="mailto:hello@leviathan.lv?subject=Demo pieprasījums"
+                href="mailto:leviathanworkgroup@gmail.com?subject=Demo pieprasījums"
                 className="bg-brand text-white font-mono text-[12px] tracking-widest uppercase px-6 py-4 hover:bg-brand-dark transition text-center"
               >
                 Pieprasīt demo →
               </a>
               <a
-                href="mailto:hello@leviathan.lv"
+                href="mailto:leviathanworkgroup@gmail.com"
                 className="border border-white/20 text-white/50 font-mono text-[12px] tracking-widest uppercase px-6 py-4 hover:border-white/40 hover:text-white transition text-center"
               >
-                hello@leviathan.lv
+                leviathanworkgroup@gmail.com
               </a>
             </div>
           </div>
@@ -374,7 +374,7 @@ export default function Landing() {
             Sākt izmēģināt →
           </button>
           <p className="font-mono text-[11px] text-white/25 tracking-wide mt-6">
-            Jautājumi? hello@leviathan.lv
+            Jautājumi? leviathanworkgroup@gmail.com
           </p>
         </div>
       </section>
