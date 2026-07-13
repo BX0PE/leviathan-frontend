@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import PositionRow from '../components/PositionRow.jsx'
 import Button from '../components/Button.jsx'
+import EmptyState from '../components/EmptyState.jsx'
 import { fetchCases, fetchPositions } from '../api/cases.js'
 
 function today() {
@@ -60,15 +61,31 @@ export default function CaseDetail() {
         <span className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Šodien</span>
         <span className="font-mono text-[11px] text-white/70 tracking-wide">{today()}</span>
         {filledCount > 0 && (
-          <span className="ml-auto font-mono text-[11px] text-brand tracking-wide">
+          <span className="font-mono text-[11px] text-brand tracking-wide">
             {filledCount} poz. aizpildītas
           </span>
         )}
+        <button
+          onClick={() => navigate(`/cases/${id}/history`)}
+          className="ml-auto font-mono text-[10px] text-white/30 tracking-widest uppercase hover:text-white/60 transition"
+        >
+          Vēsture ›
+        </button>
       </div>
 
       <div className="px-4 pt-4">
         {loading && (
           <p className="font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam pozīcijas…</p>
+        )}
+
+        {!loading && groups.length === 0 && (
+          <div className="bg-card border border-concrete-dim">
+            <EmptyState
+              icon="📋"
+              title="Nav pozīciju"
+              description="Koordinatoram jāaugšupielādē tāme, lai šeit parādītos darbu saraksts"
+            />
+          </div>
         )}
 
         {groups.map(([groupName, items]) => (

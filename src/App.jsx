@@ -4,6 +4,7 @@ import Login from './pages/Login.jsx'
 import AuthCallback from './pages/AuthCallback.jsx'
 import RoleSelect from './pages/RoleSelect.jsx'
 import Onboarding from './pages/Onboarding.jsx'
+import CaseHistory from './pages/CaseHistory.jsx'
 import CasesList from './pages/CasesList.jsx'
 
 // Прораб
@@ -67,7 +68,7 @@ export default function App() {
         element={<RequireAuth><RoleCaseDetail /></RequireAuth>}
       />
 
-      {/* Прораб: подтверждение и статус */}
+      {/* Прораб: подтверждение, статус, история */}
       <Route
         path="/cases/:id/confirm"
         element={<RequireAuth><ConfirmSubmit /></RequireAuth>}
@@ -75,6 +76,10 @@ export default function App() {
       <Route
         path="/cases/:id/status"
         element={<RequireAuth><SubmitStatus /></RequireAuth>}
+      />
+      <Route
+        path="/cases/:id/history"
+        element={<RequireAuth><CaseHistory /></RequireAuth>}
       />
 
       {/* Координатор: импорт и документы */}

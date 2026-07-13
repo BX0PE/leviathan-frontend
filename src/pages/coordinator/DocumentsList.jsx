@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Header from '../../components/Header.jsx'
+import EmptyState from '../../components/EmptyState.jsx'
 import { fetchDocuments } from '../../api/coordinator.js'
 
 const CONF_BADGE = {
@@ -41,12 +42,14 @@ export default function DocumentsList() {
         {loading && <p className="font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam…</p>}
 
         {!loading && docs.length === 0 && (
-          <div className="bg-card border border-concrete-dim px-4 py-10 text-center">
-            <p className="text-3xl mb-3">📭</p>
-            <p className="font-semibold text-sm text-asphalt">Dokumentu nav</p>
-            <p className="font-mono text-[11px] text-asphalt-soft tracking-wide mt-1">
-              Augšupielādē PDF ar pogu objekta lapā
-            </p>
+          <div className="bg-card border border-concrete-dim">
+            <EmptyState
+              icon="📭"
+              title="Dokumentu nav"
+              description="Augšupielādē PDF pases un sertifikātus objekta lapā"
+              action="Augšupielādēt dokumentus"
+              onAction={() => navigate(`/cases/${id}/import-documents`)}
+            />
           </div>
         )}
 

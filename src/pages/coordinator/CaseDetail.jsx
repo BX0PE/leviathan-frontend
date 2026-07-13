@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Header from '../../components/Header.jsx'
+import AuditTrail from '../../components/AuditTrail.jsx'
 import { fetchSummary } from '../../api/coordinator.js'
 
 function ProgressBar({ percent }) {
@@ -171,6 +172,9 @@ export default function CoordinatorCaseDetail() {
             </div>
           </div>
         )}
+
+        {/* ── Darbību žurnāls ── */}
+        <AuditTrail caseId={id} />
 
       </div>
     </div>
