@@ -239,7 +239,7 @@ export default function Landing() {
                 <span className="font-mono text-[10px] text-danger tracking-widest uppercase">Tagad</span>
               </div>
               <div className="px-3 py-4 flex flex-col gap-2">
-                {['Excel smeta.xlsx', 'BIS portāls', '14× manuāla ievade', '3 cilnes pārlūkā', 'PDF meklēšana...', '⚠ Kļūdu labošana'].map((l) => (
+                {['Excel tāme.xlsx', 'BIS portāls', '14× manuāla ievade', '3 cilnes pārlūkā', 'PDF meklēšana...', '⚠ Kļūdu labošana'].map((l) => (
                   <div key={l} className="font-mono text-[11px] text-white/40 py-1 border-b border-white/5 last:border-0">{l}</div>
                 ))}
               </div>
@@ -252,7 +252,7 @@ export default function Landing() {
                 <span className="font-mono text-[10px] text-go tracking-widest uppercase">LEVIATHAN</span>
               </div>
               <div className="px-3 py-4 flex flex-col gap-2">
-                {['↑ smeta.xlsx', '↑ 3× PDF sert.', '🤖 AI atpazīšana', '✓ Piesaistīšana', '✓ Pārbaude', '✓ Nosūtīšana uz BIS'].map((l) => (
+                {['↑ tāme.xlsx', '↑ 3× PDF sert.', '🤖 AI atpazīšana', '✓ Piesaistīšana', '✓ Pārbaude', '✓ Nosūtīšana uz BIS'].map((l) => (
                   <div key={l} className={`font-mono text-[11px] py-1 border-b border-white/5 last:border-0 ${l.startsWith('✓') ? 'text-go' : 'text-white/60'}`}>{l}</div>
                 ))}
               </div>
@@ -278,7 +278,7 @@ export default function Landing() {
           <div className="section-label mb-6">Kā tas strādā</div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 border border-concrete-dim">
             {[
-              { n: '01', title: 'Augšupielādē tāmi', desc: 'Excel LBN 501-17 → sistēma automātiski izveido visas pozīcijas' },
+              { n: '01', title: 'Augšupielādē tāmi', desc: 'Excel tāme → sistēma automātiski izveido visas pozīcijas' },
               { n: '02', title: 'Pievieno dokumentus', desc: 'PDF pases un sertifikāti → AI piesaista pie pozīcijām' },
               { n: '03', title: 'Nosūtīšana uz BIS', desc: 'Ar vienu klikšķi dati tiek nosūtīti uz BIS būvdarbu žurnālu kā melnraksts.' },
             ].map((s, i) => (
