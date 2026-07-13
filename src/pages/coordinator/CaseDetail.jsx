@@ -5,9 +5,9 @@ import { fetchSummary } from '../../api/coordinator.js'
 
 function ProgressBar({ percent }) {
   return (
-    <div className="w-full bg-concrete-dim rounded-full h-2 mt-1">
+    <div className="w-full bg-concrete-dim h-[6px] mt-2">
       <div
-        className="h-2 rounded-full bg-brand transition-all"
+        className="h-[6px] bg-brand transition-all"
         style={{ width: `${Math.min(percent, 100)}%` }}
       />
     </div>
@@ -32,14 +32,14 @@ export default function CoordinatorCaseDetail() {
   if (loading) return (
     <div className="min-h-screen bg-concrete">
       <Header title="…" onBack />
-      <p className="px-4 pt-6 text-asphalt-soft">Ielādējam pārskatu…</p>
+      <p className="px-4 pt-6 font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam pārskatu…</p>
     </div>
   )
 
   if (error) return (
     <div className="min-h-screen bg-concrete">
       <Header title="Kļūda" onBack />
-      <p className="px-4 pt-6 text-danger">{error}</p>
+      <p className="px-4 pt-6 text-danger font-mono text-sm">{error}</p>
     </div>
   )
 
@@ -49,52 +49,55 @@ export default function CoordinatorCaseDetail() {
     <div className="min-h-screen bg-concrete pb-10">
       <Header title={c.name} onBack />
 
-      <div className="px-4 pt-4 flex flex-col gap-4">
+      <div className="px-4 pt-5 flex flex-col gap-5">
 
         {/* ── Kopējais progress ── */}
-        <div className="bg-card rounded-card shadow-sm px-4 py-4">
-          <div className="flex justify-between items-baseline mb-1">
-            <h2 className="font-display font-semibold text-sm uppercase tracking-wider text-rebar">
-              Kopējais progress
-            </h2>
-            <span className="font-mono font-bold text-xl text-brand">{progress.overall_percent}%</span>
+        <div className="bg-card border border-concrete-dim">
+          <div className="px-4 pt-4 pb-1 border-b border-concrete-dim flex justify-between items-center">
+            <div className="section-label">Kopējais progress</div>
+            <span className="font-mono font-bold text-2xl text-brand">{progress.overall_percent}%</span>
           </div>
-          <ProgressBar percent={progress.overall_percent} />
-          <div className="flex gap-4 mt-3 text-xs text-asphalt-soft">
-            <span>Pozīciju kopā: <b className="text-asphalt">{progress.total_positions}</b></span>
-            <span>Sāktas: <b className="text-asphalt">{progress.started}</b></span>
-            <span>Pabeigtas: <b className="text-asphalt">{progress.completed}</b></span>
+          <div className="px-4 py-3">
+            <ProgressBar percent={progress.overall_percent} />
+            <div className="flex gap-5 mt-3 text-[11px] font-mono text-asphalt-soft tracking-wide">
+              <span>KOPĀ <b className="text-asphalt">{progress.total_positions}</b></span>
+              <span>SĀKTAS <b className="text-asphalt">{progress.started}</b></span>
+              <span>PABEIGTAS <b className="text-asphalt">{progress.completed}</b></span>
+            </div>
           </div>
         </div>
 
-        {/* ── Statusi ── */}
+        {/* ── Statusi — 2 metrikas ── */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-card rounded-card shadow-sm px-4 py-3 text-center">
-            <p className="text-2xl font-bold text-caution">{pending_sync}</p>
-            <p className="text-xs text-asphalt-soft mt-1">Gaida BIS</p>
+          <div className="bg-card border border-concrete-dim px-4 py-3 text-center">
+            <p className="font-mono font-bold text-3xl text-caution">{pending_sync}</p>
+            <p className="text-[11px] font-mono text-asphalt-soft tracking-widest uppercase mt-1">Gaida BIS</p>
           </div>
-          <div className="bg-card rounded-card shadow-sm px-4 py-3 text-center">
-            <p className="text-2xl font-bold text-brand">{documents.matched}<span className="text-asphalt-soft font-normal text-sm">/{documents.total}</span></p>
-            <p className="text-xs text-asphalt-soft mt-1">Dokumenti piesaistīti</p>
+          <div className="bg-card border border-concrete-dim px-4 py-3 text-center">
+            <p className="font-mono font-bold text-3xl text-brand">
+              {documents.matched}
+              <span className="text-asphalt-soft font-normal text-lg">/{documents.total}</span>
+            </p>
+            <p className="text-[11px] font-mono text-asphalt-soft tracking-widest uppercase mt-1">Dokumenti</p>
           </div>
         </div>
 
         {/* ── Progress pa sadaļām ── */}
         {groups.length > 0 && (
-          <div className="bg-card rounded-card shadow-sm px-4 py-4">
-            <h2 className="font-display font-semibold text-sm uppercase tracking-wider text-rebar mb-3">
-              Pa sadaļām
-            </h2>
-            <div className="flex flex-col gap-3">
+          <div className="bg-card border border-concrete-dim">
+            <div className="px-4 py-3 border-b border-concrete-dim">
+              <div className="section-label">Pa sadaļām</div>
+            </div>
+            <div className="divide-y divide-concrete-dim">
               {groups.map((g) => (
-                <div key={g.name}>
-                  <div className="flex justify-between text-sm">
-                    <span className="font-medium text-asphalt">{g.name}</span>
-                    <span className="font-mono text-asphalt-soft">{g.percent}%</span>
+                <div key={g.name} className="px-4 py-3">
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-sm font-medium text-asphalt">{g.name}</span>
+                    <span className="font-mono text-sm font-semibold text-asphalt-soft">{g.percent}%</span>
                   </div>
                   <ProgressBar percent={g.percent} />
-                  <p className="text-xs text-asphalt-soft mt-0.5">
-                    {g.used} / {g.planned} · {g.positions_count} pozīcijas
+                  <p className="font-mono text-[11px] text-asphalt-soft mt-1.5 tracking-wide">
+                    {g.used} / {g.planned} · {g.positions_count} poz.
                   </p>
                 </div>
               ))}
@@ -102,40 +105,42 @@ export default function CoordinatorCaseDetail() {
           </div>
         )}
 
-        {/* ── Koordinatora darbības ── */}
+        {/* ── Darbības ── */}
         <div className="flex flex-col gap-2">
           <button
             onClick={() => navigate(`/cases/${id}/import-estimate`)}
-            className="bg-brand text-white rounded-card px-4 py-3 font-semibold text-sm text-left flex items-center gap-3 min-h-tap"
+            className="bg-brand text-white px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-brand-dark active:bg-brand-dark transition"
           >
-            <span className="text-xl">📊</span>
+            <span className="text-xl shrink-0">📊</span>
             <div>
-              <p>Augšupielādēt tāmi</p>
-              <p className="font-normal opacity-75 text-xs">Excel LBN 501-17</p>
+              <p className="tracking-wide">Augšupielādēt tāmi</p>
+              <p className="font-mono font-normal opacity-60 text-[11px] tracking-widest uppercase mt-0.5">Excel LBN 501-17</p>
             </div>
           </button>
+
           <button
             onClick={() => navigate(`/cases/${id}/import-documents`)}
-            className="bg-card border border-concrete-dim rounded-card px-4 py-3 font-semibold text-sm text-left flex items-center gap-3 min-h-tap"
+            className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition"
           >
-            <span className="text-xl">📄</span>
+            <span className="text-xl shrink-0">📄</span>
             <div>
-              <p>Augšupielādēt dokumentus</p>
-              <p className="font-normal text-asphalt-soft text-xs">PDF pases un sertifikāti</p>
+              <p className="text-asphalt tracking-wide">Augšupielādēt dokumentus</p>
+              <p className="font-mono font-normal text-asphalt-soft text-[11px] tracking-widest uppercase mt-0.5">PDF pases un sertifikāti</p>
             </div>
           </button>
+
           {documents.total > 0 && (
             <button
               onClick={() => navigate(`/cases/${id}/documents`)}
-              className="bg-card border border-concrete-dim rounded-card px-4 py-3 font-semibold text-sm text-left flex items-center gap-3 min-h-tap"
+              className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition"
             >
-              <span className="text-xl">🗂</span>
+              <span className="text-xl shrink-0">🗂</span>
               <div>
-                <p>Objekta dokumenti</p>
-                <p className="font-normal text-asphalt-soft text-xs">
+                <p className="text-asphalt tracking-wide">Objekta dokumenti</p>
+                <p className={`font-mono font-normal text-[11px] tracking-widest uppercase mt-0.5 ${documents.unmatched > 0 ? 'text-caution' : 'text-asphalt-soft'}`}>
                   {documents.unmatched > 0
-                    ? `${documents.unmatched} nav piesaistīti — nepieciešama uzmanība`
-                    : `${documents.total} dokumenti, visi piesaistīti`}
+                    ? `⚠ ${documents.unmatched} nav piesaistīti`
+                    : `✓ Visi piesaistīti (${documents.total})`}
                 </p>
               </div>
             </button>
@@ -144,20 +149,20 @@ export default function CoordinatorCaseDetail() {
 
         {/* ── Jaunākie ieraksti ── */}
         {recent_entries.length > 0 && (
-          <div className="bg-card rounded-card shadow-sm px-4 py-4">
-            <h2 className="font-display font-semibold text-sm uppercase tracking-wider text-rebar mb-3">
-              Jaunākie ieraksti
-            </h2>
-            <div className="flex flex-col gap-2">
+          <div className="bg-card border border-concrete-dim">
+            <div className="px-4 py-3 border-b border-concrete-dim">
+              <div className="section-label">Jaunākie ieraksti</div>
+            </div>
+            <div className="divide-y divide-concrete-dim">
               {recent_entries.map((e) => (
-                <div key={e.id} className="flex justify-between items-center py-1 border-b border-concrete-dim last:border-b-0">
+                <div key={e.id} className="flex justify-between items-center px-4 py-3">
                   <div>
                     <p className="text-sm font-medium text-asphalt">{e.position_name}</p>
-                    <p className="text-xs text-asphalt-soft">{e.date}</p>
+                    <p className="font-mono text-[11px] text-asphalt-soft tracking-wide mt-0.5">{e.date}</p>
                   </div>
                   <div className="text-right">
                     <p className="font-mono text-sm font-semibold">{e.quantity_used} {e.unit}</p>
-                    <span className={`text-xs ${e.synced ? 'text-go' : 'text-caution'}`}>
+                    <span className={`font-mono text-[11px] tracking-widest ${e.synced ? 'text-go' : 'text-caution'}`}>
                       {e.synced ? '✓ BIS' : '⏳ rinda'}
                     </span>
                   </div>
