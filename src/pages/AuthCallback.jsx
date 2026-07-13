@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { saveToken } from '../api/auth.js'
+import { acceptInvite } from '../api/invites.js'
 
 export default function AuthCallback() {
   const [params] = useSearchParams()
@@ -10,7 +11,17 @@ export default function AuthCallback() {
     const token = params.get('token')
     if (token) {
       saveToken(token)
-      navigate('/role-select', { replace: true })
+
+      // If user came via an invite link, accept it now
+      const pendingInvite = localStorage.getItem('leviathan_pending_invite')
+      if (pendingInvite) {
+        localStorage.removeItem('leviathan_pending_invite')
+        acceptInvite(pendingInvite)
+          .catch(() => {}) // don't block login if this fails
+          .finally(() => navigate('/role-select', { replace: true }))
+      } else {
+        navigate('/role-select', { replace: true })
+      }
     } else {
       navigate('/login', { replace: true })
     }

@@ -158,10 +158,26 @@ export default function CasesList() {
           )}
         </div>
 
+        {/* Coordinator: team management */}
+        {role === 'coordinator' && (
+          <button
+            onClick={() => navigate('/team')}
+            className="w-full text-left mt-4 border border-concrete-dim bg-card px-4 py-3 flex items-center justify-between hover:bg-concrete transition group"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-base">👥</span>
+              <span className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase group-hover:text-asphalt transition">
+                Komanda · Uzaicināt dalībniekus
+              </span>
+            </div>
+            <span className="font-mono text-asphalt-soft/50 text-base">›</span>
+          </button>
+        )}
+
         {/* Dev link */}
         <button
           onClick={() => navigate('/materials-demo')}
-          className="w-full text-left mt-4 border border-dashed border-concrete-dim px-4 py-3 text-[11px] font-mono text-asphalt-soft tracking-widest uppercase hover:border-rebar hover:text-rebar transition"
+          className="w-full text-left mt-2 border border-dashed border-concrete-dim px-4 py-3 text-[11px] font-mono text-asphalt-soft tracking-widest uppercase hover:border-rebar hover:text-rebar transition"
         >
           Makets: materiālu saskaņošana →
         </button>

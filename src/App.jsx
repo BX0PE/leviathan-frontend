@@ -5,6 +5,8 @@ import AuthCallback from './pages/AuthCallback.jsx'
 import RoleSelect from './pages/RoleSelect.jsx'
 import Onboarding from './pages/Onboarding.jsx'
 import CaseHistory from './pages/CaseHistory.jsx'
+import Join from './pages/Join.jsx'
+import Team from './pages/coordinator/Team.jsx'
 import CasesList from './pages/CasesList.jsx'
 
 // Прораб
@@ -43,6 +45,7 @@ export default function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
+      <Route path="/join/:token" element={<Join />} />
 
       {/* Выбор роли (сразу после логина) */}
       <Route
@@ -60,6 +63,12 @@ export default function App() {
       <Route
         path="/cases"
         element={<RequireAuth><CasesList /></RequireAuth>}
+      />
+
+      {/* Координатор: управление командой */}
+      <Route
+        path="/team"
+        element={<RequireAuth><Team /></RequireAuth>}
       />
 
       {/* Детали объекта — роль определяет компонент */}
