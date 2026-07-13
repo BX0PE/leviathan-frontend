@@ -30,7 +30,7 @@ export default function Login() {
       <div className="absolute h-[1px] w-8 bg-brand/20 top-1/2 left-1/2 -translate-x-4 -translate-y-8 pointer-events-none" />
 
       <div className="w-full max-w-xs flex flex-col items-center text-center relative z-10">
-        <img src={logo} alt="LEVIATHAN" className="w-52 mb-10 select-none mix-blend-screen" draggable={false} />
+        <img src={logo} alt="LEVIATHAN" className="w-52 mb-10 select-none" draggable={false} />
 
         {/* Orange divider line */}
         <div className="w-12 h-[2px] bg-brand mb-8" />

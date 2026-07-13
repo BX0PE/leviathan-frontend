@@ -39,7 +39,7 @@ export default function RoleSelect() {
       <span className="absolute top-4 left-4 text-[10px] font-mono text-rebar/40 tracking-widest select-none">LOMA / ROLE</span>
 
       <div className="w-full max-w-sm flex flex-col items-center">
-        <img src={logo} alt="LEVIATHAN" className="w-36 mb-3 select-none mix-blend-screen" draggable={false} />
+        <img src={logo} alt="LEVIATHAN" className="w-36 mb-3 select-none" draggable={false} />
 
         <p className="text-[11px] font-mono text-white/40 tracking-widest uppercase mb-8">
           Izvēlies savu lomu
