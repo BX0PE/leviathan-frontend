@@ -50,77 +50,81 @@ export default function ImportEstimate() {
     <div className="min-h-screen bg-concrete pb-10">
       <Header title="Augšupielādēt tāmi" onBack />
 
-      <div className="px-4 pt-4 flex flex-col gap-4">
-        <p className="text-sm text-asphalt-soft">
-          Formāts: Excel LBN 501-17 (daudzlapu). Pozīcijas tiks automātiski izveidotas sistēmā.
+      <div className="px-4 pt-5 flex flex-col gap-4">
+
+        <p className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase">
+          Formāts: Excel LBN 501-17 · Daudzlapu
         </p>
 
-        {/* Augšupielādes zona */}
+        {/* Drop zone */}
         <div
           onClick={() => inputRef.current?.click()}
           onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
-          className={`border-2 border-dashed rounded-card px-6 py-10 text-center cursor-pointer transition-colors ${
-            dragging ? 'border-brand bg-brand/5' : 'border-concrete-dim bg-card'
+          className={`border-2 border-dashed px-6 py-12 text-center cursor-pointer transition-colors ${
+            dragging ? 'border-brand bg-brand/5' : 'border-concrete-dim bg-card hover:border-asphalt-soft'
           }`}
         >
-          <input
-            ref={inputRef}
-            type="file"
-            accept=".xlsx,.xls"
-            className="hidden"
-            onChange={(e) => handleFile(e.target.files[0])}
-          />
-          <p className="text-4xl mb-3">📊</p>
+          <input ref={inputRef} type="file" accept=".xlsx,.xls" className="hidden"
+            onChange={(e) => handleFile(e.target.files[0])} />
+          <p className="text-3xl mb-3">📊</p>
           {file
-            ? <p className="font-semibold text-asphalt">{file.name}</p>
-            : <p className="text-asphalt-soft">Velc failu šeit vai nospied</p>
+            ? <p className="font-semibold text-sm text-asphalt">{file.name}</p>
+            : <p className="font-mono text-sm text-asphalt-soft">Velc failu šeit vai nospied</p>
           }
-          <p className="text-xs text-asphalt-soft mt-1">.xlsx / .xls</p>
+          <p className="font-mono text-[11px] text-asphalt-soft/60 tracking-widest uppercase mt-2">.xlsx / .xls</p>
         </div>
 
-        {error && <p className="text-sm text-danger bg-danger/10 rounded-card px-4 py-3">{error}</p>}
+        {error && (
+          <div className="border-l-2 border-danger bg-card px-4 py-3">
+            <p className="font-mono text-sm text-danger">{error}</p>
+          </div>
+        )}
 
         {!result && (
           <Button variant="primary" onClick={handleUpload} disabled={!file || loading}>
-            {loading ? 'Apstrādājam tāmi…' : 'Augšupielādēt'}
+            {loading ? 'Apstrādājam…' : 'Augšupielādēt'}
           </Button>
         )}
 
-        {/* Rezultāts */}
+        {/* Result */}
         {result && (
-          <div className="bg-card rounded-card shadow-sm px-4 py-4 flex flex-col gap-3">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">✅</span>
-              <div>
-                <p className="font-semibold text-asphalt">Tāme augšupielādēta</p>
-                <p className="text-xs text-asphalt-soft">{result.filename} · {result.sheets_processed?.length || 0} lapas</p>
+          <div className="flex flex-col gap-3">
+            <div className="bg-card border border-concrete-dim">
+              <div className="px-4 py-3 border-b border-concrete-dim flex items-center gap-3">
+                <span className="text-go font-mono text-lg">✓</span>
+                <div>
+                  <p className="font-semibold text-sm text-asphalt">Tāme augšupielādēta</p>
+                  <p className="font-mono text-[11px] text-asphalt-soft tracking-wide">
+                    {result.filename} · {result.sheets_processed?.length || 0} lapas
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div className="flex gap-4 text-sm">
-              <div className="text-center">
-                <p className="font-bold text-xl text-brand">{result.positions_created}</p>
-                <p className="text-asphalt-soft text-xs">izveidots</p>
-              </div>
-              <div className="text-center">
-                <p className="font-bold text-xl text-asphalt">{result.positions_updated}</p>
-                <p className="text-asphalt-soft text-xs">atjaunots</p>
-              </div>
-              <div className="text-center">
-                <p className="font-bold text-xl text-asphalt">{result.total}</p>
-                <p className="text-asphalt-soft text-xs">kopā</p>
+              <div className="grid grid-cols-3 divide-x divide-concrete-dim">
+                {[
+                  { val: result.positions_created, label: 'izveidots' },
+                  { val: result.positions_updated, label: 'atjaunots' },
+                  { val: result.total,             label: 'kopā' },
+                ].map(({ val, label }) => (
+                  <div key={label} className="px-4 py-3 text-center">
+                    <p className="font-mono font-bold text-xl text-asphalt">{val}</p>
+                    <p className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase mt-0.5">{label}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
             {result.preview?.length > 0 && (
-              <div>
-                <p className="text-xs text-asphalt-soft uppercase tracking-wider mb-2">Pirmās pozīcijas</p>
+              <div className="bg-card border border-concrete-dim">
+                <div className="px-4 py-2 border-b border-concrete-dim">
+                  <div className="section-label">Pirmās pozīcijas</div>
+                </div>
                 {result.preview.map((p, i) => (
-                  <div key={i} className="flex justify-between py-1.5 border-b border-concrete-dim last:border-b-0 text-sm">
-                    <span className="text-asphalt">{p.nr} · {p.name}</span>
-                    <span className="font-mono text-asphalt-soft">{p.quantity} {p.unit}</span>
+                  <div key={i} className="flex justify-between items-center px-4 py-2.5 border-b border-concrete-dim last:border-b-0">
+                    <span className="text-sm text-asphalt">{p.nr} · {p.name}</span>
+                    <span className="font-mono text-sm text-asphalt-soft">{p.quantity} {p.unit}</span>
                   </div>
                 ))}
               </div>

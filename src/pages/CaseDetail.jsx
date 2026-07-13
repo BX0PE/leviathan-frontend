@@ -22,13 +22,11 @@ export default function CaseDetail() {
     Promise.all([fetchCases(), fetchPositions(id)]).then(([cases, pos]) => {
       if (cancelled) return
       const c = cases.find((x) => String(x.id) === String(id))
-      setCaseName(c ? c.name : 'Объект')
+      setCaseName(c ? c.name : 'Objekts')
       setPositions(pos)
       setLoading(false)
     })
-    return () => {
-      cancelled = true
-    }
+    return () => { cancelled = true }
   }, [id])
 
   const groups = useMemo(() => {
@@ -44,8 +42,6 @@ export default function CaseDetail() {
     setValues((prev) => ({ ...prev, [positionId]: raw }))
   }
 
-  // Only fields the foreman actually typed something into get sent —
-  // an empty field means "nothing to report here today", not zero.
   const filledCount = Object.values(values).filter((v) => v !== '' && v !== undefined).length
 
   function handleSubmit() {
@@ -58,26 +54,45 @@ export default function CaseDetail() {
   return (
     <div className="min-h-screen bg-concrete pb-28">
       <Header title={caseName || '…'} onBack={true} />
-      <div className="px-4 pt-4">
-        <p className="font-mono text-sm text-asphalt-soft mb-4">📅 Šodien: {today()}</p>
 
-        {loading && <p className="text-asphalt-soft">Ielādējam pozīcijas…</p>}
+      {/* Date bar */}
+      <div className="bg-asphalt px-4 py-2 flex items-center gap-3">
+        <span className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Šodien</span>
+        <span className="font-mono text-[11px] text-white/70 tracking-wide">{today()}</span>
+        {filledCount > 0 && (
+          <span className="ml-auto font-mono text-[11px] text-brand tracking-wide">
+            {filledCount} poz. aizpildītas
+          </span>
+        )}
+      </div>
+
+      <div className="px-4 pt-4">
+        {loading && (
+          <p className="font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam pozīcijas…</p>
+        )}
 
         {groups.map(([groupName, items]) => (
-          <section key={groupName} className="bg-card rounded-card shadow-sm mb-4 px-4 py-3">
-            <h2 className="font-display font-semibold text-sm uppercase tracking-wider text-rebar mb-1">
-              {groupName}
-            </h2>
-            <div>
+          <div key={groupName} className="bg-card border border-concrete-dim mb-3">
+            {/* Group header */}
+            <div className="px-4 py-2 border-b border-concrete-dim bg-concrete">
+              <div className="section-label">{groupName}</div>
+            </div>
+            <div className="px-4">
               {items.map((p) => (
-                <PositionRow key={p.id} position={p} value={values[p.id]} onChange={(v) => setValue(p.id, v)} />
+                <PositionRow
+                  key={p.id}
+                  position={p}
+                  value={values[p.id]}
+                  onChange={(v) => setValue(p.id, v)}
+                />
               ))}
             </div>
-          </section>
+          </div>
         ))}
       </div>
 
-      <div className="fixed bottom-0 inset-x-0 bg-concrete border-t border-concrete-dim px-4 py-3">
+      {/* Fixed bottom CTA */}
+      <div className="fixed bottom-0 inset-x-0 bg-white border-t-2 border-concrete-dim px-4 py-3">
         <Button variant="primary" onClick={handleSubmit} disabled={filledCount === 0}>
           Nosūtīt uz BIS
         </Button>

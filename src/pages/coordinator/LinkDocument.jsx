@@ -22,8 +22,7 @@ export default function LinkDocument() {
   useEffect(() => {
     if (!caseId) return
     Promise.all([fetchDocuments(caseId), fetchPositions(caseId)]).then(([docs, pos]) => {
-      const found = docs.find((d) => String(d.id) === String(docId))
-      setDoc(found || null)
+      setDoc(docs.find((d) => String(d.id) === String(docId)) || null)
       setPositions(pos)
       setLoading(false)
     })
@@ -49,14 +48,14 @@ export default function LinkDocument() {
   if (loading) return (
     <div className="min-h-screen bg-concrete">
       <Header title="Piesaistīt dokumentu" onBack />
-      <p className="px-4 pt-6 text-asphalt-soft">Ielādējam…</p>
+      <p className="px-4 pt-6 font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam…</p>
     </div>
   )
 
   if (!doc) return (
     <div className="min-h-screen bg-concrete">
       <Header title="Kļūda" onBack />
-      <p className="px-4 pt-6 text-danger">Dokuments nav atrasts</p>
+      <p className="px-4 pt-6 font-mono text-sm text-danger">Dokuments nav atrasts</p>
     </div>
   )
 
@@ -64,59 +63,66 @@ export default function LinkDocument() {
     <div className="min-h-screen bg-concrete pb-32">
       <Header title="Piesaistīt dokumentu" onBack />
 
-      <div className="px-4 pt-4 flex flex-col gap-4">
+      <div className="px-4 pt-5 flex flex-col gap-4">
 
-        {/* Dokumenta info */}
-        <div className="bg-card rounded-card shadow-sm px-4 py-3">
-          <p className="text-xs text-asphalt-soft uppercase tracking-wider mb-1">Dokuments</p>
-          <p className="font-semibold text-asphalt">📄 {doc.filename}</p>
-          {doc.product_name && <p className="text-sm text-asphalt-soft mt-0.5">{doc.product_name}</p>}
-          {doc.manufacturer  && <p className="text-sm text-asphalt-soft">{doc.manufacturer}</p>}
-          {doc.dop_number    && <p className="text-xs text-asphalt-soft mt-1">DoP: {doc.dop_number}</p>}
+        {/* Doc info */}
+        <div className="bg-card border border-concrete-dim">
+          <div className="px-4 py-2 border-b border-concrete-dim">
+            <div className="section-label">Dokuments</div>
+          </div>
+          <div className="px-4 py-3">
+            <p className="font-mono text-[12px] text-asphalt font-semibold">📄 {doc.filename}</p>
+            {doc.product_name && <p className="text-sm text-asphalt-soft mt-1">{doc.product_name}</p>}
+            {doc.manufacturer  && <p className="text-sm text-asphalt-soft">{doc.manufacturer}</p>}
+            {doc.dop_number    && <p className="font-mono text-[11px] text-asphalt-soft mt-1">DoP: {doc.dop_number}</p>}
+          </div>
         </div>
 
-        {/* Pozīcijas meklēšana */}
+        {/* Search */}
         <div>
-          <p className="text-xs text-asphalt-soft uppercase tracking-wider mb-2">Izvēlies tāmes pozīciju</p>
+          <div className="section-label mb-3">Izvēlies tāmes pozīciju</div>
           <input
             type="text"
             placeholder="Meklēt pēc nosaukuma…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full bg-card border border-concrete-dim rounded-card px-4 py-2 text-sm text-asphalt placeholder-asphalt-soft outline-none focus:border-brand mb-3"
+            className="w-full border-2 border-concrete-dim bg-card px-4 py-2.5 text-sm text-asphalt placeholder-asphalt-soft outline-none focus:border-brand transition-colors mb-3 font-mono"
           />
 
-          <div className="flex flex-col gap-2 max-h-96 overflow-y-auto">
+          <div className="bg-card border border-concrete-dim divide-y divide-concrete-dim max-h-96 overflow-y-auto">
             {filtered.length === 0 && (
-              <p className="text-sm text-asphalt-soft text-center py-4">Nekas nav atrasts</p>
+              <p className="px-4 py-6 font-mono text-sm text-asphalt-soft text-center tracking-wide">
+                Nekas nav atrasts
+              </p>
             )}
             {filtered.map((p) => (
               <button
                 key={p.id}
                 onClick={() => setSelected(p.id)}
-                className={`text-left px-4 py-3 rounded-card border transition-colors min-h-tap ${
-                  selected === p.id
-                    ? 'border-brand bg-brand/5'
-                    : 'border-concrete-dim bg-card'
+                className={`w-full text-left flex items-stretch min-h-tap transition-colors ${
+                  selected === p.id ? 'bg-brand/5' : 'hover:bg-concrete'
                 }`}
               >
-                <p className="text-sm font-medium text-asphalt">{p.name}</p>
-                {p.group && (
-                  <p className="text-xs text-asphalt-soft mt-0.5">{p.group}</p>
-                )}
-                {p.unit && (
-                  <p className="text-xs text-asphalt-soft">{p.quantity_planned} {p.unit}</p>
-                )}
+                <div className={`w-[3px] shrink-0 ${selected === p.id ? 'bg-brand' : 'bg-transparent'}`} />
+                <div className="px-4 py-3">
+                  <p className="text-sm font-medium text-asphalt">{p.name}</p>
+                  {p.group && <p className="font-mono text-[11px] text-asphalt-soft tracking-wide mt-0.5">{p.group}</p>}
+                  {p.unit && <p className="font-mono text-[11px] text-asphalt-soft">{p.quantity_planned} {p.unit}</p>}
+                </div>
               </button>
             ))}
           </div>
         </div>
 
-        {error && <p className="text-sm text-danger bg-danger/10 rounded-card px-4 py-3">{error}</p>}
+        {error && (
+          <div className="border-l-2 border-danger bg-card px-4 py-3">
+            <p className="font-mono text-sm text-danger">{error}</p>
+          </div>
+        )}
       </div>
 
-      {/* Fiksētā poga apakšā */}
-      <div className="fixed bottom-0 inset-x-0 bg-concrete border-t border-concrete-dim px-4 py-3">
+      {/* Fixed bottom */}
+      <div className="fixed bottom-0 inset-x-0 bg-white border-t-2 border-concrete-dim px-4 py-3">
         <Button variant="primary" onClick={handleSave} disabled={!selected || saving}>
           {saving ? 'Saglabājam…' : selected ? 'Piesaistīt izvēlētajai pozīcijai' : 'Izvēlies pozīciju'}
         </Button>

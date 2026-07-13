@@ -4,10 +4,10 @@ import Header from '../../components/Header.jsx'
 import Button from '../../components/Button.jsx'
 import { importDocuments } from '../../api/coordinator.js'
 
-const CONFIDENCE_LABEL = {
-  exact:   { text: 'Precīzs',     color: 'text-go   bg-go/10' },
-  partial: { text: 'Daļējs',      color: 'text-caution bg-caution/10' },
-  none:    { text: 'Nav atrasts', color: 'text-danger bg-danger/10' },
+const CONF = {
+  exact:   { text: 'Precīzs',    cls: 'text-go bg-go/10' },
+  partial: { text: 'Daļējs',     cls: 'text-caution bg-caution/10' },
+  none:    { text: 'Nav atrasts', cls: 'text-danger bg-danger/10' },
 }
 
 export default function ImportDocuments() {
@@ -53,46 +53,47 @@ export default function ImportDocuments() {
     <div className="min-h-screen bg-concrete pb-10">
       <Header title="Augšupielādēt dokumentus" onBack />
 
-      <div className="px-4 pt-4 flex flex-col gap-4">
-        <p className="text-sm text-asphalt-soft">
-          Augšupielādē pases un sertifikātus (atbilstības dokumenti). Sistēma automātiski tos saskaņos ar tāmes pozīcijām.
+      <div className="px-4 pt-5 flex flex-col gap-4">
+
+        <p className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase">
+          PDF pases un sertifikāti · Atbilstības dokumenti
         </p>
 
-        {/* Augšupielādes zona */}
+        {/* Drop zone */}
         <div
           onClick={() => inputRef.current?.click()}
           onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
-          className={`border-2 border-dashed rounded-card px-6 py-10 text-center cursor-pointer transition-colors ${
-            dragging ? 'border-brand bg-brand/5' : 'border-concrete-dim bg-card'
+          className={`border-2 border-dashed px-6 py-12 text-center cursor-pointer transition-colors ${
+            dragging ? 'border-brand bg-brand/5' : 'border-concrete-dim bg-card hover:border-asphalt-soft'
           }`}
         >
-          <input
-            ref={inputRef}
-            type="file"
-            accept=".pdf"
-            multiple
-            className="hidden"
-            onChange={(e) => handleFiles(e.target.files)}
-          />
-          <p className="text-4xl mb-3">📄</p>
+          <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden"
+            onChange={(e) => handleFiles(e.target.files)} />
+          <p className="text-3xl mb-3">📄</p>
           {files.length > 0
-            ? <p className="font-semibold text-asphalt">Izvēlēti: {files.length} PDF</p>
-            : <p className="text-asphalt-soft">Velc PDF failus šeit vai nospied</p>
+            ? <p className="font-semibold text-sm text-asphalt">Izvēlēti: {files.length} PDF</p>
+            : <p className="font-mono text-sm text-asphalt-soft">Velc PDF failus šeit vai nospied</p>
           }
-          <p className="text-xs text-asphalt-soft mt-1">Var izvēlēties vairākus</p>
+          <p className="font-mono text-[11px] text-asphalt-soft/60 tracking-widest uppercase mt-2">Var izvēlēties vairākus</p>
         </div>
 
         {files.length > 0 && !result && (
-          <div className="bg-card rounded-card px-4 py-3 flex flex-col gap-1">
+          <div className="bg-card border border-concrete-dim">
             {files.map((f, i) => (
-              <p key={i} className="text-sm text-asphalt truncate">📄 {f.name}</p>
+              <p key={i} className="px-4 py-2 text-sm text-asphalt border-b border-concrete-dim last:border-b-0 truncate font-mono text-[12px]">
+                📄 {f.name}
+              </p>
             ))}
           </div>
         )}
 
-        {error && <p className="text-sm text-danger bg-danger/10 rounded-card px-4 py-3">{error}</p>}
+        {error && (
+          <div className="border-l-2 border-danger bg-card px-4 py-3">
+            <p className="font-mono text-sm text-danger">{error}</p>
+          </div>
+        )}
 
         {!result && (
           <Button variant="primary" onClick={handleUpload} disabled={files.length === 0 || loading}>
@@ -100,57 +101,55 @@ export default function ImportDocuments() {
           </Button>
         )}
 
-        {/* Rezultāts */}
+        {/* Result */}
         {result && (
           <div className="flex flex-col gap-3">
-            <div className="bg-card rounded-card shadow-sm px-4 py-4">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-2xl">✅</span>
-                <p className="font-semibold text-asphalt">Apstrādāti {result.processed} dokumenti</p>
+            <div className="bg-card border border-concrete-dim">
+              <div className="px-4 py-3 border-b border-concrete-dim flex items-center gap-3">
+                <span className="text-go font-mono text-lg">✓</span>
+                <p className="font-semibold text-sm text-asphalt">Apstrādāti {result.processed} dokumenti</p>
               </div>
-              <div className="flex gap-4 text-sm">
-                <div className="text-center">
-                  <p className="font-bold text-xl text-go">{result.matched}</p>
-                  <p className="text-asphalt-soft text-xs">piesaistīti</p>
-                </div>
-                <div className="text-center">
-                  <p className="font-bold text-xl text-caution">{result.unmatched}</p>
-                  <p className="text-asphalt-soft text-xs">nav atrasti</p>
-                </div>
-                <div className="text-center">
-                  <p className="font-bold text-xl text-danger">{result.errors}</p>
-                  <p className="text-asphalt-soft text-xs">kļūdas</p>
-                </div>
+              <div className="grid grid-cols-3 divide-x divide-concrete-dim">
+                {[
+                  { val: result.matched,   label: 'piesaistīti', cls: 'text-go' },
+                  { val: result.unmatched, label: 'nav atrasti',  cls: 'text-caution' },
+                  { val: result.errors,    label: 'kļūdas',       cls: 'text-danger' },
+                ].map(({ val, label, cls }) => (
+                  <div key={label} className="px-4 py-3 text-center">
+                    <p className={`font-mono font-bold text-xl ${cls}`}>{val}</p>
+                    <p className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase mt-0.5">{label}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
             {result.results?.map((r, i) => {
-              const conf = CONFIDENCE_LABEL[r.confidence] || CONFIDENCE_LABEL.none
+              const conf = CONF[r.confidence] || CONF.none
               return (
-                <div key={i} className="bg-card rounded-card shadow-sm px-4 py-3">
-                  <div className="flex justify-between items-start mb-1">
-                    <p className="font-medium text-sm text-asphalt flex-1 mr-2 truncate">{r.filename}</p>
+                <div key={i} className="bg-card border border-concrete-dim">
+                  <div className="flex justify-between items-center px-4 py-2.5 border-b border-concrete-dim">
+                    <p className="font-mono text-[12px] text-asphalt truncate flex-1 mr-2">{r.filename}</p>
                     {r.status !== 'error' && r.status !== 'skipped' && (
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap ${conf.color}`}>
+                      <span className={`text-[11px] px-2 py-0.5 font-mono font-medium whitespace-nowrap ${conf.cls}`}>
                         {conf.text}
                       </span>
                     )}
                   </div>
-                  {r.product_name && <p className="text-xs text-asphalt-soft">{r.product_name}</p>}
-                  {r.matched_position && (
-                    <p className="text-xs text-go mt-1">→ {r.matched_position}</p>
-                  )}
-                  {r.status === 'unmatched' && (
-                    <p className="text-xs text-caution mt-1">Piesaisti manuāli sadaļā "Dokumenti"</p>
-                  )}
-                  {(r.status === 'error' || r.status === 'skipped') && (
-                    <p className="text-xs text-danger mt-1">{r.reason}</p>
-                  )}
+                  <div className="px-4 py-2">
+                    {r.product_name && <p className="text-[12px] text-asphalt-soft">{r.product_name}</p>}
+                    {r.matched_position && <p className="font-mono text-[11px] text-go mt-1">→ {r.matched_position}</p>}
+                    {r.status === 'unmatched' && (
+                      <p className="font-mono text-[11px] text-caution mt-1">Piesaisti manuāli sadaļā "Dokumenti"</p>
+                    )}
+                    {(r.status === 'error' || r.status === 'skipped') && (
+                      <p className="font-mono text-[11px] text-danger mt-1">{r.reason}</p>
+                    )}
+                  </div>
                 </div>
               )
             })}
 
-            <div className="flex flex-col gap-2 mt-2">
+            <div className="flex flex-col gap-2 mt-1">
               {result.unmatched > 0 && (
                 <Button variant="outline" onClick={() => navigate(`/cases/${id}/documents`)}>
                   Piesaistīt manuāli →
