@@ -18,7 +18,7 @@ export default function Header({ title, onBack, right }) {
           </button>
         )}
         {isHome
-          ? <img src={logo} alt="LEVIATHAN" className="h-7 select-none flex-1 mix-blend-screen" draggable={false} />
+          ? <div className="flex-1"><img src={logo} alt="LEVIATHAN" className="h-7 select-none mix-blend-screen" draggable={false} /></div>
           : <h1 className="font-display font-semibold text-base tracking-wider uppercase truncate flex-1">{title}</h1>
         }
         {right}

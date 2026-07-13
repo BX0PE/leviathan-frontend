@@ -78,12 +78,12 @@
 
   /* Blueprint grid background — technical drawing aesthetic */
   .bg-blueprint {
-    background-color: #0F1115;
+    background-color: #1A1A1A;
     background-image:
-      linear-gradient(rgba(0, 82, 255, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 82, 255, 0.06) 1px, transparent 1px),
-      linear-gradient(rgba(0, 82, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 82, 255, 0.03) 1px, transparent 1px);
+      linear-gradient(rgba(0, 82, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 82, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(rgba(0, 82, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 82, 255, 0.04) 1px, transparent 1px);
     background-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px;
   }
 
