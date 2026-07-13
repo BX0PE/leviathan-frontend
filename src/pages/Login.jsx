@@ -25,10 +25,6 @@ export default function Login() {
       <span className="absolute top-4 right-4 text-[10px] font-mono text-rebar/40 tracking-widest select-none">BIS INTEGRĀCIJA</span>
       <span className="absolute bottom-4 left-4 text-[10px] font-mono text-rebar/40 tracking-widest select-none">© 2026</span>
 
-      {/* Cross-hair center mark */}
-      <div className="absolute w-[1px] h-8 bg-brand/20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-16 pointer-events-none" />
-      <div className="absolute h-[1px] w-8 bg-brand/20 top-1/2 left-1/2 -translate-x-4 -translate-y-8 pointer-events-none" />
-
       <div className="w-full max-w-xs flex flex-col items-center text-center relative z-10">
         <img src={logo} alt="LEVIATHAN" className="w-52 mb-10 select-none" draggable={false} />
 
