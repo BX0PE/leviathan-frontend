@@ -12,7 +12,7 @@ export default function AuthCallback() {
       saveToken(token)
       navigate('/role-select', { replace: true })
     } else {
-      navigate('/', { replace: true })
+      navigate('/login', { replace: true })
     }
   }, [params, navigate])
 

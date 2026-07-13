@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import Landing from './pages/Landing.jsx'
 import Login from './pages/Login.jsx'
 import AuthCallback from './pages/AuthCallback.jsx'
 import RoleSelect from './pages/RoleSelect.jsx'
@@ -22,7 +23,7 @@ import SupervisorCaseDetail from './pages/supervisor/CaseDetail.jsx'
 import { isLoggedIn, getRole } from './api/auth.js'
 
 function RequireAuth({ children }) {
-  return isLoggedIn() ? children : <Navigate to="/" replace />
+  return isLoggedIn() ? children : <Navigate to="/login" replace />
 }
 
 // Показывает разный CaseDetail в зависимости от роли
@@ -37,7 +38,8 @@ export default function App() {
   return (
     <Routes>
       {/* Публичные */}
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Landing />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
 
       {/* Выбор роли (сразу после логина) */}
@@ -86,7 +88,7 @@ export default function App() {
         element={<RequireAuth><LinkDocument /></RequireAuth>}
       />
 
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   )
 }
