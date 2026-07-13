@@ -9,11 +9,14 @@
 
   body {
     -webkit-tap-highlight-color: transparent;
+    /* Crisp rendering for sharp geometric UI */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Big, glove-friendly focus rings — always visible, never removed */
+  /* Focus rings — industrial blue, always visible */
   :focus-visible {
-    outline: 3px solid #1E3A5F;
+    outline: 2px solid #0052FF;
     outline-offset: 2px;
   }
 
@@ -28,18 +31,21 @@
 }
 
 @layer components {
-  /* Signature element: a measuring-tape progress bar with tick marks,
-     styled after a builder's tape measure rather than a generic bar. */
+  /*
+   * Measuring-tape progress bar — builder's tape aesthetic.
+   * Tick marks at every 10% simulate a real tape measure.
+   * Colors updated to cool industrial palette.
+   */
   .tape-track {
     position: relative;
-    height: 14px;
-    border-radius: 999px;
-    background: #DFDBCF;
+    height: 12px;
+    border-radius: 2px;
+    background: #E2E6EA;
     overflow: hidden;
     background-image: repeating-linear-gradient(
       90deg,
-      rgba(23, 25, 26, 0.14) 0,
-      rgba(23, 25, 26, 0.14) 1px,
+      rgba(15, 17, 21, 0.12) 0,
+      rgba(15, 17, 21, 0.12) 1px,
       transparent 1px,
       transparent 10%
     );
@@ -47,14 +53,26 @@
 
   .tape-fill {
     height: 100%;
-    border-radius: 999px;
-    transition: width 300ms ease;
+    border-radius: 2px;
+    transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
     background-image: repeating-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.35) 0,
-      rgba(255, 255, 255, 0.35) 1px,
+      rgba(255, 255, 255, 0.25) 0,
+      rgba(255, 255, 255, 0.25) 1px,
       transparent 1px,
       transparent 10%
     );
+  }
+
+  /* Status badge base */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border-radius: 2px;
   }
 }
