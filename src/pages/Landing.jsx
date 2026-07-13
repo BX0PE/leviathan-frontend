@@ -239,7 +239,14 @@ export default function Landing() {
                 <span className="font-mono text-[10px] text-danger tracking-widest uppercase">Tagad</span>
               </div>
               <div className="px-3 py-4 flex flex-col gap-2">
-                {['Excel tāme.xlsx', 'BIS portāls', '14× manuāla ievade', '3 cilnes pārlūkā', 'PDF meklēšana...', '⚠ Kļūdu labošana'].map((l) => (
+                {[
+                  'Excel tāme (manuāla)',
+                  '14× ievade BIS portālā',
+                  'PDF manuāla meklēšana',
+                  '3 cilnes pārlūkā',
+                  '⚠ Kļūdas un labošana',
+                  '3–4h vienam objektam',
+                ].map((l) => (
                   <div key={l} className="font-mono text-[11px] text-white/40 py-1 border-b border-white/5 last:border-0">{l}</div>
                 ))}
               </div>
@@ -252,7 +259,14 @@ export default function Landing() {
                 <span className="font-mono text-[10px] text-go tracking-widest uppercase">LEVIATHAN</span>
               </div>
               <div className="px-3 py-4 flex flex-col gap-2">
-                {['↑ tāme.xlsx', '↑ 3× PDF sert.', '🤖 AI atpazīšana', '✓ Piesaistīšana', '✓ Pārbaude', '✓ Nosūtīšana uz BIS'].map((l) => (
+                {[
+                  '↑ tāme.xlsx (viens fails)',
+                  '✓ Automātiska BIS ievade',
+                  '↑ PDF sertifikāti',
+                  '🤖 AI atpazīšana',
+                  '✓ BIS validācija',
+                  '✓ 10 min. melnraksts',
+                ].map((l) => (
                   <div key={l} className={`font-mono text-[11px] py-1 border-b border-white/5 last:border-0 ${l.startsWith('✓') ? 'text-go' : 'text-white/60'}`}>{l}</div>
                 ))}
               </div>
