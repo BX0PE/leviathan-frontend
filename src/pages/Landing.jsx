@@ -26,9 +26,9 @@ function Calculator() {
         {/* Sliders */}
         <div className="bg-card border border-concrete-dim mb-6">
           {[
-            { label: 'Aktīvie objekti',         val: objects,  set: setObjects,  min: 1, max: 20, unit: '' },
-            { label: 'Stundas mēnesī BIS ievadei', val: hours, set: setHours,   min: 4, max: 80, unit: 'h' },
-            { label: 'ПТО stundas likme',        val: rate,   set: setRate,     min: 12, max: 35, unit: '€' },
+            { label: 'Aktīvie objekti',                val: objects, set: setObjects, min: 1,  max: 20, unit: '' },
+            { label: 'Stundas mēnesī datu ievadei',   val: hours,   set: setHours,   min: 4,  max: 80, unit: 'h' },
+            { label: 'PTO speciālista stundas likme', val: rate,    set: setRate,    min: 12, max: 35, unit: '€' },
           ].map(({ label, val, set, min, max, unit }) => (
             <div key={label} className="px-6 py-4 border-b border-concrete-dim last:border-b-0">
               <div className="flex justify-between mb-2">
@@ -47,7 +47,7 @@ function Calculator() {
         {/* Result */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="border-2 border-danger bg-card px-6 py-5">
-            <p className="font-mono text-[11px] text-danger tracking-widest uppercase mb-2">Pašreizējie zaudējumi</p>
+            <p className="font-mono text-[11px] text-danger tracking-widest uppercase mb-2">Manuālā darba izmaksas</p>
             <p className="font-mono font-bold text-3xl text-danger">{fmt(loss)}</p>
             <p className="font-mono text-[11px] text-asphalt-soft tracking-wide mt-1">mēnesī</p>
           </div>
@@ -60,11 +60,11 @@ function Calculator() {
 
         <div className="bg-asphalt px-6 py-4 flex items-center justify-between">
           <div>
-            <p className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Ietaupījums</p>
-            <p className="font-mono font-bold text-xl text-brand">{fmt(saving)} / mēn.</p>
+            <p className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Ietaupījums mēnesī</p>
+            <p className="font-mono font-bold text-xl text-brand">{fmt(saving)}</p>
           </div>
           <div className="text-right">
-            <p className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Gadā</p>
+            <p className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Kopējais gadā</p>
             <p className="font-mono font-bold text-xl text-white">{fmt(savingYr)}</p>
           </div>
         </div>
@@ -81,7 +81,7 @@ const PLANS = [
     price: '€0',
     period: '1 mēnesis',
     objects: '1 objekts',
-    features: ['Visas funkcijas', 'BIS API nav', 'Bez saistībām'],
+    features: ['Visas funkcijas', 'Bez BIS API integrācijas', 'Bez saistībām'],
     cta: 'Sākt bez maksas',
     highlight: false,
   },
@@ -91,7 +91,7 @@ const PLANS = [
     price: '€150',
     period: 'mēnesī',
     objects: 'līdz 2 objektiem',
-    features: ['Visas funkcijas', 'BIS API ✓', 'E-pasts atbalsts'],
+    features: ['Visas funkcijas', 'BIS API ✓', 'Atbalsts e-pastā'],
     cta: 'Izvēlēties',
     highlight: true,
   },
@@ -102,7 +102,7 @@ const PLANS = [
     period: 'mēnesī',
     objects: 'līdz 5 objektiem',
     features: ['Visas funkcijas', 'BIS API ✓', 'Prioritārs atbalsts', 'SLA 99.9%'],
-    cta: 'Sazināties',
+    cta: 'Izvēlēties',
     highlight: false,
   },
 ]
@@ -221,12 +221,12 @@ export default function Landing() {
                 onClick={() => navigate('/login')}
                 className="border border-white/20 text-white/60 font-mono text-[12px] tracking-widest uppercase px-8 py-4 hover:border-white/40 hover:text-white transition"
               >
-                Demo pieteikšanās
+                Pieteikties demo
               </button>
             </div>
 
             <p className="font-mono text-[11px] text-white/25 tracking-wide mt-6">
-              ↓ Izmanto 12+ būvniecības uzņēmumi Latvijā
+              ↓ Vairāk nekā 12 būvniecības uzņēmumu Latvijā jau izmanto LEVIATHAN
             </p>
           </div>
 
@@ -239,7 +239,7 @@ export default function Landing() {
                 <span className="font-mono text-[10px] text-danger tracking-widest uppercase">Tagad</span>
               </div>
               <div className="px-3 py-4 flex flex-col gap-2">
-                {['Excel smeta.xlsx', 'BIS portāls', '14× manuāla ievade', '3 cilnes pārlūkā', 'PDF meklēšana...', '⚠ Kļūda laukā'].map((l) => (
+                {['Excel smeta.xlsx', 'BIS portāls', '14× manuāla ievade', '3 cilnes pārlūkā', 'PDF meklēšana...', '⚠ Kļūdu labošana'].map((l) => (
                   <div key={l} className="font-mono text-[11px] text-white/40 py-1 border-b border-white/5 last:border-0">{l}</div>
                 ))}
               </div>
@@ -252,7 +252,7 @@ export default function Landing() {
                 <span className="font-mono text-[10px] text-go tracking-widest uppercase">LEVIATHAN</span>
               </div>
               <div className="px-3 py-4 flex flex-col gap-2">
-                {['↑ smeta.xlsx', '↑ 3× PDF sert.', '🤖 AI atpazīst', '✓ Piesaistīts', '✓ Pārbaudīts', '✓ Nosūtīts BIS'].map((l) => (
+                {['↑ smeta.xlsx', '↑ 3× PDF sert.', '🤖 AI atpazīšana', '✓ Piesaistīšana', '✓ Pārbaude', '✓ Nosūtīšana uz BIS'].map((l) => (
                   <div key={l} className={`font-mono text-[11px] py-1 border-b border-white/5 last:border-0 ${l.startsWith('✓') ? 'text-go' : 'text-white/60'}`}>{l}</div>
                 ))}
               </div>
@@ -278,9 +278,9 @@ export default function Landing() {
           <div className="section-label mb-6">Kā tas strādā</div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 border border-concrete-dim">
             {[
-              { n: '01', title: 'Augšupielādē smetu', desc: 'Excel LBN 501-17 → sistēma izveido visas pozīcijas automātiski' },
+              { n: '01', title: 'Augšupielādē tāmi', desc: 'Excel LBN 501-17 → sistēma automātiski izveido visas pozīcijas' },
               { n: '02', title: 'Pievieno dokumentus', desc: 'PDF pases un sertifikāti → AI piesaista pie pozīcijām' },
-              { n: '03', title: 'Nosūti uz BIS', desc: 'Viens klikšķis → Būvdarbu žurnāls BIS kā Melnraksts' },
+              { n: '03', title: 'Nosūtīšana uz BIS', desc: 'Ar vienu klikšķi dati tiek nosūtīti uz BIS būvdarbu žurnālu kā melnraksts.' },
             ].map((s, i) => (
               <div key={s.n} className={`px-6 py-6 ${i < 2 ? 'border-b sm:border-b-0 sm:border-r border-concrete-dim' : ''}`}>
                 <p className="font-mono font-bold text-3xl text-brand mb-3">{s.n}</p>
@@ -312,7 +312,7 @@ export default function Landing() {
             Sākt izmēģināt →
           </button>
           <p className="font-mono text-[11px] text-white/25 tracking-wide mt-6">
-            Jautājumi? bisapi@leviathan.lv
+            Jautājumi? hello@leviathan.lv
           </p>
         </div>
       </section>
