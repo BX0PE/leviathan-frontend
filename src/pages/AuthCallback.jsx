@@ -2,9 +2,6 @@ import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { saveToken } from '../api/auth.js'
 
-// The backend itself handles the BIS OAuth exchange server-side and
-// redirects here with a short-lived token in the query string, since
-// this is a static SPA with nowhere else to receive it.
 export default function AuthCallback() {
   const [params] = useSearchParams()
   const navigate = useNavigate()
@@ -20,8 +17,26 @@ export default function AuthCallback() {
   }, [params, navigate])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-asphalt text-white">
-      <p className="font-display tracking-wide">Pieslēdzamies…</p>
+    <div className="min-h-screen bg-blueprint flex flex-col items-center justify-center">
+      <span className="absolute top-4 left-4 text-[10px] font-mono text-white/20 tracking-widest select-none uppercase">BIS OAuth</span>
+
+      <div className="flex flex-col items-center gap-4">
+        {/* Animated orange bar */}
+        <div className="w-48 h-[2px] bg-concrete-dim overflow-hidden">
+          <div className="h-full bg-brand animate-[loading_1.2s_ease-in-out_infinite]" />
+        </div>
+        <p className="font-mono text-[11px] text-white/30 tracking-widest uppercase">
+          Pieslēdzamies…
+        </p>
+      </div>
+
+      <style>{`
+        @keyframes loading {
+          0%   { width: 0%;   margin-left: 0% }
+          50%  { width: 60%;  margin-left: 20% }
+          100% { width: 0%;   margin-left: 100% }
+        }
+      `}</style>
     </div>
   )
 }
