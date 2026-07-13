@@ -3,6 +3,7 @@ import Landing from './pages/Landing.jsx'
 import Login from './pages/Login.jsx'
 import AuthCallback from './pages/AuthCallback.jsx'
 import RoleSelect from './pages/RoleSelect.jsx'
+import Onboarding from './pages/Onboarding.jsx'
 import CasesList from './pages/CasesList.jsx'
 
 // Прораб
@@ -46,6 +47,12 @@ export default function App() {
       <Route
         path="/role-select"
         element={<RequireAuth><RoleSelect /></RequireAuth>}
+      />
+
+      {/* Онбординг координатора (первый вход) */}
+      <Route
+        path="/onboarding"
+        element={<RequireAuth><Onboarding /></RequireAuth>}
       />
 
       {/* Список объектов — общий для всех ролей */}

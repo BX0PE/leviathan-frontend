@@ -31,7 +31,12 @@ export default function RoleSelect() {
 
   function handleSelect(role) {
     saveRole(role)
-    navigate('/cases', { replace: true })
+    const onboarded = localStorage.getItem('leviathan_onboarded')
+    if (role === 'coordinator' && !onboarded) {
+      navigate('/onboarding', { replace: true })
+    } else {
+      navigate('/cases', { replace: true })
+    }
   }
 
   return (
