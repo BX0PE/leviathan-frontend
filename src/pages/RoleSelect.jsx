@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { saveRole } from '../api/auth.js'
+import logo from '../assets/logo.png'
 
 const ROLES = [
   {
@@ -35,9 +36,7 @@ export default function RoleSelect() {
 
   return (
     <div className="min-h-screen bg-asphalt flex flex-col items-center justify-center px-6">
-      <h1 className="font-display font-bold text-2xl text-white mb-1 tracking-wide">
-        LEVIATHAN
-      </h1>
+      <img src={logo} alt="LEVIATHAN" className="w-40 mb-6 select-none" draggable={false} />
       <p className="text-concrete-dim mb-10 text-sm">Izvēlies savu lomu</p>
 
       <div className="w-full max-w-sm flex flex-col gap-4">

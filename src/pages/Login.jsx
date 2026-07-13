@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button.jsx'
 import { goToBisLogin, saveToken } from '../api/auth.js'
 import { client } from '../api/client.js'
+import logo from '../assets/logo.png'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -19,10 +20,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-asphalt text-white">
       <div className="w-full max-w-xs flex flex-col items-center text-center">
-        <div className="w-20 h-20 rounded-card bg-brand flex items-center justify-center text-4xl mb-6">
-          🏗
-        </div>
-        <h1 className="font-display font-bold text-3xl tracking-wide mb-2">LEVIATHAN</h1>
+        <img src={logo} alt="LEVIATHAN" className="w-48 mb-8 select-none" draggable={false} />
         <p className="text-concrete-dim mb-10 leading-relaxed">
           BIS automatizācija
           <br />
