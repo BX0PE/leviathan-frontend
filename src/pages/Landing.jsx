@@ -9,7 +9,7 @@ function Calculator() {
   const [rate,     setRate]     = useState(18)
 
   const loss     = objects * hours * rate
-  const plan     = objects <= 1 ? 0 : objects <= 2 ? 150 : 450
+  const plan     = objects <= 2 ? 150 : 450
   const saving   = Math.max(0, loss - plan)
   const savingYr = saving * 12
 
