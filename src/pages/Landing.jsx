@@ -175,17 +175,17 @@ export default function Landing() {
         <div className="max-w-5xl mx-auto px-4 min-h-[52px] flex items-center gap-4">
           <img src={logo} alt="LEVIATHAN" className="h-7 select-none" draggable={false} />
           <div className="flex-1" />
-          <button
-            onClick={() => navigate('/login')}
+          <a
+            href="mailto:hello@leviathan.lv"
             className="font-mono text-[11px] text-white/60 tracking-widest uppercase hover:text-white transition px-3 py-1"
           >
-            Pieteikties
-          </button>
+            Pieprasīt demo
+          </a>
           <button
             onClick={() => navigate('/login')}
             className="bg-brand text-white font-mono text-[11px] tracking-widest uppercase px-4 py-2 hover:bg-brand-dark transition"
           >
-            Demo →
+            Pieteikties →
           </button>
         </div>
       </nav>
@@ -197,7 +197,7 @@ export default function Landing() {
           {/* Left — text */}
           <div>
             <p className="font-mono text-[11px] text-brand tracking-widest uppercase mb-4">
-              BIS · Būvdarbu žurnāls
+              Būvniecības dokumentāciju automatizācija · Latvija
             </p>
             <h1 className="font-display font-bold text-4xl lg:text-5xl text-white leading-tight mb-6">
               BIS žurnāls —<br />
@@ -209,6 +209,22 @@ export default function Landing() {
               <span className="text-white font-semibold"> €660–€1000 mēnesī</span>.
               LEVIATHAN to izpilda 10 minūtēs.
             </p>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-0 border border-white/10 mb-8">
+              <div className="px-4 py-4 border-r border-white/10">
+                <p className="font-display font-bold text-3xl text-white">80%</p>
+                <p className="font-mono text-[10px] text-white/35 tracking-widest uppercase mt-1 leading-relaxed">mazāk<br/>manuālā darba</p>
+              </div>
+              <div className="px-4 py-4 border-r border-white/10">
+                <p className="font-display font-bold text-3xl text-brand">10×</p>
+                <p className="font-mono text-[10px] text-white/35 tracking-widest uppercase mt-1 leading-relaxed">ātrāk nekā<br/>manuāli</p>
+              </div>
+              <div className="px-4 py-4">
+                <p className="font-display font-bold text-3xl text-white">€850</p>
+                <p className="font-mono text-[10px] text-white/35 tracking-widest uppercase mt-1 leading-relaxed">ietaupīts<br/>mēnesī</p>
+              </div>
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
               <button
@@ -312,12 +328,44 @@ export default function Landing() {
       {/* PRICING */}
       <Pricing onLogin={() => navigate('/login')} />
 
+      {/* CONTACT */}
+      <section className="bg-asphalt border-t border-white/10 py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <div className="section-label mb-6">Sazināties</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+            <div>
+              <h2 className="font-display font-bold text-2xl text-white mb-3">
+                Vēlies uzzināt vairāk?
+              </h2>
+              <p className="font-mono text-[12px] text-white/40 leading-relaxed">
+                Raksti mums vai piesakies demo —<br />
+                atbildēsim 24 stundu laikā.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <a
+                href="mailto:hello@leviathan.lv?subject=Demo pieprasījums"
+                className="bg-brand text-white font-mono text-[12px] tracking-widest uppercase px-6 py-4 hover:bg-brand-dark transition text-center"
+              >
+                Pieprasīt demo →
+              </a>
+              <a
+                href="mailto:hello@leviathan.lv"
+                className="border border-white/20 text-white/50 font-mono text-[12px] tracking-widest uppercase px-6 py-4 hover:border-white/40 hover:text-white transition text-center"
+              >
+                hello@leviathan.lv
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FOOTER CTA */}
       <section className="bg-blueprint py-16 px-4 text-center">
         <div className="max-w-lg mx-auto">
           <p className="font-mono text-[11px] text-brand tracking-widest uppercase mb-4">Gatavs sākt?</p>
           <h2 className="font-display font-bold text-3xl text-white mb-6">
-            1 mēnesis bez maksas.<br />Bez saistībām.
+            30 dienas bez maksas.<br />Bez saistībām.
           </h2>
           <button
             onClick={() => navigate('/login')}
