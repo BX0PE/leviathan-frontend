@@ -205,6 +205,7 @@ function StepCase({ onNext, onSkip }) {
 /* ─── Step 4: Done ───────────────────────────────────────────── */
 function StepDone({ company, caseName }) {
   const navigate = useNavigate()
+  const [saving, setSaving] = useState(false)
 
   const checks = [
     { label: 'Uzņēmums reģistrēts', detail: company?.name,    ok: Boolean(company) },
@@ -212,8 +213,20 @@ function StepDone({ company, caseName }) {
     { label: 'Pirmais objekts',      detail: caseName || null, ok: Boolean(caseName) },
   ]
 
-  function handleStart() {
+  async function handleStart() {
+    setSaving(true)
+    try {
+      // Save company + role to backend so invite system works
+      await client.post('/users/setup', {
+        role:         'coordinator',
+        company_name: company?.name  || null,
+        company_reg:  company?.regNr || null,
+      })
+    } catch {
+      // Backend may not be ready — continue, company data is in localStorage
+    }
     localStorage.setItem('leviathan_onboarded', '1')
+    setSaving(false)
     navigate('/cases', { replace: true })
   }
 
@@ -248,9 +261,10 @@ function StepDone({ company, caseName }) {
 
       <button
         onClick={handleStart}
-        className="w-full bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-4 hover:bg-brand-dark transition"
+        disabled={saving}
+        className="w-full bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-4 hover:bg-brand-dark transition disabled:opacity-50"
       >
-        Sākt darbu →
+        {saving ? 'Saglabājam...' : 'Sākt darbu →'}
       </button>
 
       <p className="font-mono text-[10px] text-white/20 tracking-wide text-center">

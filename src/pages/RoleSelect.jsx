@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { saveRole } from '../api/auth.js'
+import { client } from '../api/client.js'
 import logo from '../assets/logo.png'
 
 const ROLES = [
@@ -29,8 +30,10 @@ const ROLES = [
 export default function RoleSelect() {
   const navigate = useNavigate()
 
-  function handleSelect(role) {
+  async function handleSelect(role) {
     saveRole(role)
+    // Persist role on backend (silent fail — affects team management)
+    client.post('/users/setup', { role }).catch(() => {})
     const onboarded = localStorage.getItem('leviathan_onboarded')
     if (role === 'coordinator' && !onboarded) {
       navigate('/onboarding', { replace: true })
