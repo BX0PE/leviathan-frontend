@@ -200,7 +200,7 @@ export default function Landing() {
               Būvniecības dokumentāciju automatizācija · Latvija
             </p>
             <h1 className="font-display font-bold text-4xl lg:text-5xl text-white leading-tight mb-6">
-              BIS žurnāls —<br />
+              BIS žurnāls<br />
               <span className="text-brand">bez manuālā</span><br />
               darba.
             </h1>
@@ -241,9 +241,6 @@ export default function Landing() {
               </button>
             </div>
 
-            <p className="font-mono text-[11px] text-white/25 tracking-wide mt-6">
-              ↓ Vairāk nekā 12 būvniecības uzņēmumu Latvijā jau izmanto LEVIATHAN
-            </p>
           </div>
 
           {/* Right — before/after visual */}
@@ -292,16 +289,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* SOCIAL PROOF */}
-      <div className="bg-asphalt border-b border-white/10 px-4 py-4">
-        <div className="max-w-5xl mx-auto flex items-center gap-8 overflow-x-auto">
-          <span className="font-mono text-[10px] text-white/25 tracking-widest uppercase shrink-0">Uzticas</span>
-          {['SIA "RigaBūve"', 'SIA "Nordeks"', 'SIA "BaltBūve"', 'SIA "Merks"'].map((c) => (
-            <span key={c} className="font-mono text-[11px] text-white/30 tracking-wide shrink-0">{c}</span>
-          ))}
-        </div>
-      </div>
-
       {/* HOW IT WORKS */}
       <section className="py-16 px-4 bg-card border-b border-concrete-dim">
         <div className="max-w-3xl mx-auto">
@@ -338,8 +325,8 @@ export default function Landing() {
                 Vēlies uzzināt vairāk?
               </h2>
               <p className="font-mono text-[12px] text-white/40 leading-relaxed">
-                Raksti mums vai piesakies demo —<br />
-                atbildēsim 24 stundu laikā.
+                Raksti mums vai piesakies demo.<br />
+                Atbildēsim 24 stundu laikā.
               </p>
             </div>
             <div className="flex flex-col gap-3">
