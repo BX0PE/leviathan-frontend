@@ -16,6 +16,7 @@ import SubmitStatus from './pages/SubmitStatus.jsx'
 
 // Координатор
 import CoordinatorCaseDetail from './pages/coordinator/CaseDetail.jsx'
+import CreateCase from './pages/coordinator/CreateCase.jsx'
 import ImportEstimate from './pages/coordinator/ImportEstimate.jsx'
 import ImportDocuments from './pages/coordinator/ImportDocuments.jsx'
 import DocumentsList from './pages/coordinator/DocumentsList.jsx'
@@ -69,6 +70,12 @@ export default function App() {
       <Route
         path="/team"
         element={<RequireAuth><Team /></RequireAuth>}
+      />
+
+      {/* Координатор: создать объект (статика до :id!) */}
+      <Route
+        path="/cases/new"
+        element={<RequireAuth><CreateCase /></RequireAuth>}
       />
 
       {/* Детали объекта — роль определяет компонент */}

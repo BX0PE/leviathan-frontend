@@ -1,5 +1,13 @@
 import { client } from './client.js'
 
+export async function createCase({ name, bisNumber }) {
+  const { data } = await client.post('/cases', {
+    name,
+    bis_number: bisNumber || null,
+  })
+  return data
+}
+
 export async function fetchSummary(caseId) {
   const { data } = await client.get(`/cases/${caseId}/summary`)
   return data

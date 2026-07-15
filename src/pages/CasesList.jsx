@@ -158,20 +158,35 @@ export default function CasesList() {
           )}
         </div>
 
-        {/* Coordinator: team management */}
+        {/* Coordinator: create new case + team management */}
         {role === 'coordinator' && (
-          <button
-            onClick={() => navigate('/team')}
-            className="w-full text-left mt-4 border border-concrete-dim bg-card px-4 py-3 flex items-center justify-between hover:bg-concrete transition group"
-          >
-            <div className="flex items-center gap-3">
-              <span className="text-base">👥</span>
-              <span className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase group-hover:text-asphalt transition">
-                Komanda · Uzaicināt dalībniekus
-              </span>
-            </div>
-            <span className="font-mono text-asphalt-soft/50 text-base">›</span>
-          </button>
+          <div className="flex flex-col gap-2 mt-4">
+            <button
+              onClick={() => navigate('/cases/new')}
+              className="w-full text-left border border-brand/60 bg-brand/5 px-4 py-3 flex items-center justify-between hover:bg-brand/10 transition group"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-base text-brand">＋</span>
+                <span className="font-mono text-[11px] text-brand tracking-widest uppercase group-hover:text-brand transition">
+                  Pievienot objektu
+                </span>
+              </div>
+              <span className="font-mono text-brand/40 text-base">›</span>
+            </button>
+
+            <button
+              onClick={() => navigate('/team')}
+              className="w-full text-left border border-concrete-dim bg-card px-4 py-3 flex items-center justify-between hover:bg-concrete transition group"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-base">👥</span>
+                <span className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase group-hover:text-asphalt transition">
+                  Komanda · Uzaicināt dalībniekus
+                </span>
+              </div>
+              <span className="font-mono text-asphalt-soft/50 text-base">›</span>
+            </button>
+          </div>
         )}
 
         {/* Dev link */}
