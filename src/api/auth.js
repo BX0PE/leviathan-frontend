@@ -1,7 +1,8 @@
 // Login is a full-page redirect, not an XHR call — BIS needs to own
 // the navigation to run its own login flow before bouncing back to us.
 export function goToBisLogin() {
-  window.location.href = '/api/auth/login'
+  const base = import.meta.env.VITE_API_URL || '/api'
+  window.location.href = `${base}/auth/login`
 }
 
 export function saveToken(token) {
