@@ -29,7 +29,11 @@ export default function ConfirmSubmit() {
   async function handleConfirm() {
     try {
       const result = await submitEntries({ caseId: Number(id), date: todayIso(), items })
-      toast.add({ type: 'success', message: `${result.created} ieraksti nosūtīti uz BIS` })
+      if (result.synced) {
+        toast.add({ type: 'success', message: `${result.created} ieraksti nosūtīti uz BIS` })
+      } else {
+        toast.add({ type: 'info', message: `${result.created} ieraksti saglabāti · nosūtīs automātiski` })
+      }
       navigate(`/cases/${id}/status`, { state: { ok: true, synced: result.synced, count: result.created } })
     } catch (error) {
       toast.add({ type: 'error', message: 'Neizdevās nosūtīt. Mēģini vēlreiz.' })
