@@ -91,6 +91,8 @@ export async function syncPendingEntries() {
 // Сбрасывает записи что зависли на бэкенде (synced=False) — например
 // если бэкенд сохранил запись но BIS был недоступен в момент отправки.
 async function retryBackendQueue() {
+  // Только если залогинен — иначе получим 422
+  if (!localStorage.getItem('leviathan_token')) return
   try {
     await client.post('/entries/retry-pending')
   } catch {
