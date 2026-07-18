@@ -207,6 +207,7 @@ export default function MaterialDetail() {
   const [uploading, setUploading] = useState(false)
   const [uploadErr, setUploadErr] = useState(null)
   const [showEdit, setShowEdit] = useState(false)
+  const [similarDecls, setSimilarDecls] = useState(null) // {newDecl, similar[]}
   const fileRef = useRef()
 
   useEffect(() => {
@@ -222,14 +223,40 @@ export default function MaterialDetail() {
     setUploading(true)
     setUploadErr(null)
     try {
-      const decl = await uploadDeclaration(id, file)
-      setMaterial(m => ({ ...m, declarations: [decl, ...(m.declarations || [])] }))
+      const result = await uploadDeclaration(id, file)
+      const similar = result.similar || []
+      if (similar.length > 0) {
+        // Показываем modal переиспользования — не добавляем сразу в список
+        setSimilarDecls({ newDecl: result, similar })
+      } else {
+        // Нет похожих — сразу добавляем
+        setMaterial(m => ({ ...m, declarations: [result, ...(m.declarations || [])] }))
+      }
     } catch (e) {
       setUploadErr(e?.response?.data?.detail || e.message)
     } finally {
       setUploading(false)
       e.target.value = ''
     }
+  }
+
+  async function handleKeepNew() {
+    // Пользователь выбрал сохранить новую — добавляем в список
+    setMaterial(m => ({ ...m, declarations: [similarDecls.newDecl, ...(m.declarations || [])] }))
+    setSimilarDecls(null)
+  }
+
+  async function handleUseExisting(existingDecl) {
+    // Удаляем только что загруженную, оставляем существующую
+    try {
+      await deleteDeclaration(similarDecls.newDecl.id)
+    } catch { /* файл может не удалиться — не критично */ }
+    setSimilarDecls(null)
+    // Показываем инфо о существующей декларации вместо загрузки
+    setMaterial(m => ({
+      ...m,
+      declarations: [existingDecl, ...(m.declarations || []).filter(d => d.id !== existingDecl.id)],
+    }))
   }
 
   async function handleDeleteDecl(declId) {
@@ -368,6 +395,57 @@ export default function MaterialDetail() {
           onClose={() => setShowEdit(false)}
           onSaved={(saved) => { setMaterial(m => ({ ...m, ...saved })); setShowEdit(false) }}
         />
+      )}
+
+      {/* ── Похожие декларации — modal переиспользования ── */}
+      {similarDecls && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-end justify-center">
+          <div className="bg-card w-full max-w-lg">
+            <div className="px-4 py-4 border-b border-concrete-dim">
+              <p className="section-label">Atrasta līdzīga deklarācija</p>
+              <p className="font-mono text-[11px] text-asphalt-soft mt-1">
+                Bibliotēkā jau pastāv {similarDecls.similar.length === 1 ? 'šāda' : `${similarDecls.similar.length} šādas`} deklarācija.
+                Vai izmantot esošo?
+              </p>
+            </div>
+
+            <div className="divide-y divide-concrete-dim max-h-52 overflow-y-auto">
+              {similarDecls.similar.map(d => (
+                <button
+                  key={d.id}
+                  onClick={() => handleUseExisting(d)}
+                  className="w-full text-left px-4 py-3 hover:bg-concrete transition flex items-start gap-3"
+                >
+                  <span className="text-base shrink-0 mt-0.5">📄</span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-asphalt truncate">{d.name || d.file_name}</p>
+                    <p className="font-mono text-[11px] text-asphalt-soft mt-0.5">
+                      {[d.manufacturer, d.standard, d.dop_number].filter(Boolean).join(' · ')}
+                    </p>
+                  </div>
+                  <span className="shrink-0 font-mono text-[10px] text-brand tracking-wide mt-1">
+                    Izmantot →
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            <div className="px-4 py-3 border-t border-concrete-dim flex gap-2">
+              <button
+                onClick={handleKeepNew}
+                className="flex-1 border border-concrete-dim font-mono text-[11px] text-asphalt-soft tracking-widest uppercase py-2.5 hover:bg-concrete transition"
+              >
+                Saglabāt jauno
+              </button>
+              <button
+                onClick={() => setSimilarDecls(null)}
+                className="font-mono text-[11px] text-asphalt-soft/50 tracking-widest uppercase py-2.5 px-3 hover:text-asphalt-soft transition"
+              >
+                Atcelt
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )

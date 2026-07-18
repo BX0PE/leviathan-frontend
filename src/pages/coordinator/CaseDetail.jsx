@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Header from '../../components/Header.jsx'
 import AuditTrail from '../../components/AuditTrail.jsx'
 import { fetchSummary } from '../../api/coordinator.js'
+import { deleteCase } from '../../api/cases.js'
 
 function ProgressBar({ percent }) {
   return (
@@ -21,6 +22,9 @@ export default function CoordinatorCaseDetail() {
   const [summary, setSummary] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState(null)
 
   useEffect(() => {
     let cancelled = false
@@ -197,6 +201,56 @@ export default function CoordinatorCaseDetail() {
 
         {/* ── Darbību žurnāls ── */}
         <AuditTrail caseId={id} />
+
+        {/* ── Dzēst objektu (опасная зона) ── */}
+        <div className="border-t border-concrete-dim pt-4 mt-2">
+          {!deleteConfirm ? (
+            <button
+              onClick={() => { setDeleteConfirm(true); setDeleteError(null) }}
+              className="w-full font-mono text-[11px] text-asphalt-soft/50 tracking-widest uppercase hover:text-danger transition py-2"
+            >
+              Dzēst objektu
+            </button>
+          ) : (
+            <div className="bg-card border border-danger/40 px-4 py-4">
+              <p className="font-mono text-[11px] text-danger tracking-wide mb-1">
+                Dzēst objektu "{c.name}"?
+              </p>
+              <p className="font-mono text-[10px] text-asphalt-soft mb-3">
+                Tiks dzēsti visi ieraksti un dokumenti. Datus, kas jau nosūtīti uz BIS, dzēst nevar.
+              </p>
+              {deleteError && (
+                <p className="font-mono text-[11px] text-danger mb-3">{deleteError}</p>
+              )}
+              <div className="flex gap-2">
+                <button
+                  onClick={async () => {
+                    setDeleting(true)
+                    setDeleteError(null)
+                    try {
+                      await deleteCase(id)
+                      navigate('/cases', { replace: true })
+                    } catch (e) {
+                      const msg = e?.response?.data?.detail || e.message || 'Kļūda'
+                      setDeleteError(msg)
+                      setDeleting(false)
+                    }
+                  }}
+                  disabled={deleting}
+                  className="flex-1 bg-danger text-white font-mono text-[11px] tracking-widest uppercase py-2 hover:bg-red-700 transition disabled:opacity-50"
+                >
+                  {deleting ? 'Dzēš…' : '✓ Dzēst'}
+                </button>
+                <button
+                  onClick={() => { setDeleteConfirm(false); setDeleteError(null) }}
+                  className="flex-1 border border-concrete-dim font-mono text-[11px] text-asphalt-soft tracking-widest uppercase py-2 hover:bg-concrete transition"
+                >
+                  Atcelt
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
 
       </div>
     </div>

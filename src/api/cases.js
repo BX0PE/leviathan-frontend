@@ -31,6 +31,11 @@ export async function fetchPositions(caseId) {
   }
 }
 
+export async function deleteCase(caseId) {
+  const { data } = await client.delete(`/cases/${caseId}`)
+  return data
+}
+
 // Returns { synced: true } on a normal success, or { synced: false } when
 // the entry was saved locally because the device is offline right now.
 export async function submitEntries({ caseId, date, items, temperature = null, precipitation = false }) {
