@@ -93,7 +93,7 @@ export default function CaseDetail() {
         <div className="bg-card border border-concrete-dim mb-4">
           <div className="px-4 py-2 border-b border-concrete-dim bg-concrete flex items-center gap-2">
             <div className="section-label">Laika apstākļi</div>
-            <span className="font-mono text-[10px] text-caution tracking-widest uppercase ml-auto">obligāti</span>
+            <span className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase ml-auto">ieteicams</span>
           </div>
           <div className="px-4 py-3 flex items-center gap-4">
             {/* Температура */}
@@ -133,8 +133,8 @@ export default function CaseDetail() {
             </div>
           </div>
           {!weatherOk && filledCount > 0 && (
-            <p className="px-4 pb-3 font-mono text-[11px] text-caution tracking-wide">
-              ⚠ Ievadi temperatūru pirms nosūtīšanas
+            <p className="px-4 pb-3 font-mono text-[11px] text-asphalt-soft tracking-wide">
+              Ja šodien bija laika atkarīgi darbi — ievadi temperatūru
             </p>
           )}
         </div>
@@ -178,7 +178,7 @@ export default function CaseDetail() {
         <Button
           variant="primary"
           onClick={handleSubmit}
-          disabled={filledCount === 0 || !weatherOk}
+          disabled={filledCount === 0}
         >
           Nosūtīt uz BIS
         </Button>
