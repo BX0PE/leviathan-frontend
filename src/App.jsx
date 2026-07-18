@@ -23,6 +23,7 @@ import DocumentsList from './pages/coordinator/DocumentsList.jsx'
 import LinkDocument from './pages/coordinator/LinkDocument.jsx'
 import MaterialsLibrary from './pages/coordinator/MaterialsLibrary.jsx'
 import MaterialDetail from './pages/coordinator/MaterialDetail.jsx'
+import LinkPositionMaterial from './pages/coordinator/LinkPositionMaterial.jsx'
 
 // Надзор
 import SupervisorCaseDetail from './pages/supervisor/CaseDetail.jsx'
@@ -116,6 +117,12 @@ export default function App() {
       <Route
         path="/documents/:docId/link"
         element={<RequireAuth><LinkDocument /></RequireAuth>}
+      />
+
+      {/* Координатор: привязка позиций к материалам */}
+      <Route
+        path="/cases/:id/link-materials"
+        element={<RequireAuth><LinkPositionMaterial /></RequireAuth>}
       />
 
       {/* Koordinatora materiālu bibliotēka */}

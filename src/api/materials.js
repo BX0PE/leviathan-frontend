@@ -58,3 +58,12 @@ export async function linkPositionMaterial(caseId, posId, materialId) {
   )
   return data
 }
+
+// Отвязать материал от позиции (material_id → null)
+export async function unlinkPositionMaterial(caseId, posId) {
+  const { data } = await client.patch(
+    `/cases/${caseId}/positions/${posId}/material`
+    // без params → FastAPI получит material_id=None → очистит
+  )
+  return data
+}
