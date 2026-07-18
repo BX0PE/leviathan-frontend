@@ -1,11 +1,28 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button.jsx'
-import { goToBisLogin, saveToken } from '../api/auth.js'
+import { goToBisLogin, goToBisLoginPkce, saveToken } from '../api/auth.js'
 import { client } from '../api/client.js'
 import logo from '../assets/logo.png'
 
 export default function Login() {
   const navigate = useNavigate()
+  const [bisLoading, setBisLoading] = useState(false)
+
+  async function handleBisLogin() {
+    setBisLoading(true)
+    try {
+      if (import.meta.env.VITE_BIS_CLIENT_ID) {
+        // Продакшн: PKCE — браузер сам делает всё, Railway не нужен
+        await goToBisLoginPkce()
+      } else {
+        // Локальная разработка: старый backend-redirect flow
+        goToBisLogin()
+      }
+    } catch {
+      setBisLoading(false)
+    }
+  }
 
   async function handleDemoLogin() {
     try {
@@ -32,8 +49,8 @@ export default function Login() {
         <div className="w-12 h-[2px] bg-brand mb-8" />
 
         <div className="w-full flex flex-col gap-3">
-          <Button variant="primary" onClick={goToBisLogin}>
-            Pieteikties ar BIS
+          <Button variant="primary" onClick={handleBisLogin} disabled={bisLoading}>
+            {bisLoading ? 'Savienojas…' : 'Pieteikties ar BIS'}
           </Button>
 
           <button
