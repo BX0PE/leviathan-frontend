@@ -146,6 +146,17 @@ export default function CoordinatorCaseDetail() {
               </div>
             </button>
           )}
+
+          <button
+            onClick={() => navigate('/materials')}
+            className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition"
+          >
+            <span className="text-xl shrink-0">🧱</span>
+            <div>
+              <p className="text-asphalt tracking-wide">Materiālu bibliotēka</p>
+              <p className="font-mono font-normal text-asphalt-soft text-[11px] tracking-widest uppercase mt-0.5">DoP deklarācijas · kartītes</p>
+            </div>
+          </button>
         </div>
 
         {/* ── Jaunākie ieraksti ── */}

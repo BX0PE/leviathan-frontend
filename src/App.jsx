@@ -21,6 +21,8 @@ import ImportEstimate from './pages/coordinator/ImportEstimate.jsx'
 import ImportDocuments from './pages/coordinator/ImportDocuments.jsx'
 import DocumentsList from './pages/coordinator/DocumentsList.jsx'
 import LinkDocument from './pages/coordinator/LinkDocument.jsx'
+import MaterialsLibrary from './pages/coordinator/MaterialsLibrary.jsx'
+import MaterialDetail from './pages/coordinator/MaterialDetail.jsx'
 
 // Надзор
 import SupervisorCaseDetail from './pages/supervisor/CaseDetail.jsx'
@@ -114,6 +116,16 @@ export default function App() {
       <Route
         path="/documents/:docId/link"
         element={<RequireAuth><LinkDocument /></RequireAuth>}
+      />
+
+      {/* Koordinatora materiālu bibliotēka */}
+      <Route
+        path="/materials"
+        element={<RequireAuth><MaterialsLibrary /></RequireAuth>}
+      />
+      <Route
+        path="/materials/:id"
+        element={<RequireAuth><MaterialDetail /></RequireAuth>}
       />
 
       <Route path="*" element={<Navigate to="/login" replace />} />
