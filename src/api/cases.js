@@ -33,8 +33,14 @@ export async function fetchPositions(caseId) {
 
 // Returns { synced: true } on a normal success, or { synced: false } when
 // the entry was saved locally because the device is offline right now.
-export async function submitEntries({ caseId, date, items }) {
-  const payload = { case_id: caseId, date, items }
+export async function submitEntries({ caseId, date, items, temperature = null, precipitation = false }) {
+  const payload = {
+    case_id: caseId,
+    date,
+    items,
+    temperature,           // °C — обязательно по BIS регламенту
+    precipitation,         // boolean — были ли осадки
+  }
   if (USE_MOCKS) {
     if (!navigator.onLine) {
       await queueEntry(payload)

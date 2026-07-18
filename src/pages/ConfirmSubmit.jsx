@@ -23,12 +23,18 @@ export default function ConfirmSubmit() {
     return null
   }
 
-  const { caseName, items } = state
+  const { caseName, items, temperature, precipitation } = state
   const toast = useToast()
 
   async function handleConfirm() {
     try {
-      const result = await submitEntries({ caseId: Number(id), date: todayIso(), items })
+      const result = await submitEntries({
+        caseId: Number(id),
+        date: todayIso(),
+        items,
+        temperature: temperature ?? null,
+        precipitation: precipitation ?? false,
+      })
       if (result.synced) {
         toast.add({ type: 'success', message: `${result.created} ieraksti nosūtīti uz BIS` })
       } else {
@@ -53,6 +59,22 @@ export default function ConfirmSubmit() {
 
       <div className="flex-1 px-4 pt-5">
         <div className="section-label mb-4">Pārbaudi pirms nosūtīšanas</div>
+
+        {/* Погода — строка */}
+        {temperature !== undefined && temperature !== null && (
+          <div className="bg-card border border-concrete-dim mb-3 px-4 py-3 flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase">Temp.</span>
+              <span className="font-mono text-sm font-semibold text-asphalt">{temperature}°C</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase">Nokrišņi</span>
+              <span className="font-mono text-sm font-semibold text-asphalt">
+                {precipitation ? '🌧 Jā' : '☀ Nē'}
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Items table */}
         <div className="bg-card border border-concrete-dim mb-5">
