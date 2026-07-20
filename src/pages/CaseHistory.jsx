@@ -74,47 +74,67 @@ export default function CaseHistory() {
           </div>
         )}
 
-        {groups.map(([date, items]) => (
-          <div key={date} className="mb-5">
-            {/* Date divider */}
-            <div className="flex items-center gap-3 mb-2">
-              <div className="h-[1px] w-3 bg-concrete-dim shrink-0" />
-              <span className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase whitespace-nowrap">
-                {fmtDate(date)}
-              </span>
-              <div className="h-[1px] flex-1 bg-concrete-dim" />
-              <span className="font-mono text-[10px] text-asphalt-soft/50 shrink-0">
-                {items.length} poz.
-              </span>
-            </div>
+        {groups.map(([date, items]) => {
+          const first = items[0]
+          const timeLabel = first.time_from
+            ? first.time_to ? `${first.time_from}–${first.time_to}` : first.time_from
+            : null
 
-            {/* Entry rows */}
-            <div className="bg-card border border-concrete-dim">
-              {items.map((e, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-4 px-4 py-3 border-b border-concrete-dim last:border-b-0"
-                >
-                  {/* Sync indicator strip */}
-                  <div className={`w-[2px] h-8 shrink-0 ${e.synced ? 'bg-go' : 'bg-caution'}`} />
+          return (
+            <div key={date} className="mb-5">
+              {/* Date divider */}
+              <div className="flex items-center gap-3 mb-2">
+                <div className="h-[1px] w-3 bg-concrete-dim shrink-0" />
+                <span className="font-mono text-[10px] text-asphalt-soft tracking-widests uppercase whitespace-nowrap">
+                  {fmtDate(date)}
+                </span>
+                {timeLabel && (
+                  <span className="font-mono text-[10px] text-asphalt-soft/60">· {timeLabel}</span>
+                )}
+                {first.employees && (
+                  <span className="font-mono text-[10px] text-asphalt-soft/60">· 👷{first.employees}</span>
+                )}
+                <div className="h-[1px] flex-1 bg-concrete-dim" />
+                <span className="font-mono text-[10px] text-asphalt-soft/50 shrink-0">
+                  {items.length} poz.
+                </span>
+              </div>
 
-                  <p className="text-sm font-medium text-asphalt flex-1 truncate min-w-0">
-                    {e.position_name}
-                  </p>
+              {/* Description */}
+              {first.description && first.description !== 'Būvdarbi' && (
+                <p className="font-mono text-[11px] text-asphalt-soft leading-relaxed mb-2 pl-1">
+                  {first.description}
+                </p>
+              )}
 
-                  <div className="text-right shrink-0">
-                    <p className="font-mono text-sm font-semibold text-asphalt">
-                      {e.quantity} <span className="font-normal text-asphalt-soft">{e.unit}</span>
+              {/* Entry rows */}
+              <div className="bg-card border border-concrete-dim">
+                {items.map((e, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-4 px-4 py-3 border-b border-concrete-dim last:border-b-0"
+                  >
+                    {/* Sync indicator strip */}
+                    <div className={`w-[2px] h-8 shrink-0 ${e.synced ? 'bg-go' : 'bg-caution'}`} />
+
+                    <p className="text-sm font-medium text-asphalt flex-1 truncate min-w-0">
+                      {e.position_name}
                     </p>
-                    <span className={`font-mono text-[10px] tracking-widest ${e.synced ? 'text-go' : 'text-caution'}`}>
-                      {e.synced ? '✓ BIS' : '⏳ rinda'}
-                    </span>
+
+                    <div className="text-right shrink-0">
+                      <p className="font-mono text-sm font-semibold text-asphalt">
+                        {e.quantity_used} <span className="font-normal text-asphalt-soft">{e.unit}</span>
+                      </p>
+                      <span className={`font-mono text-[10px] tracking-widest ${e.synced ? 'text-go' : 'text-caution'}`}>
+                        {e.synced ? '✓ BIS' : '⏳ rinda'}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )
