@@ -37,6 +37,9 @@ export default function CaseDetail() {
   const [temperature, setTemperature] = useState('')
   const [precipitation, setPrecipitation] = useState(false)
 
+  // Поиск позиций
+  const [search, setSearch] = useState('')
+
   useEffect(() => {
     let cancelled = false
     Promise.all([fetchCases(), fetchPositions(id)]).then(([cases, pos]) => {
@@ -50,13 +53,17 @@ export default function CaseDetail() {
   }, [id])
 
   const groups = useMemo(() => {
+    const q = search.trim().toLowerCase()
+    const filtered = q
+      ? positions.filter((p) => p.name.toLowerCase().includes(q))
+      : positions
     const map = new Map()
-    for (const p of positions) {
+    for (const p of filtered) {
       if (!map.has(p.group)) map.set(p.group, [])
       map.get(p.group).push(p)
     }
     return Array.from(map.entries())
-  }, [positions])
+  }, [positions, search])
 
   function setValue(positionId, raw) {
     setValues((prev) => ({ ...prev, [positionId]: raw }))
@@ -216,16 +223,47 @@ export default function CaseDetail() {
           )}
         </div>
 
+        {/* ── Pozīciju meklēšana ── */}
+        {!loading && positions.length > 5 && (
+          <div className="relative mb-4">
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Meklēt pozīciju…"
+              className="w-full bg-card border border-concrete-dim px-4 py-2.5 font-mono text-sm text-asphalt placeholder:text-asphalt-soft/40 focus:outline-none focus:border-brand"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[11px] text-asphalt-soft hover:text-asphalt"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        )}
+
         {loading && (
           <p className="font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam pozīcijas…</p>
         )}
 
-        {!loading && groups.length === 0 && (
+        {!loading && positions.length === 0 && (
           <div className="bg-card border border-concrete-dim">
             <EmptyState
               icon="📋"
               title="Nav pozīciju"
               description="Koordinatoram jāaugšupielādē tāme, lai šeit parādītos darbu saraksts"
+            />
+          </div>
+        )}
+
+        {!loading && positions.length > 0 && groups.length === 0 && search && (
+          <div className="bg-card border border-concrete-dim">
+            <EmptyState
+              icon="🔍"
+              title="Nav rezultātu"
+              description={`Pozīcija "${search}" netika atrasta`}
             />
           </div>
         )}
