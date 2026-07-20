@@ -5,6 +5,7 @@ import PositionRow from '../components/PositionRow.jsx'
 import Button from '../components/Button.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { fetchCases, fetchPositions } from '../api/cases.js'
+import { client } from '../api/client.js'
 
 function today() {
   return new Date().toLocaleDateString('lv-LV', { day: '2-digit', month: '2-digit', year: 'numeric' })
@@ -25,6 +26,7 @@ export default function CaseDetail() {
 
   // Darbu apraksts — описание работ (обязательное в BIS)
   const [description, setDescription] = useState('')
+  const [descriptionPrefilled, setDescriptionPrefilled] = useState(false)
 
   // Laiks — время работ
   const [timeFrom, setTimeFrom] = useState(nowTime())
@@ -42,12 +44,27 @@ export default function CaseDetail() {
 
   useEffect(() => {
     let cancelled = false
-    Promise.all([fetchCases(), fetchPositions(id)]).then(([cases, pos]) => {
+    Promise.all([
+      fetchCases(),
+      fetchPositions(id),
+      client.get(`/cases/${id}/entries`).then((r) => r.data).catch(() => []),
+    ]).then(([cases, pos, entries]) => {
       if (cancelled) return
       const c = cases.find((x) => String(x.id) === String(id))
       setCaseName(c ? c.name : 'Objekts')
       setPositions(pos)
       setLoading(false)
+      // Предзаполняем описание последним использованным
+      if (entries.length > 0) {
+        const last = entries[0] // entries отсортированы desc по дате
+        if (last.description && last.description !== 'Būvdarbi') {
+          setDescription(last.description)
+          setDescriptionPrefilled(true)
+        }
+        if (last.employees) {
+          setEmployees(String(last.employees))
+        }
+      }
     })
     return () => { cancelled = true }
   }, [id])
@@ -120,6 +137,11 @@ export default function CaseDetail() {
         <div className="bg-card border border-concrete-dim mb-3">
           <div className="px-4 py-2 border-b border-concrete-dim bg-concrete flex items-center gap-2">
             <div className="section-label">Darbu apraksts</div>
+            {descriptionPrefilled && (
+              <span className="font-mono text-[9px] text-asphalt-soft/60 tracking-widest uppercase border border-concrete-dim px-1.5 py-0.5">
+                iepriekšējā
+              </span>
+            )}
             <span className="font-mono text-[10px] text-danger tracking-widest ml-auto">*</span>
           </div>
           <div className="px-4 py-3">
