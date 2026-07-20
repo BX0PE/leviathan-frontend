@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import { fetchInvite } from '../api/invites.js'
-import { goToBisLogin } from '../api/auth.js'
+import { goToBisLogin, goToBisLoginPkce } from '../api/auth.js'
 
 export default function Join() {
   const { token } = useParams()
@@ -18,9 +18,12 @@ export default function Join() {
   }, [token])
 
   function handleJoin() {
-    // Persist token so AuthCallback can accept it after OAuth redirect
     localStorage.setItem('leviathan_pending_invite', token)
-    goToBisLogin()
+    if (import.meta.env.VITE_BIS_CLIENT_ID) {
+      goToBisLoginPkce()
+    } else {
+      goToBisLogin()
+    }
   }
 
   return (
