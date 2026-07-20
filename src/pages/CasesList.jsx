@@ -70,6 +70,12 @@ function CaseRow({ c, onClick }) {
             </span>
           )}
 
+          {h?.pending_sync > 0 && (
+            <span className="font-mono text-[10px] text-caution">
+              ⏳ {h.pending_sync}
+            </span>
+          )}
+
           {syncAgo && (
             <span className="font-mono text-[10px] text-asphalt-soft/50">
               BIS {syncAgo}
@@ -189,13 +195,6 @@ export default function CasesList() {
           </div>
         )}
 
-        {/* Dev link */}
-        <button
-          onClick={() => navigate('/materials-demo')}
-          className="w-full text-left mt-2 border border-dashed border-concrete-dim px-4 py-3 text-[11px] font-mono text-asphalt-soft tracking-widest uppercase hover:border-rebar hover:text-rebar transition"
-        >
-          Makets: materiālu saskaņošana →
-        </button>
       </div>
     </div>
   )
