@@ -38,13 +38,25 @@ export async function deleteCase(caseId) {
 
 // Returns { synced: true } on a normal success, or { synced: false } when
 // the entry was saved locally because the device is offline right now.
-export async function submitEntries({ caseId, date, items, temperature = null, precipitation = false }) {
+export async function submitEntries({
+  caseId, date, items,
+  description = 'Būvdarbi',
+  timeFrom = '08:00',
+  timeTo = null,
+  employees = 1,
+  temperature = null,
+  precipitation = false,
+}) {
   const payload = {
     case_id: caseId,
     date,
     items,
-    temperature,           // °C — обязательно по BIS регламенту
-    precipitation,         // boolean — были ли осадки
+    description,
+    time_from: timeFrom,
+    time_to: timeTo,
+    employees,
+    temperature,
+    precipitation,
   }
   if (USE_MOCKS) {
     if (!navigator.onLine) {

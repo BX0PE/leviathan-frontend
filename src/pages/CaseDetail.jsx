@@ -10,6 +10,11 @@ function today() {
   return new Date().toLocaleDateString('lv-LV', { day: '2-digit', month: '2-digit', year: 'numeric' })
 }
 
+function nowTime() {
+  const d = new Date()
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+}
+
 export default function CaseDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -18,7 +23,17 @@ export default function CaseDetail() {
   const [values, setValues] = useState({})
   const [loading, setLoading] = useState(true)
 
-  // Погодные условия — per-day (обязательны по регламенту)
+  // Darbu apraksts — описание работ (обязательное в BIS)
+  const [description, setDescription] = useState('')
+
+  // Laiks — время работ
+  const [timeFrom, setTimeFrom] = useState(nowTime())
+  const [timeTo, setTimeTo]     = useState('')
+
+  // Strādājošo skaits — кол-во рабочих (обязательное в BIS)
+  const [employees, setEmployees] = useState('1')
+
+  // Погода — необязательная
   const [temperature, setTemperature] = useState('')
   const [precipitation, setPrecipitation] = useState(false)
 
@@ -49,7 +64,8 @@ export default function CaseDetail() {
 
   const filledCount = Object.values(values).filter((v) => v !== '' && v !== undefined).length
   const tempNum = temperature !== '' ? parseFloat(temperature) : null
-  const weatherOk = tempNum !== null && !isNaN(tempNum)
+  const empNum  = parseInt(employees) || 1
+  const canSubmit = filledCount > 0 && description.trim().length > 0 && empNum > 0
 
   function handleSubmit() {
     const items = positions
@@ -60,6 +76,10 @@ export default function CaseDetail() {
         caseId: Number(id),
         caseName,
         items,
+        description: description.trim(),
+        timeFrom,
+        timeTo: timeTo || null,
+        employees: empNum,
         temperature: tempNum,
         precipitation,
       },
@@ -81,7 +101,7 @@ export default function CaseDetail() {
         )}
         <button
           onClick={() => navigate(`/cases/${id}/history`)}
-          className="ml-auto font-mono text-[10px] text-white/30 tracking-widest uppercase hover:text-white/60 transition"
+          className="ml-auto font-mono text-[10px] text-white/30 tracking-widests uppercase hover:text-white/60 transition"
         >
           Vēsture ›
         </button>
@@ -89,16 +109,77 @@ export default function CaseDetail() {
 
       <div className="px-4 pt-4">
 
-        {/* ── Laika apstākļi (обязательно по регламенту) ── */}
+        {/* ── Darbu apraksts (обязательный в BIS) ── */}
+        <div className="bg-card border border-concrete-dim mb-3">
+          <div className="px-4 py-2 border-b border-concrete-dim bg-concrete flex items-center gap-2">
+            <div className="section-label">Darbu apraksts</div>
+            <span className="font-mono text-[10px] text-danger tracking-widest ml-auto">*</span>
+          </div>
+          <div className="px-4 py-3">
+            <textarea
+              rows={3}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Ko šodien darīja? Piem.: Ūdensvada izbūve tranšejā, De63x3.8 PE100-RC caurule, 45m…"
+              className="w-full bg-concrete border border-concrete-dim px-3 py-2 font-mono text-sm text-asphalt resize-none focus:outline-none focus:border-brand placeholder:text-asphalt-soft/50"
+            />
+          </div>
+        </div>
+
+        {/* ── Laiks + Strādājošie (одна строка) ── */}
+        <div className="bg-card border border-concrete-dim mb-3">
+          <div className="px-4 py-2 border-b border-concrete-dim bg-concrete">
+            <div className="section-label">Laiks un darbinieki</div>
+          </div>
+          <div className="px-4 py-3 flex items-center gap-3">
+            {/* Laiks no */}
+            <div className="flex items-center gap-1.5">
+              <label className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase whitespace-nowrap">No</label>
+              <input
+                type="time"
+                value={timeFrom}
+                onChange={(e) => setTimeFrom(e.target.value)}
+                className="bg-concrete border border-concrete-dim px-2 py-1.5 font-mono text-sm text-asphalt focus:outline-none focus:border-brand w-[90px]"
+              />
+            </div>
+            {/* Laiks līdz */}
+            <div className="flex items-center gap-1.5">
+              <label className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase whitespace-nowrap">Līdz</label>
+              <input
+                type="time"
+                value={timeTo}
+                onChange={(e) => setTimeTo(e.target.value)}
+                className="bg-concrete border border-concrete-dim px-2 py-1.5 font-mono text-sm text-asphalt focus:outline-none focus:border-brand w-[90px]"
+              />
+            </div>
+            {/* Divider */}
+            <div className="w-px h-8 bg-concrete-dim mx-1" />
+            {/* Strādājošie */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-base">👷</span>
+              <input
+                type="number"
+                inputMode="numeric"
+                min="1"
+                max="999"
+                value={employees}
+                onChange={(e) => setEmployees(e.target.value)}
+                className="bg-concrete border border-concrete-dim px-2 py-1.5 font-mono text-sm text-asphalt text-center focus:outline-none focus:border-brand w-[52px]"
+              />
+              <label className="font-mono text-[10px] text-asphalt-soft tracking-widests uppercase">cilv.</label>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Laika apstākļi (необязательные) ── */}
         <div className="bg-card border border-concrete-dim mb-4">
           <div className="px-4 py-2 border-b border-concrete-dim bg-concrete flex items-center gap-2">
             <div className="section-label">Laika apstākļi</div>
             <span className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase ml-auto">ieteicams</span>
           </div>
           <div className="px-4 py-3 flex items-center gap-4">
-            {/* Температура */}
             <div className="flex items-center gap-2 flex-1">
-              <label className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase whitespace-nowrap">Temp.</label>
+              <label className="font-mono text-[11px] text-asphalt-soft tracking-widests uppercase whitespace-nowrap">Temp.</label>
               <div className="relative flex-1 max-w-[100px]">
                 <input
                   type="number"
@@ -112,13 +193,9 @@ export default function CaseDetail() {
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 font-mono text-[11px] text-asphalt-soft">°C</span>
               </div>
             </div>
-
-            {/* Divider */}
             <div className="w-px h-8 bg-concrete-dim" />
-
-            {/* Осадки — toggle */}
             <div className="flex items-center gap-2">
-              <label className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase">Nokrišņi</label>
+              <label className="font-mono text-[11px] text-asphalt-soft tracking-widests uppercase">Nokrišņi</label>
               <button
                 type="button"
                 onClick={() => setPrecipitation((p) => !p)}
@@ -132,7 +209,7 @@ export default function CaseDetail() {
               </button>
             </div>
           </div>
-          {!weatherOk && filledCount > 0 && (
+          {!tempNum && filledCount > 0 && (
             <p className="px-4 pb-3 font-mono text-[11px] text-asphalt-soft tracking-wide">
               Ja šodien bija laika atkarīgi darbi — ievadi temperatūru
             </p>
@@ -155,7 +232,6 @@ export default function CaseDetail() {
 
         {groups.map(([groupName, items]) => (
           <div key={groupName} className="bg-card border border-concrete-dim mb-3">
-            {/* Group header */}
             <div className="px-4 py-2 border-b border-concrete-dim bg-concrete">
               <div className="section-label">{groupName}</div>
             </div>
@@ -175,10 +251,15 @@ export default function CaseDetail() {
 
       {/* Fixed bottom CTA */}
       <div className="fixed bottom-0 inset-x-0 bg-white border-t-2 border-concrete-dim px-4 py-3">
+        {!canSubmit && filledCount > 0 && !description.trim() && (
+          <p className="font-mono text-[10px] text-caution tracking-wide text-center mb-2">
+            ⚠ Aizpildi darbu aprakstu
+          </p>
+        )}
         <Button
           variant="primary"
           onClick={handleSubmit}
-          disabled={filledCount === 0}
+          disabled={!canSubmit}
         >
           Nosūtīt uz BIS
         </Button>

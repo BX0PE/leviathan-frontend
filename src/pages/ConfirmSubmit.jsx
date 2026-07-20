@@ -23,7 +23,7 @@ export default function ConfirmSubmit() {
     return null
   }
 
-  const { caseName, items, temperature, precipitation } = state
+  const { caseName, items, description, timeFrom, timeTo, employees, temperature, precipitation } = state
   const toast = useToast()
 
   async function handleConfirm() {
@@ -32,6 +32,10 @@ export default function ConfirmSubmit() {
         caseId: Number(id),
         date: todayIso(),
         items,
+        description: description || 'Būvdarbi',
+        timeFrom: timeFrom || '08:00',
+        timeTo: timeTo || null,
+        employees: employees || 1,
         temperature: temperature ?? null,
         precipitation: precipitation ?? false,
       })
@@ -59,6 +63,31 @@ export default function ConfirmSubmit() {
 
       <div className="flex-1 px-4 pt-5">
         <div className="section-label mb-4">Pārbaudi pirms nosūtīšanas</div>
+
+        {/* Darbu apraksts */}
+        <div className="bg-card border border-concrete-dim mb-3 px-4 py-3">
+          <div className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase mb-1">Darbu apraksts</div>
+          <p className="font-mono text-sm text-asphalt leading-relaxed">{description}</p>
+        </div>
+
+        {/* Laiks + Strādājošie */}
+        <div className="bg-card border border-concrete-dim mb-3 px-4 py-3 flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase">No</span>
+            <span className="font-mono text-sm font-semibold text-asphalt">{timeFrom}</span>
+          </div>
+          {timeTo && (
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase">Līdz</span>
+              <span className="font-mono text-sm font-semibold text-asphalt">{timeTo}</span>
+            </div>
+          )}
+          <div className="flex items-center gap-2 ml-auto">
+            <span className="text-base">👷</span>
+            <span className="font-mono text-sm font-semibold text-asphalt">{employees}</span>
+            <span className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase">cilv.</span>
+          </div>
+        </div>
 
         {/* Погода — строка */}
         {temperature !== undefined && temperature !== null && (
