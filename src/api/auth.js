@@ -62,47 +62,30 @@ export async function exchangePkceCode(code) {
   const verifier = sessionStorage.getItem('pkce_verifier') || ''
   sessionStorage.removeItem('pkce_verifier')
 
-  // 1. Обмен code → access_token (браузер → BIS напрямую, Railway не задействован)
-  const tokenRes = await fetch(`${BIS_BASE}/bisp/api/auth/oauth2.0/token`, {
+  // Проксируем через Vercel serverless function /api/auth/bis-exchange.
+  // BIS блокирует CORS для browser→BIS fetches; Vercel делает это server-side.
+  // Vercel IP не заблокирован BIS (в отличие от Railway 162.220.232.72).
+  const res = await fetch('/api/auth/bis-exchange', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type:    'authorization_code',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
       code,
-      redirect_uri:  BIS_REDIRECT_URI,
-      client_id:     BIS_CLIENT_ID,
       code_verifier: verifier,
+      client_id:     BIS_CLIENT_ID,
+      redirect_uri:  BIS_REDIRECT_URI,
     }),
   })
-  if (!tokenRes.ok) {
-    const body = await tokenRes.text()
-    throw new Error(`BIS token exchange failed ${tokenRes.status}: ${body.slice(0, 200)}`)
+  if (!res.ok) {
+    const body = await res.text()
+    throw new Error(`BIS exchange failed ${res.status}: ${body.slice(0, 200)}`)
   }
-  const tokens = await tokenRes.json()
-  // tokens: {access_token, refresh_token, expires_in, ...}
+  const data = await res.json()
+  // data: {access_token, refresh_token, expires_in, bis_sub, bis_email, bis_name}
 
-  // 2. Получить профиль пользователя (браузер → BIS, тоже не заблокировано)
-  //    Railway не может звонить в BIS (IP block), поэтому userinfo берём здесь.
-  let sub = null, email = null, name = null
-  try {
-    const infoRes = await fetch(`${BIS_BASE}/services/auth/oauth2.0/userinfo`, {
-      headers: { Authorization: `Bearer ${tokens.access_token}` },
-    })
-    if (infoRes.ok) {
-      const info = await infoRes.json()
-      sub   = info.sub   || info.person_code || info.id   || null
-      email = info.email || null
-      name  = info.name  || info.given_name  || null
-    }
-  } catch {
-    // userinfo недоступен — создадим пользователя без sub (новый при каждом логине)
-  }
+  // Сохраняем BIS токен в localStorage для прямых BIS вызовов из браузера
+  localStorage.setItem('bis_access_token', data.access_token)
 
-  // Сохраняем BIS токен в localStorage — переживает reload/redirect
-  // (Railway IP заблочен, браузер — нет; токен истекает ~2ч сам по себе)
-  localStorage.setItem('bis_access_token', tokens.access_token)
-
-  return { ...tokens, bis_sub: sub, bis_email: email, bis_name: name }
+  return data
 }
 
 /**
