@@ -4,6 +4,7 @@ import Header from '../components/Header.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { fetchCases } from '../api/cases.js'
 import { client } from '../api/client.js'
+import { SkeletonHistoryDate } from '../components/Skeleton.jsx'
 
 /* ─── Helpers ───────────────────────────────────────────────── */
 function fmtDate(isoDate) {
@@ -61,7 +62,9 @@ export default function CaseHistory() {
         <div className="section-label mb-4">Nosūtītie ieraksti</div>
 
         {loading && (
-          <p className="font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam…</p>
+          <>
+            {[0, 1].map((i) => <SkeletonHistoryDate key={i} />)}
+          </>
         )}
 
         {!loading && groups.length === 0 && (

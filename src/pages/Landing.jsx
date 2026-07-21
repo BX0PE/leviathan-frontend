@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
+import AnimatedNumber from '../components/AnimatedNumber.jsx'
+import FadeIn from '../components/FadeIn.jsx'
 
 /* ─── Value Calculator ──────────────────────────────────────── */
 function Calculator() {
@@ -48,12 +50,16 @@ function Calculator() {
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="border-2 border-danger bg-card px-6 py-5">
             <p className="font-mono text-[11px] text-danger tracking-widest uppercase mb-2">Manuālā darba izmaksas</p>
-            <p className="font-mono font-bold text-3xl text-danger">{fmt(loss)}</p>
+            <p className="font-mono font-bold text-3xl text-danger">
+              <AnimatedNumber value={loss} format={fmt} duration={500} />
+            </p>
             <p className="font-mono text-[11px] text-asphalt-soft tracking-wide mt-1">mēnesī</p>
           </div>
           <div className="border-2 border-go bg-card px-6 py-5">
             <p className="font-mono text-[11px] text-go tracking-widest uppercase mb-2">Ar LEVIATHAN</p>
-            <p className="font-mono font-bold text-3xl text-go">{fmt(plan)}</p>
+            <p className="font-mono font-bold text-3xl text-go">
+              <AnimatedNumber value={plan} format={fmt} duration={500} />
+            </p>
             <p className="font-mono text-[11px] text-asphalt-soft tracking-wide mt-1">mēnesī</p>
           </div>
         </div>
@@ -61,11 +67,15 @@ function Calculator() {
         <div className="bg-asphalt px-6 py-4 flex items-center justify-between">
           <div>
             <p className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Ietaupījums mēnesī</p>
-            <p className="font-mono font-bold text-xl text-brand">{fmt(saving)}</p>
+            <p className="font-mono font-bold text-xl text-brand">
+              <AnimatedNumber value={saving} format={fmt} duration={500} />
+            </p>
           </div>
           <div className="text-right">
             <p className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Kopējais gadā</p>
-            <p className="font-mono font-bold text-xl text-white">{fmt(savingYr)}</p>
+            <p className="font-mono font-bold text-xl text-white">
+              <AnimatedNumber value={savingYr} format={fmt} duration={500} />
+            </p>
           </div>
         </div>
       </div>
@@ -213,15 +223,21 @@ export default function Landing() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-0 border border-white/10 mb-2">
               <div className="px-4 py-4 border-r border-white/10">
-                <p className="font-display font-bold text-3xl text-white">80%</p>
+                <p className="font-display font-bold text-3xl text-white">
+                  <AnimatedNumber value={80} suffix="%" duration={1400} />
+                </p>
                 <p className="font-mono text-[10px] text-white/35 tracking-widest uppercase mt-1 leading-relaxed">mazāk<br/>manuālā darba</p>
               </div>
               <div className="px-4 py-4 border-r border-white/10">
-                <p className="font-display font-bold text-3xl text-brand">10×</p>
+                <p className="font-display font-bold text-3xl text-brand">
+                  <AnimatedNumber value={10} suffix="×" duration={1400} />
+                </p>
                 <p className="font-mono text-[10px] text-white/35 tracking-widest uppercase mt-1 leading-relaxed">ātrāk nekā<br/>manuāli</p>
               </div>
               <div className="px-4 py-4">
-                <p className="font-display font-bold text-3xl text-white">€850</p>
+                <p className="font-display font-bold text-3xl text-white">
+                  <AnimatedNumber value={850} prefix="€" duration={1600} />
+                </p>
                 <p className="font-mono text-[10px] text-white/35 tracking-widest uppercase mt-1 leading-relaxed">ietaupīts<br/>mēnesī</p>
               </div>
             </div>
@@ -293,32 +309,35 @@ export default function Landing() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="py-16 px-4 bg-card border-b border-concrete-dim">
-        <div className="max-w-3xl mx-auto">
-          <div className="section-label mb-6">Kā tas strādā</div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 border border-concrete-dim">
-            {[
-              { n: '01', title: 'Augšupielādē tāmi', desc: 'Excel tāme → sistēma automātiski izveido visas pozīcijas' },
-              { n: '02', title: 'Pievieno dokumentus', desc: 'PDF pases un sertifikāti → automātiski piesaistās pie pozīcijām' },
-              { n: '03', title: 'Nosūtīšana uz BIS', desc: 'Ar vienu klikšķi dati tiek nosūtīti uz BIS būvdarbu žurnālu kā melnraksts.' },
-            ].map((s, i) => (
-              <div key={s.n} className={`px-6 py-6 ${i < 2 ? 'border-b sm:border-b-0 sm:border-r border-concrete-dim' : ''}`}>
-                <p className="font-mono font-bold text-3xl text-brand mb-3">{s.n}</p>
-                <p className="font-semibold text-sm text-asphalt mb-2">{s.title}</p>
-                <p className="font-mono text-[11px] text-asphalt-soft tracking-wide leading-relaxed">{s.desc}</p>
-              </div>
-            ))}
+      <FadeIn>
+        <section className="py-16 px-4 bg-card border-b border-concrete-dim">
+          <div className="max-w-3xl mx-auto">
+            <div className="section-label mb-6">Kā tas strādā</div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 border border-concrete-dim">
+              {[
+                { n: '01', title: 'Augšupielādē tāmi', desc: 'Excel tāme → sistēma automātiski izveido visas pozīcijas' },
+                { n: '02', title: 'Pievieno dokumentus', desc: 'PDF pases un sertifikāti → automātiski piesaistās pie pozīcijām' },
+                { n: '03', title: 'Nosūtīšana uz BIS', desc: 'Ar vienu klikšķi dati tiek nosūtīti uz BIS būvdarbu žurnālu kā melnraksts.' },
+              ].map((s, i) => (
+                <div key={s.n} className={`px-6 py-6 ${i < 2 ? 'border-b sm:border-b-0 sm:border-r border-concrete-dim' : ''}`}>
+                  <p className="font-mono font-bold text-3xl text-brand mb-3">{s.n}</p>
+                  <p className="font-semibold text-sm text-asphalt mb-2">{s.title}</p>
+                  <p className="font-mono text-[11px] text-asphalt-soft tracking-wide leading-relaxed">{s.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </FadeIn>
 
       {/* CALCULATOR */}
-      <Calculator />
+      <FadeIn><Calculator /></FadeIn>
 
       {/* PRICING */}
-      <Pricing onLogin={() => navigate('/login')} />
+      <FadeIn><Pricing onLogin={() => navigate('/login')} /></FadeIn>
 
       {/* CONTACT */}
+      <FadeIn>
       <section className="bg-asphalt border-t border-white/10 py-16 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="section-label mb-6">Sazināties</div>
@@ -350,7 +369,10 @@ export default function Landing() {
         </div>
       </section>
 
+      </FadeIn>
+
       {/* FOOTER CTA */}
+      <FadeIn>
       <section className="bg-blueprint py-16 px-4 text-center">
         <div className="max-w-lg mx-auto">
           <p className="font-mono text-[11px] text-brand tracking-widest uppercase mb-4">Gatavs sākt?</p>
@@ -368,6 +390,7 @@ export default function Landing() {
           </p>
         </div>
       </section>
+      </FadeIn>
 
     </div>
   )

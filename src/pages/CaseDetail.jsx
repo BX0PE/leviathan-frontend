@@ -7,6 +7,7 @@ import EmptyState from '../components/EmptyState.jsx'
 import { fetchCases, fetchPositions, syncPositionsFromBis } from '../api/cases.js'
 import { client } from '../api/client.js'
 import { fetchBisPositionsDirect, fetchBisGroupsDirect } from '../api/auth.js'
+import { SkeletonPositionRow } from '../components/Skeleton.jsx'
 
 function today() {
   return new Date().toLocaleDateString('lv-LV', { day: '2-digit', month: '2-digit', year: 'numeric' })
@@ -309,12 +310,19 @@ export default function CaseDetail() {
           </div>
         )}
 
-        {loading && !syncing && (
-          <p className="font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam pozīcijas…</p>
+        {syncing && (
+          <p className="font-mono text-sm text-brand tracking-wide mb-3">↻ Sinhronizācija ar BIS…</p>
         )}
 
-        {syncing && (
-          <p className="font-mono text-sm text-brand tracking-wide">↻ Sinhronizācija ar BIS…</p>
+        {loading && !syncing && (
+          <div className="bg-card border border-concrete-dim mb-3">
+            <div className="px-4 py-2 border-b border-concrete-dim bg-concrete">
+              <div className="section-label opacity-40">Ielādē…</div>
+            </div>
+            <div>
+              {[0, 1, 2, 3].map((i) => <SkeletonPositionRow key={i} />)}
+            </div>
+          </div>
         )}
 
         {syncError && (
