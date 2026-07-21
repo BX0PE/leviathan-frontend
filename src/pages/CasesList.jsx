@@ -29,7 +29,7 @@ function CaseRow({ c, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-full text-left flex items-stretch border-b border-concrete-dim last:border-b-0 hover:bg-concrete active:bg-concrete-dim transition group"
+      className="w-full text-left flex items-stretch border-b border-concrete-dim last:border-b-0 hover:bg-concrete active:bg-concrete-dim transition-all duration-150 active:scale-[0.995] group"
     >
       {/* Stage colour strip */}
       <div className={`w-[3px] shrink-0 ${STAGE_COLOR[c.stage] || 'bg-concrete-dim'}`} />
@@ -202,7 +202,7 @@ export default function CasesList() {
           <div className="flex flex-col gap-2 mt-4">
             <button
               onClick={() => navigate('/cases/new')}
-              className="w-full text-left border border-brand/60 bg-brand/5 px-4 py-3 flex items-center justify-between hover:bg-brand/10 transition group"
+              className="w-full text-left border border-brand/60 bg-brand/5 px-4 py-3 flex items-center justify-between hover:bg-brand/10 transition-all duration-150 active:scale-[0.99] group"
             >
               <div className="flex items-center gap-3">
                 <span className="text-base text-brand">＋</span>
@@ -215,7 +215,7 @@ export default function CasesList() {
 
             <button
               onClick={() => navigate('/team')}
-              className="w-full text-left border border-concrete-dim bg-card px-4 py-3 flex items-center justify-between hover:bg-concrete transition group"
+              className="w-full text-left border border-concrete-dim bg-card px-4 py-3 flex items-center justify-between hover:bg-concrete transition-all duration-150 active:scale-[0.99] group"
             >
               <div className="flex items-center gap-3">
                 <span className="text-base">👥</span>

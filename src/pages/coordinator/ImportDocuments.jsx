@@ -5,8 +5,12 @@ import Button from '../../components/Button.jsx'
 import { importDocuments } from '../../api/coordinator.js'
 
 const CONF = {
-  exact:   { text: 'Precīzs',    cls: 'text-go bg-go/10' },
-  partial: { text: 'Daļējs',     cls: 'text-caution bg-caution/10' },
+  high:    { text: 'Precīzs',     cls: 'text-go bg-go/10' },
+  exact:   { text: 'Precīzs',     cls: 'text-go bg-go/10' },
+  medium:  { text: 'Daļējs',      cls: 'text-caution bg-caution/10' },
+  partial: { text: 'Daļējs',      cls: 'text-caution bg-caution/10' },
+  low:     { text: 'Vājš',        cls: 'text-caution bg-caution/10' },
+  manual:  { text: 'Manuāli',     cls: 'text-brand bg-brand/10' },
   none:    { text: 'Nav atrasts', cls: 'text-danger bg-danger/10' },
 }
 
@@ -65,8 +69,8 @@ export default function ImportDocuments() {
           onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
-          className={`border-2 border-dashed px-6 py-12 text-center cursor-pointer transition-colors ${
-            dragging ? 'border-brand bg-brand/5' : 'border-concrete-dim bg-card hover:border-asphalt-soft'
+          className={`border-2 border-dashed px-6 py-12 text-center cursor-pointer transition-all duration-200 active:scale-[0.99] ${
+            dragging ? 'border-brand bg-brand/5 scale-[1.01]' : 'border-concrete-dim bg-card hover:border-asphalt-soft hover:bg-concrete'
           }`}
         >
           <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden"

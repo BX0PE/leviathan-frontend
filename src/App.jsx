@@ -87,6 +87,12 @@ export default function App() {
         element={<RequireAuth><RoleCaseDetail /></RequireAuth>}
       />
 
+      {/* Прораб-режим для любой роли (координатор может ввести данные) */}
+      <Route
+        path="/cases/:id/entries"
+        element={<RequireAuth><ForemanCaseDetail /></RequireAuth>}
+      />
+
       {/* Прораб: подтверждение, статус, история */}
       <Route
         path="/cases/:id/confirm"

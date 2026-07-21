@@ -5,6 +5,13 @@ import AuditTrail from '../../components/AuditTrail.jsx'
 import { fetchSummary } from '../../api/coordinator.js'
 import { deleteCase } from '../../api/cases.js'
 
+function fmtDate(iso) {
+  if (!iso) return ''
+  return new Date(iso + 'T00:00:00').toLocaleDateString('lv-LV', {
+    day: '2-digit', month: '2-digit',
+  })
+}
+
 function ProgressBar({ percent }) {
   return (
     <div className="w-full bg-concrete-dim h-[6px] mt-2">
@@ -37,7 +44,31 @@ export default function CoordinatorCaseDetail() {
   if (loading) return (
     <div className="min-h-screen bg-concrete">
       <Header title="…" onBack />
-      <p className="px-4 pt-6 font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam pārskatu…</p>
+      <div className="px-4 pt-5 flex flex-col gap-5">
+        {/* Skeleton — progress card */}
+        <div className="bg-card border border-concrete-dim animate-pulse">
+          <div className="px-4 py-4 h-16 bg-concrete-dim/40" />
+          <div className="px-4 py-3">
+            <div className="h-1.5 bg-concrete-dim/60 w-full" />
+            <div className="flex gap-4 mt-3">
+              <div className="h-3 w-16 bg-concrete-dim/40" />
+              <div className="h-3 w-16 bg-concrete-dim/40" />
+              <div className="h-3 w-16 bg-concrete-dim/40" />
+            </div>
+          </div>
+        </div>
+        {/* Skeleton — 2 stat cards */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-card border border-concrete-dim px-4 py-6 animate-pulse">
+            <div className="h-6 w-8 bg-concrete-dim/60 mx-auto mb-2" />
+            <div className="h-3 w-16 bg-concrete-dim/40 mx-auto" />
+          </div>
+          <div className="bg-card border border-concrete-dim px-4 py-6 animate-pulse">
+            <div className="h-6 w-8 bg-concrete-dim/60 mx-auto mb-2" />
+            <div className="h-3 w-16 bg-concrete-dim/40 mx-auto" />
+          </div>
+        </div>
+      </div>
     </div>
   )
 
@@ -113,8 +144,19 @@ export default function CoordinatorCaseDetail() {
         {/* ── Darbības ── */}
         <div className="flex flex-col gap-2">
           <button
+            onClick={() => navigate(`/cases/${id}/entries`)}
+            className="bg-asphalt text-white px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-asphalt-soft active:bg-asphalt-soft transition-all duration-150 active:scale-[0.99]"
+          >
+            <span className="text-xl shrink-0">👷</span>
+            <div>
+              <p className="tracking-wide">Ievadīt izpildītos darbus</p>
+              <p className="font-mono font-normal opacity-60 text-[11px] tracking-widest uppercase mt-0.5">Prorāba skats</p>
+            </div>
+          </button>
+
+          <button
             onClick={() => navigate(`/cases/${id}/import-estimate`)}
-            className="bg-brand text-white px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-brand-dark active:bg-brand-dark transition"
+            className="bg-brand text-white px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-brand-dark active:bg-brand-dark transition-all duration-150 active:scale-[0.99]"
           >
             <span className="text-xl shrink-0">📊</span>
             <div>
@@ -125,7 +167,7 @@ export default function CoordinatorCaseDetail() {
 
           <button
             onClick={() => navigate(`/cases/${id}/import-documents`)}
-            className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition"
+            className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition-all duration-150 active:scale-[0.99]"
           >
             <span className="text-xl shrink-0">📄</span>
             <div>
@@ -137,7 +179,7 @@ export default function CoordinatorCaseDetail() {
           {documents.total > 0 && (
             <button
               onClick={() => navigate(`/cases/${id}/documents`)}
-              className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition"
+              className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition-all duration-150 active:scale-[0.99]"
             >
               <span className="text-xl shrink-0">🗂</span>
               <div>
@@ -153,7 +195,7 @@ export default function CoordinatorCaseDetail() {
 
           <button
             onClick={() => navigate(`/cases/${id}/link-materials`)}
-            className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition"
+            className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition-all duration-150 active:scale-[0.99]"
           >
             <span className="text-xl shrink-0">🔗</span>
             <div>
@@ -164,7 +206,7 @@ export default function CoordinatorCaseDetail() {
 
           <button
             onClick={() => navigate('/materials')}
-            className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition"
+            className="bg-card border border-concrete-dim px-4 py-4 font-semibold text-sm text-left flex items-center gap-4 min-h-tap hover:bg-concrete active:bg-concrete-dim transition-all duration-150 active:scale-[0.99]"
           >
             <span className="text-xl shrink-0">🧱</span>
             <div>
@@ -185,7 +227,7 @@ export default function CoordinatorCaseDetail() {
                 <div key={e.id} className="flex justify-between items-center px-4 py-3">
                   <div>
                     <p className="text-sm font-medium text-asphalt">{e.position_name}</p>
-                    <p className="font-mono text-[11px] text-asphalt-soft tracking-wide mt-0.5">{e.date}</p>
+                    <p className="font-mono text-[11px] text-asphalt-soft tracking-wide mt-0.5">{fmtDate(e.date)}</p>
                   </div>
                   <div className="text-right">
                     <p className="font-mono text-sm font-semibold">{e.quantity_used} {e.unit}</p>

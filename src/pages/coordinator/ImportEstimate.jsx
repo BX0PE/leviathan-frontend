@@ -62,8 +62,8 @@ export default function ImportEstimate() {
           onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
-          className={`border-2 border-dashed px-6 py-12 text-center cursor-pointer transition-colors ${
-            dragging ? 'border-brand bg-brand/5' : 'border-concrete-dim bg-card hover:border-asphalt-soft'
+          className={`border-2 border-dashed px-6 py-12 text-center cursor-pointer transition-all duration-200 active:scale-[0.99] ${
+            dragging ? 'border-brand bg-brand/5 scale-[1.01]' : 'border-concrete-dim bg-card hover:border-asphalt-soft hover:bg-concrete'
           }`}
         >
           <input ref={inputRef} type="file" accept=".xlsx,.xls" className="hidden"
