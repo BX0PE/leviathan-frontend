@@ -48,6 +48,7 @@ export async function goToBisLoginPkce() {
     scope:                 BIS_SCOPES,
     code_challenge:        challenge,
     code_challenge_method: 'S256',
+    state:                 'pkce',   // бэкенд увидит state=pkce → relay mode
   })
   window.location.href = `${BIS_BASE}/services/auth/oauth2.0/authorize?${params}`
 }
