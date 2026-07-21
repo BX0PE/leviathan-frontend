@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 const SHORTCUTS = [
   { keys: 'U',        desc: 'Augšupielādēt failu' },
   { keys: 'F',        desc: 'Meklēt pozīcijas' },
-  { keys: 'Enter',    desc: 'Pieņemt AI priekšlikumu' },
+  { keys: 'Enter',    desc: 'Apstiprināt priekšlikumu' },
   { keys: 'Esc',      desc: 'Atcelt / aizvērt' },
   { keys: 'Ctrl + S', desc: 'Saglabāt melnrakstu' },
   { keys: 'Ctrl + ↵', desc: 'Nosūtīt BIS' },

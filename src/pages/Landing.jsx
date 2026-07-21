@@ -279,7 +279,7 @@ export default function Landing() {
                   '↑ tāme.xlsx (viens fails)',
                   '✓ Automātiska datu ievade',
                   '↑ PDF drag & drop',
-                  '✓ Automātiska sasaiste',
+                  '✓ Automātiska dokumentu piesaiste',
                   '✓ Reālā laika progress',
                   '✓ 10 min. melnraksts',
                 ].map((l) => (
@@ -299,7 +299,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 border border-concrete-dim">
             {[
               { n: '01', title: 'Augšupielādē tāmi', desc: 'Excel tāme → sistēma automātiski izveido visas pozīcijas' },
-              { n: '02', title: 'Pievieno dokumentus', desc: 'PDF pases un sertifikāti → AI piesaista pie pozīcijām' },
+              { n: '02', title: 'Pievieno dokumentus', desc: 'PDF pases un sertifikāti → automātiski piesaistās pie pozīcijām' },
               { n: '03', title: 'Nosūtīšana uz BIS', desc: 'Ar vienu klikšķi dati tiek nosūtīti uz BIS būvdarbu žurnālu kā melnraksts.' },
             ].map((s, i) => (
               <div key={s.n} className={`px-6 py-6 ${i < 2 ? 'border-b sm:border-b-0 sm:border-r border-concrete-dim' : ''}`}>
