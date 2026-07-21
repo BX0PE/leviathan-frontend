@@ -126,8 +126,30 @@ export async function fetchBisCasesDirect() {
 export async function fetchBisPositionsDirect(bisCaseId) {
   const token = getBisToken()
   if (!token) return null
+  // Пагинация — BIS отдаёт max 100 за раз, грузим все страницы
+  const all = []
+  let page = 1
+  while (true) {
+    const r = await fetch(
+      `${BIS_BASE}/bisp/api/portal/bis_cases/${bisCaseId}/logbook/estimate_positions?filter[type_eq]=element&page[size]=100&page[number]=${page}`,
+      { headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.api+json' } },
+    )
+    if (!r.ok) break
+    const json = await r.json()
+    const items = json.data || []
+    all.push(...items)
+    const total = json?.meta?.pagination?.records ?? items.length
+    if (all.length >= total) break
+    page++
+  }
+  return all
+}
+
+export async function fetchBisGroupsDirect(bisCaseId) {
+  const token = getBisToken()
+  if (!token) return null
   const r = await fetch(
-    `${BIS_BASE}/bisp/api/portal/bis_cases/${bisCaseId}/logbook/estimate_positions?filter[type_eq]=element&page[size]=200`,
+    `${BIS_BASE}/bisp/api/portal/bis_cases/${bisCaseId}/logbook/estimate_positions?filter[type_eq]=group&page[size]=100`,
     { headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.api+json' } },
   )
   if (!r.ok) return null

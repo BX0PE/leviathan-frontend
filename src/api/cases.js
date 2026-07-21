@@ -31,6 +31,11 @@ export async function fetchPositions(caseId) {
   }
 }
 
+export async function syncPositionsFromBis(caseId, positions, groups) {
+  const { data } = await client.post(`/cases/${caseId}/sync-direct`, { positions, groups })
+  return data
+}
+
 export async function importCasesFromBis(bisItems) {
   const { data } = await client.post('/cases/import-from-bis', { cases: bisItems })
   return data

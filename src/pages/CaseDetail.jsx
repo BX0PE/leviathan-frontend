@@ -4,8 +4,9 @@ import Header from '../components/Header.jsx'
 import PositionRow from '../components/PositionRow.jsx'
 import Button from '../components/Button.jsx'
 import EmptyState from '../components/EmptyState.jsx'
-import { fetchCases, fetchPositions } from '../api/cases.js'
+import { fetchCases, fetchPositions, syncPositionsFromBis } from '../api/cases.js'
 import { client } from '../api/client.js'
+import { fetchBisPositionsDirect, fetchBisGroupsDirect } from '../api/auth.js'
 
 function today() {
   return new Date().toLocaleDateString('lv-LV', { day: '2-digit', month: '2-digit', year: 'numeric' })
@@ -23,6 +24,7 @@ export default function CaseDetail() {
   const [positions, setPositions] = useState([])
   const [values, setValues] = useState({})
   const [loading, setLoading] = useState(true)
+  const [syncing, setSyncing] = useState(false)
 
   // Darbu apraksts — описание работ (обязательное в BIS)
   const [description, setDescription] = useState('')
@@ -44,28 +46,57 @@ export default function CaseDetail() {
 
   useEffect(() => {
     let cancelled = false
-    Promise.all([
-      fetchCases(),
-      fetchPositions(id),
-      client.get(`/cases/${id}/entries`).then((r) => r.data).catch(() => []),
-    ]).then(([cases, pos, entries]) => {
+
+    async function load() {
+      const [cases, pos, entries] = await Promise.all([
+        fetchCases(),
+        fetchPositions(id),
+        client.get(`/cases/${id}/entries`).then((r) => r.data).catch(() => []),
+      ])
       if (cancelled) return
+
       const c = cases.find((x) => String(x.id) === String(id))
       setCaseName(c ? c.name : 'Objekts')
-      setPositions(pos)
-      setLoading(false)
-      // Предзаполняем описание последним использованным
-      if (entries.length > 0) {
-        const last = entries[0] // entries отсортированы desc по дате
-        if (last.description && last.description !== 'Būvdarbi') {
-          setDescription(last.description)
-          setDescriptionPrefilled(true)
+
+      // Позиций нет — пробуем синхронизировать из BIS через браузер
+      if (pos.length === 0 && c?.bis_case_id) {
+        setSyncing(true)
+        try {
+          const [bisPos, bisGroups] = await Promise.all([
+            fetchBisPositionsDirect(c.bis_case_id),
+            fetchBisGroupsDirect(c.bis_case_id),
+          ])
+          if (bisPos && bisPos.length > 0 && !cancelled) {
+            await syncPositionsFromBis(id, bisPos, bisGroups || [])
+            const refreshed = await fetchPositions(id)
+            if (!cancelled) { setPositions(refreshed); setSyncing(false) }
+          } else {
+            if (!cancelled) setSyncing(false)
+          }
+        } catch {
+          if (!cancelled) setSyncing(false)
         }
-        if (last.employees) {
-          setEmployees(String(last.employees))
+      } else {
+        setPositions(pos)
+      }
+
+      if (!cancelled) {
+        setLoading(false)
+        // Предзаполняем описание последним использованным
+        if (entries.length > 0) {
+          const last = entries[0]
+          if (last.description && last.description !== 'Būvdarbi') {
+            setDescription(last.description)
+            setDescriptionPrefilled(true)
+          }
+          if (last.employees) {
+            setEmployees(String(last.employees))
+          }
         }
       }
-    })
+    }
+
+    load()
     return () => { cancelled = true }
   }, [id])
 
@@ -266,11 +297,15 @@ export default function CaseDetail() {
           </div>
         )}
 
-        {loading && (
+        {loading && !syncing && (
           <p className="font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam pozīcijas…</p>
         )}
 
-        {!loading && positions.length === 0 && (
+        {syncing && (
+          <p className="font-mono text-sm text-brand tracking-wide">↻ Sinhronizācija ar BIS…</p>
+        )}
+
+        {!loading && !syncing && positions.length === 0 && (
           <div className="bg-card border border-concrete-dim">
             <EmptyState
               icon="📋"
