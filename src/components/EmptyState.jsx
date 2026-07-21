@@ -27,7 +27,7 @@ export default function EmptyState({ icon = '○', title, description, action, o
       {action && (
         <button
           onClick={onAction}
-          className="bg-brand text-white font-mono text-[11px] tracking-widest uppercase px-6 py-3 hover:bg-brand-dark transition"
+          className="bg-brand text-white font-mono text-[11px] tracking-widest uppercase px-6 py-3 hover:bg-brand-dark transition-all duration-150 active:scale-[0.97]"
         >
           {action}
         </button>

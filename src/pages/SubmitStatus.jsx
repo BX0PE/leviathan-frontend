@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import Button from '../components/Button.jsx'
 
 function plural(n) {
@@ -8,6 +8,7 @@ function plural(n) {
 export default function SubmitStatus() {
   const { state } = useLocation()
   const navigate = useNavigate()
+  const { id } = useParams()
 
   const ok = state?.ok !== false
   const synced = state?.synced !== false
@@ -44,10 +45,18 @@ export default function SubmitStatus() {
       <h1 className="font-display font-bold text-2xl text-white tracking-widest uppercase mb-3">{title}</h1>
       <p className="font-mono text-sm text-white/50 mb-10 max-w-xs leading-relaxed tracking-wide">{body}</p>
 
-      <div className="w-full max-w-xs">
-        <Button variant="primary" onClick={() => navigate('/cases')}>
-          Uz sākumu
-        </Button>
+      <div className="w-full max-w-xs flex flex-col gap-2">
+        {id && (
+          <Button variant="primary" onClick={() => navigate(`/cases/${id}/history`)}>
+            Skatīt vēsturi →
+          </Button>
+        )}
+        <button
+          onClick={() => navigate('/cases')}
+          className="w-full min-h-tap border border-white/20 text-white/60 text-xs font-mono tracking-widest uppercase hover:border-white/40 hover:text-white/80 transition-all duration-150 active:scale-[0.98]"
+        >
+          Uz objektu sarakstu
+        </button>
       </div>
     </div>
   )

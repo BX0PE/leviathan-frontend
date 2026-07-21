@@ -5,14 +5,20 @@ import EmptyState from '../../components/EmptyState.jsx'
 import { fetchDocuments } from '../../api/coordinator.js'
 
 const CONF_BADGE = {
+  high:    'text-go',
   exact:   'text-go',
+  medium:  'text-caution',
   partial: 'text-caution',
+  low:     'text-caution',
   manual:  'text-rebar',
   none:    'text-danger',
 }
 const CONF_LABEL = {
+  high:    'Auto precīzs',
   exact:   'Auto precīzs',
+  medium:  'Auto daļējs',
   partial: 'Auto daļējs',
+  low:     'Auto vājš',
   manual:  'Manuāli',
   none:    'Nav piesaistīts',
 }

@@ -12,7 +12,9 @@ const META = {
 }
 
 function fmtTs(iso) {
+  if (!iso) return ''
   const d = new Date(iso)
+  if (isNaN(d.getTime())) return ''
   return (
     d.toLocaleDateString('lv-LV', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
     '  ' +
@@ -59,6 +61,8 @@ export default function AuditTrail({ caseId }) {
         <div className="divide-y divide-concrete-dim">
           {events.map((ev) => {
             const m = META[ev.action] || { icon: '·', color: 'text-asphalt-soft', label: ev.action }
+            const ts = ev.timestamp || ev.ts
+            const detail = ev.label && ev.label !== m.label ? ev.label : null
             return (
               <div key={ev.id} className="flex items-start gap-3 px-4 py-3">
                 {/* Icon column */}
@@ -70,13 +74,15 @@ export default function AuditTrail({ caseId }) {
                 <div className="flex-1 min-w-0">
                   <p className="font-mono text-[12px] text-asphalt leading-snug">
                     {m.label}
-                    {ev.detail && (
-                      <span className="text-asphalt-soft"> · {ev.detail}</span>
+                    {detail && (
+                      <span className="text-asphalt-soft"> · {detail}</span>
                     )}
                   </p>
-                  <p className="font-mono text-[10px] text-asphalt-soft tracking-wide mt-0.5">
-                    {fmtTs(ev.ts)} · {ev.actor}
-                  </p>
+                  {fmtTs(ts) && (
+                    <p className="font-mono text-[10px] text-asphalt-soft tracking-wide mt-0.5">
+                      {fmtTs(ts)}
+                    </p>
+                  )}
                 </div>
               </div>
             )
