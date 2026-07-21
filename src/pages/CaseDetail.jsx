@@ -50,16 +50,10 @@ export default function CaseDetail() {
     setSyncing(true)
     setSyncError(null)
     try {
-      const token = sessionStorage.getItem('bis_access_token')
-      console.log('[sync] BIS token:', token ? token.slice(0, 20) + '…' : 'NULL')
-      console.log('[sync] bis_case_id:', bisCid)
-
       const [bisPos, bisGroups] = await Promise.all([
         fetchBisPositionsDirect(bisCid),
         fetchBisGroupsDirect(bisCid),
       ])
-      console.log('[sync] positions from BIS:', bisPos?.length, bisPos)
-      console.log('[sync] groups from BIS:', bisGroups?.length)
 
       if (!bisPos || bisPos.length === 0) {
         if (!cancelled) setSyncError('BIS neatgrieza pozīcijas. Pārbaudi vai lieta ir "Būvdarbi" stadijā un vai BIS tokens ir aktīvs.')
@@ -72,7 +66,6 @@ export default function CaseDetail() {
         if (!cancelled) { setPositions(refreshed); setSyncing(false) }
       }
     } catch (e) {
-      console.error('[sync] error:', e)
       if (!cancelled) { setSyncError(e.message || 'Sinhronizācijas kļūda'); setSyncing(false) }
     }
   }

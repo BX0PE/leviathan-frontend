@@ -81,7 +81,7 @@ const PLANS = [
     price: '€0',
     period: '30 dienas',
     objects: '1 objekts',
-    features: ['Visas funkcijas', 'BIS API ✓', 'Bez saistībām'],
+    features: ['Visas funkcijas', 'BIS integrācija', 'Bez saistībām'],
     cta: 'Sākt bez maksas',
     highlight: false,
   },
@@ -91,7 +91,7 @@ const PLANS = [
     price: '€150',
     period: 'mēnesī',
     objects: 'līdz 2 objektiem',
-    features: ['Visas funkcijas', 'BIS API ✓', 'Atbalsts e-pastā'],
+    features: ['Visas funkcijas', 'BIS integrācija', 'Atbalsts e-pastā'],
     cta: 'Izvēlēties',
     highlight: true,
   },
@@ -101,7 +101,7 @@ const PLANS = [
     price: '€450',
     period: 'mēnesī',
     objects: 'līdz 5 objektiem',
-    features: ['Visas funkcijas', 'BIS API ✓', 'Prioritārs atbalsts', 'SLA 99.9%'],
+    features: ['Visas funkcijas', 'BIS integrācija', 'Prioritārs atbalsts', 'SLA 99.9%'],
     cta: 'Izvēlēties',
     highlight: false,
   },
@@ -211,7 +211,7 @@ export default function Landing() {
             </p>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-0 border border-white/10 mb-8">
+            <div className="grid grid-cols-3 gap-0 border border-white/10 mb-2">
               <div className="px-4 py-4 border-r border-white/10">
                 <p className="font-display font-bold text-3xl text-white">80%</p>
                 <p className="font-mono text-[10px] text-white/35 tracking-widest uppercase mt-1 leading-relaxed">mazāk<br/>manuālā darba</p>
@@ -225,6 +225,9 @@ export default function Landing() {
                 <p className="font-mono text-[10px] text-white/35 tracking-widest uppercase mt-1 leading-relaxed">ietaupīts<br/>mēnesī</p>
               </div>
             </div>
+            <p className="font-mono text-[10px] text-white/25 tracking-wide mb-8">
+              * aptuvenie rādītāji vienam vidēja izmēra objektam
+            </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
               <button
