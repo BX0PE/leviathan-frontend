@@ -97,7 +97,42 @@ export async function exchangePkceCode(code) {
     // userinfo недоступен — создадим пользователя без sub (новый при каждом логине)
   }
 
+  // Сохраняем BIS токен в sessionStorage — браузер сможет звонить в BIS напрямую
+  // (Railway IP заблочен, но браузер — нет)
+  sessionStorage.setItem('bis_access_token', tokens.access_token)
+
   return { ...tokens, bis_sub: sub, bis_email: email, bis_name: name }
+}
+
+/**
+ * Прямой запрос к BIS из браузера — обходит Railway IP блок.
+ * Используется для синхронизации объектов и позиций пока IP не вайтлистен.
+ */
+export function getBisToken() {
+  return sessionStorage.getItem('bis_access_token')
+}
+
+export async function fetchBisCasesDirect() {
+  const token = getBisToken()
+  if (!token) return null
+  const r = await fetch(`${BIS_BASE}/bisp/api/portal/bis_cases`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.api+json' },
+  })
+  if (!r.ok) return null
+  const json = await r.json()
+  return json.data || []
+}
+
+export async function fetchBisPositionsDirect(bisCaseId) {
+  const token = getBisToken()
+  if (!token) return null
+  const r = await fetch(
+    `${BIS_BASE}/bisp/api/portal/bis_cases/${bisCaseId}/logbook/estimate_positions?filter[type_eq]=element&page[size]=200`,
+    { headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.api+json' } },
+  )
+  if (!r.ok) return null
+  const json = await r.json()
+  return json.data || []
 }
 
 export function saveToken(token) {

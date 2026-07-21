@@ -31,6 +31,11 @@ export async function fetchPositions(caseId) {
   }
 }
 
+export async function importCasesFromBis(bisItems) {
+  const { data } = await client.post('/cases/import-from-bis', { cases: bisItems })
+  return data
+}
+
 export async function deleteCase(caseId) {
   const { data } = await client.delete(`/cases/${caseId}`)
   return data

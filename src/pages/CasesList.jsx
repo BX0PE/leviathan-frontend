@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import EmptyState from '../components/EmptyState.jsx'
-import { fetchCases } from '../api/cases.js'
-import { clearAll, getRole } from '../api/auth.js'
+import { fetchCases, importCasesFromBis } from '../api/cases.js'
+import { clearAll, getRole, fetchBisCasesDirect } from '../api/auth.js'
 
 const STAGE_LABEL = { active: 'Aktīvs', done: 'Pabeigts' }
 const STAGE_COLOR = { active: 'bg-brand', done: 'bg-go' }
@@ -98,13 +98,37 @@ function CaseRow({ c, onClick }) {
 export default function CasesList() {
   const [cases,   setCases]   = useState([])
   const [loading, setLoading] = useState(true)
+  const [syncing, setSyncing] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
     let cancelled = false
-    fetchCases().then((data) => {
+
+    async function load() {
+      const data = await fetchCases()
+      if (cancelled) return
+
+      if (data.length === 0) {
+        // Список пустой — пробуем получить объекты из BIS напрямую через браузер
+        // (Railway IP заблочен, браузер — нет)
+        try {
+          const bisItems = await fetchBisCasesDirect()
+          if (bisItems && bisItems.length > 0 && !cancelled) {
+            setSyncing(true)
+            await importCasesFromBis(bisItems)
+            const refreshed = await fetchCases()
+            if (!cancelled) { setCases(refreshed); setLoading(false); setSyncing(false) }
+            return
+          }
+        } catch {
+          // BIS недоступен или нет токена — показываем пустой список
+        }
+      }
+
       if (!cancelled) { setCases(data); setLoading(false) }
-    })
+    }
+
+    load()
     return () => { cancelled = true }
   }, [])
 
@@ -140,8 +164,12 @@ export default function CasesList() {
       <div className="px-4 pt-6">
         <div className="section-label mb-4">Mani objekti</div>
 
-        {loading && (
+        {loading && !syncing && (
           <p className="font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam objektus…</p>
+        )}
+
+        {syncing && (
+          <p className="font-mono text-sm text-brand tracking-wide">↻ Sinhronizācija ar BIS…</p>
         )}
 
         <div className="border border-concrete-dim bg-card">
