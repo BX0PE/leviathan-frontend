@@ -152,7 +152,7 @@ function Pricing({ onLogin }) {
               <div className="px-5 pb-5">
                 <button
                   onClick={onLogin}
-                  className={`w-full py-3 font-mono text-[12px] tracking-widest uppercase font-semibold transition ${
+                  className={`w-full py-3 font-mono text-[12px] tracking-widest uppercase font-semibold transition-all duration-150 active:scale-[0.98] ${
                     p.highlight
                       ? 'bg-brand text-white hover:bg-brand-dark'
                       : 'border border-concrete-dim text-asphalt hover:border-asphalt hover:bg-concrete'
@@ -187,13 +187,13 @@ export default function Landing() {
           <div className="flex-1" />
           <a
             href="mailto:leviathanworkgroup@gmail.com"
-            className="font-mono text-[11px] text-white/60 tracking-widest uppercase hover:text-white transition px-3 py-1"
+            className="font-mono text-[11px] text-white/60 tracking-widest uppercase hover:text-white transition-all duration-150 active:scale-95 px-3 py-1"
           >
             Pieprasīt demo
           </a>
           <button
             onClick={() => navigate('/login')}
-            className="bg-brand text-white font-mono text-[11px] tracking-widest uppercase px-4 py-2 hover:bg-brand-dark transition"
+            className="bg-brand text-white font-mono text-[11px] tracking-widest uppercase px-4 py-2 hover:bg-brand-dark transition-all duration-150 active:scale-[0.98]"
           >
             Pieteikties →
           </button>
@@ -248,13 +248,13 @@ export default function Landing() {
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => navigate('/login')}
-                className="bg-brand text-white font-mono text-[12px] tracking-widest uppercase px-8 py-4 hover:bg-brand-dark transition"
+                className="bg-brand text-white font-mono text-[12px] tracking-widest uppercase px-8 py-4 hover:bg-brand-dark transition-all duration-150 active:scale-[0.98]"
               >
                 Izmēģināt bez maksas
               </button>
               <button
                 onClick={() => navigate('/login')}
-                className="border border-white/20 text-white/60 font-mono text-[12px] tracking-widest uppercase px-8 py-4 hover:border-white/40 hover:text-white transition"
+                className="border border-white/20 text-white/60 font-mono text-[12px] tracking-widest uppercase px-8 py-4 hover:border-white/40 hover:text-white transition-all duration-150 active:scale-[0.98]"
               >
                 Pieteikties demo
               </button>
@@ -354,13 +354,13 @@ export default function Landing() {
             <div className="flex flex-col gap-3">
               <a
                 href="mailto:leviathanworkgroup@gmail.com?subject=Demo pieprasījums"
-                className="bg-brand text-white font-mono text-[12px] tracking-widest uppercase px-6 py-4 hover:bg-brand-dark transition text-center"
+                className="bg-brand text-white font-mono text-[12px] tracking-widest uppercase px-6 py-4 hover:bg-brand-dark transition-all duration-150 active:scale-[0.98] text-center"
               >
                 Pieprasīt demo →
               </a>
               <a
                 href="mailto:leviathanworkgroup@gmail.com"
-                className="border border-white/20 text-white/50 font-mono text-[12px] tracking-widest uppercase px-6 py-4 hover:border-white/40 hover:text-white transition text-center"
+                className="border border-white/20 text-white/50 font-mono text-[12px] tracking-widest uppercase px-6 py-4 hover:border-white/40 hover:text-white transition-all duration-150 active:scale-[0.98] text-center"
               >
                 leviathanworkgroup@gmail.com
               </a>
@@ -381,7 +381,7 @@ export default function Landing() {
           </h2>
           <button
             onClick={() => navigate('/login')}
-            className="bg-brand text-white font-mono text-[12px] tracking-widest uppercase px-10 py-4 hover:bg-brand-dark transition"
+            className="bg-brand text-white font-mono text-[12px] tracking-widest uppercase px-10 py-4 hover:bg-brand-dark transition-all duration-150 active:scale-[0.98]"
           >
             Sākt izmēģināt →
           </button>
