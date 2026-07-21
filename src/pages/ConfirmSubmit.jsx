@@ -44,7 +44,7 @@ export default function ConfirmSubmit() {
       } else {
         toast.add({ type: 'info', message: `${result.created} ieraksti saglabāti · nosūtīs automātiski` })
       }
-      navigate(`/cases/${id}/status`, { state: { ok: true, synced: result.synced, count: result.created } })
+      navigate(`/cases/${id}/status`, { state: { ok: true, synced: result.synced, count: result.created, reason: result.reason } })
     } catch (error) {
       toast.add({ type: 'error', message: 'Neizdevās nosūtīt. Mēģini vēlreiz.' })
       navigate(`/cases/${id}/status`, { state: { ok: false, message: 'Neizdevās nosūtīt. Mēģini vēlreiz.' } })

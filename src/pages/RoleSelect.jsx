@@ -44,7 +44,7 @@ export default function RoleSelect() {
 
   return (
     <div className="min-h-screen bg-blueprint flex flex-col items-center justify-center px-6">
-      <span className="absolute top-4 left-4 text-[10px] font-mono text-rebar/40 tracking-widest select-none">LOMA / ROLE</span>
+      <span className="absolute top-4 left-4 text-[10px] font-mono text-rebar/40 tracking-widest select-none">LOMA</span>
 
       <div className="w-full max-w-sm flex flex-col items-center">
         <img src={logo} alt="LEVIATHAN" className="w-36 mb-3 select-none" draggable={false} />

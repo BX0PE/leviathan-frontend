@@ -77,7 +77,7 @@ export async function submitEntries({
   }
   try {
     const { data } = await client.post('/entries', payload)
-    return { synced: data.synced !== false, created: data.created }
+    return { synced: data.synced !== false, created: data.created, reason: data.reason }
   } catch (error) {
     if (isNetworkFailure(error)) {
       await queueEntry(payload)

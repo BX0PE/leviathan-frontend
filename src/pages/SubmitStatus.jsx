@@ -12,6 +12,7 @@ export default function SubmitStatus() {
   const ok = state?.ok !== false
   const synced = state?.synced !== false
   const count = state?.count ?? 0
+  const reason = state?.reason
 
   let icon, title, body, accent
   if (!ok) {
@@ -27,7 +28,7 @@ export default function SubmitStatus() {
   } else {
     icon = '↑'
     title = 'Saglabāts'
-    body = 'Dati saglabāti lokāli un tiks nosūtīti uz BIS automātiski, kad atjaunosies savienojums.'
+    body = reason || 'Dati saglabāti lokāli un tiks nosūtīti uz BIS automātiski, kad atjaunosies savienojums.'
     accent = 'text-caution border-caution'
   }
 
