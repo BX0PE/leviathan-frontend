@@ -25,6 +25,8 @@ export default function CaseDetail() {
   const [values, setValues] = useState({})
   const [loading, setLoading] = useState(true)
   const [syncing, setSyncing] = useState(false)
+  const [syncError, setSyncError] = useState(null)
+  const [bisCaseId, setBisCaseId] = useState(null)
 
   // Darbu apraksts — описание работ (обязательное в BIS)
   const [description, setDescription] = useState('')
@@ -44,6 +46,37 @@ export default function CaseDetail() {
   // Поиск позиций
   const [search, setSearch] = useState('')
 
+  async function doSyncFromBis(bisCid, cancelled = false) {
+    setSyncing(true)
+    setSyncError(null)
+    try {
+      const token = sessionStorage.getItem('bis_access_token')
+      console.log('[sync] BIS token:', token ? token.slice(0, 20) + '…' : 'NULL')
+      console.log('[sync] bis_case_id:', bisCid)
+
+      const [bisPos, bisGroups] = await Promise.all([
+        fetchBisPositionsDirect(bisCid),
+        fetchBisGroupsDirect(bisCid),
+      ])
+      console.log('[sync] positions from BIS:', bisPos?.length, bisPos)
+      console.log('[sync] groups from BIS:', bisGroups?.length)
+
+      if (!bisPos || bisPos.length === 0) {
+        if (!cancelled) setSyncError('BIS neatgrieza pozīcijas. Pārbaudi vai lieta ir "Būvdarbi" stadijā un vai BIS tokens ir aktīvs.')
+        if (!cancelled) setSyncing(false)
+        return
+      }
+      if (!cancelled) {
+        await syncPositionsFromBis(id, bisPos, bisGroups || [])
+        const refreshed = await fetchPositions(id)
+        if (!cancelled) { setPositions(refreshed); setSyncing(false) }
+      }
+    } catch (e) {
+      console.error('[sync] error:', e)
+      if (!cancelled) { setSyncError(e.message || 'Sinhronizācijas kļūda'); setSyncing(false) }
+    }
+  }
+
   useEffect(() => {
     let cancelled = false
 
@@ -57,25 +90,11 @@ export default function CaseDetail() {
 
       const c = cases.find((x) => String(x.id) === String(id))
       setCaseName(c ? c.name : 'Objekts')
+      if (c?.bis_case_id) setBisCaseId(c.bis_case_id)
 
       // Позиций нет — пробуем синхронизировать из BIS через браузер
       if (pos.length === 0 && c?.bis_case_id) {
-        setSyncing(true)
-        try {
-          const [bisPos, bisGroups] = await Promise.all([
-            fetchBisPositionsDirect(c.bis_case_id),
-            fetchBisGroupsDirect(c.bis_case_id),
-          ])
-          if (bisPos && bisPos.length > 0 && !cancelled) {
-            await syncPositionsFromBis(id, bisPos, bisGroups || [])
-            const refreshed = await fetchPositions(id)
-            if (!cancelled) { setPositions(refreshed); setSyncing(false) }
-          } else {
-            if (!cancelled) setSyncing(false)
-          }
-        } catch {
-          if (!cancelled) setSyncing(false)
-        }
+        await doSyncFromBis(c.bis_case_id, cancelled)
       } else {
         setPositions(pos)
       }
@@ -305,13 +324,37 @@ export default function CaseDetail() {
           <p className="font-mono text-sm text-brand tracking-wide">↻ Sinhronizācija ar BIS…</p>
         )}
 
-        {!loading && !syncing && positions.length === 0 && (
+        {syncError && (
+          <div className="bg-card border border-danger/30 px-4 py-3 mb-3">
+            <p className="font-mono text-[11px] text-danger tracking-wide mb-2">⚠ {syncError}</p>
+            {bisCaseId && (
+              <button
+                onClick={() => doSyncFromBis(bisCaseId)}
+                className="font-mono text-[10px] text-brand tracking-widest uppercase hover:text-brand-dark transition"
+              >
+                Mēģināt vēlreiz ↻
+              </button>
+            )}
+          </div>
+        )}
+
+        {!loading && !syncing && positions.length === 0 && !syncError && (
           <div className="bg-card border border-concrete-dim">
             <EmptyState
               icon="📋"
               title="Nav pozīciju"
               description="Koordinatoram jāaugšupielādē tāme, lai šeit parādītos darbu saraksts"
             />
+            {bisCaseId && (
+              <div className="px-4 pb-4 text-center">
+                <button
+                  onClick={() => doSyncFromBis(bisCaseId)}
+                  className="font-mono text-[11px] text-brand tracking-widest uppercase hover:text-brand-dark transition"
+                >
+                  ↻ Sinhronizēt no BIS
+                </button>
+              </div>
+            )}
           </div>
         )}
 
