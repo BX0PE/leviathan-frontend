@@ -96,7 +96,7 @@ function StepCompany({ onNext }) {
       <button
         type="submit"
         disabled={!valid}
-        className="w-full bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-4 hover:bg-brand-dark transition disabled:opacity-30 disabled:cursor-not-allowed mt-2"
+        className="w-full bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-4 hover:bg-brand-dark transition-all duration-150 active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 mt-2"
       >
         Turpināt →
       </button>
@@ -130,7 +130,7 @@ function StepBis({ onNext }) {
 
       <button
         onClick={onNext}
-        className="w-full bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-4 hover:bg-brand-dark transition"
+        className="w-full bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-4 hover:bg-brand-dark transition-all duration-150 active:scale-[0.98]"
       >
         Turpināt →
       </button>
@@ -187,7 +187,7 @@ function StepCase({ onNext, onSkip }) {
       <button
         type="submit"
         disabled={!name.trim() || loading}
-        className="w-full bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-4 hover:bg-brand-dark transition disabled:opacity-30 disabled:cursor-not-allowed mt-2"
+        className="w-full bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-4 hover:bg-brand-dark transition-all duration-150 active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 mt-2"
       >
         {loading ? 'Veido...' : 'Izveidot objektu →'}
       </button>
@@ -262,7 +262,7 @@ function StepDone({ company, caseName }) {
       <button
         onClick={handleStart}
         disabled={saving}
-        className="w-full bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-4 hover:bg-brand-dark transition disabled:opacity-50"
+        className="w-full bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-4 hover:bg-brand-dark transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100"
       >
         {saving ? 'Saglabājam...' : 'Sākt darbu →'}
       </button>

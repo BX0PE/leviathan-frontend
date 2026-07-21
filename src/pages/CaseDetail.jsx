@@ -169,7 +169,7 @@ export default function CaseDetail() {
         )}
         <button
           onClick={() => navigate(`/cases/${id}/history`)}
-          className="ml-auto font-mono text-[10px] text-white/30 tracking-widests uppercase hover:text-white/60 transition"
+          className="ml-auto font-mono text-[10px] text-white/30 tracking-widests uppercase hover:text-white/60 transition-all duration-150 active:scale-95"
         >
           Vēsture ›
         </button>
@@ -331,7 +331,7 @@ export default function CaseDetail() {
             {bisCaseId && (
               <button
                 onClick={() => doSyncFromBis(bisCaseId)}
-                className="font-mono text-[10px] text-brand tracking-widest uppercase hover:text-brand-dark transition"
+                className="font-mono text-[10px] text-brand tracking-widest uppercase hover:text-brand-dark transition-all duration-150 active:scale-95"
               >
                 Mēģināt vēlreiz ↻
               </button>
@@ -350,7 +350,7 @@ export default function CaseDetail() {
               <div className="px-4 pb-4 text-center">
                 <button
                   onClick={() => doSyncFromBis(bisCaseId)}
-                  className="font-mono text-[11px] text-brand tracking-widest uppercase hover:text-brand-dark transition"
+                  className="font-mono text-[11px] text-brand tracking-widest uppercase hover:text-brand-dark transition-all duration-150 active:scale-95"
                 >
                   ↻ Sinhronizēt no BIS
                 </button>
