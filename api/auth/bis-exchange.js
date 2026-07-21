@@ -1,12 +1,60 @@
 /**
  * Vercel Serverless Function: /api/auth/bis-exchange
  *
- * Proxies BIS token exchange + userinfo from the server side.
- * Needed because test.bis.gov.lv blocks CORS for browser→BIS fetches.
- * Vercel's IPs are not blocked, unlike Railway (162.220.232.72).
+ * Proxies BIS token exchange + userinfo.
+ * Uses native https module (not fetch) + rejectUnauthorized:false for test env.
+ * Deployed from Frankfurt (fra1) — EU region, not blocked by test.bis.gov.lv.
  */
 
-const BIS_BASE = 'https://test.bis.gov.lv'
+import https from 'https'
+
+const BIS_HOST = 'test.bis.gov.lv'
+
+function httpsPost(path, body, headers) {
+  return new Promise((resolve, reject) => {
+    const bodyBuf = Buffer.from(body)
+    const options = {
+      hostname: BIS_HOST,
+      port: 443,
+      path,
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Length': bodyBuf.length,
+        'User-Agent': 'LEVIATHAN/1.0 (BIS OAuth proxy)',
+      },
+      rejectUnauthorized: false, // test.bis.gov.lv may use non-standard CA
+    }
+    const req = https.request(options, (resp) => {
+      const chunks = []
+      resp.on('data', (c) => chunks.push(c))
+      resp.on('end', () => resolve({ status: resp.statusCode, body: Buffer.concat(chunks).toString() }))
+    })
+    req.on('error', reject)
+    req.write(bodyBuf)
+    req.end()
+  })
+}
+
+function httpsGet(path, headers) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: BIS_HOST,
+      port: 443,
+      path,
+      method: 'GET',
+      headers: { ...headers, 'User-Agent': 'LEVIATHAN/1.0 (BIS OAuth proxy)' },
+      rejectUnauthorized: false,
+    }
+    const req = https.request(options, (resp) => {
+      const chunks = []
+      resp.on('data', (c) => chunks.push(c))
+      resp.on('end', () => resolve({ status: resp.statusCode, body: Buffer.concat(chunks).toString() }))
+    })
+    req.on('error', reject)
+    req.end()
+  })
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -19,45 +67,44 @@ export default async function handler(req, res) {
   // ── 1. Exchange code → tokens ─────────────────────────────────────────────
   let tokens
   try {
-    const tokenRes = await fetch(`${BIS_BASE}/bisp/api/auth/oauth2.0/token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        grant_type:    'authorization_code',
-        code,
-        redirect_uri,
-        client_id,
-        code_verifier,
-      }),
-    })
-    const text = await tokenRes.text()
-    if (!tokenRes.ok) {
-      res.status(tokenRes.status).json({
-        error: `BIS token error ${tokenRes.status}: ${text.slice(0, 300)}`,
-      })
+    const params = new URLSearchParams({
+      grant_type:    'authorization_code',
+      code,
+      redirect_uri,
+      client_id,
+      code_verifier,
+    }).toString()
+
+    const { status, body } = await httpsPost(
+      '/bisp/api/auth/oauth2.0/token',
+      params,
+      { 'Content-Type': 'application/x-www-form-urlencoded' },
+    )
+
+    if (status !== 200) {
+      res.status(status).json({ error: `BIS token error ${status}: ${body.slice(0, 300)}` })
       return
     }
-    tokens = JSON.parse(text)
+    tokens = JSON.parse(body)
   } catch (e) {
     res.status(500).json({ error: `Token exchange failed: ${e.message}` })
     return
   }
 
-  // ── 2. Fetch userinfo (best-effort) ──────────────────────────────────────
+  // ── 2. Userinfo (best-effort) ─────────────────────────────────────────────
   let bis_sub = null, bis_email = null, bis_name = null
   try {
-    const infoRes = await fetch(`${BIS_BASE}/services/auth/oauth2.0/userinfo`, {
-      headers: { Authorization: `Bearer ${tokens.access_token}` },
-    })
-    if (infoRes.ok) {
-      const info = await infoRes.json()
+    const { status, body } = await httpsGet(
+      '/services/auth/oauth2.0/userinfo',
+      { Authorization: `Bearer ${tokens.access_token}` },
+    )
+    if (status === 200) {
+      const info = JSON.parse(body)
       bis_sub   = info.sub   || info.person_code || info.id   || null
       bis_email = info.email || null
       bis_name  = info.name  || info.given_name  || null
     }
-  } catch {
-    // userinfo unavailable — user will be created without sub
-  }
+  } catch {}
 
   res.status(200).json({
     access_token:  tokens.access_token,

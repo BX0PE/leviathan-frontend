@@ -1,0 +1,17 @@
+{
+  "functions": {
+    "api/auth/bis-exchange.js": {
+      "regions": ["fra1"]
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/auth/bis-exchange",
+      "destination": "/api/auth/bis-exchange"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://leviathan-backend-production.up.railway.app/api/:path*"
+    }
+  ]
+}
