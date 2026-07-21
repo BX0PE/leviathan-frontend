@@ -257,10 +257,10 @@ export default function Landing() {
               <div className="px-3 py-4 flex flex-col gap-2">
                 {[
                   'Excel tāme (manuāla)',
-                  '14× ievade BIS portālā',
-                  'PDF manuāla meklēšana',
-                  '3 cilnes pārlūkā',
-                  '⚠ Kļūdas un labošana',
+                  'Manuāla datu ievade',
+                  'PDF meklēšana mapēs',
+                  'Pārrakstīšanas kļūdas',
+                  'Nav pārskata par progresu',
                   '3–4h vienam objektam',
                 ].map((l) => (
                   <div key={l} className="font-mono text-[11px] text-white/40 py-1 border-b border-white/5 last:border-0">{l}</div>
@@ -277,10 +277,10 @@ export default function Landing() {
               <div className="px-3 py-4 flex flex-col gap-2">
                 {[
                   '↑ tāme.xlsx (viens fails)',
-                  '✓ Automātiska BIS ievade',
-                  '↑ PDF sertifikāti',
-                  '🤖 AI atpazīšana',
-                  '✓ BIS validācija',
+                  '✓ Automātiska datu ievade',
+                  '↑ PDF drag & drop',
+                  '✓ Automātiska sasaiste',
+                  '✓ Reālā laika progress',
                   '✓ 10 min. melnraksts',
                 ].map((l) => (
                   <div key={l} className={`font-mono text-[11px] py-1 border-b border-white/5 last:border-0 ${l.startsWith('✓') ? 'text-go' : 'text-white/60'}`}>{l}</div>
