@@ -97,9 +97,9 @@ export async function exchangePkceCode(code) {
     // userinfo недоступен — создадим пользователя без sub (новый при каждом логине)
   }
 
-  // Сохраняем BIS токен в sessionStorage — браузер сможет звонить в BIS напрямую
-  // (Railway IP заблочен, но браузер — нет)
-  sessionStorage.setItem('bis_access_token', tokens.access_token)
+  // Сохраняем BIS токен в localStorage — переживает reload/redirect
+  // (Railway IP заблочен, браузер — нет; токен истекает ~2ч сам по себе)
+  localStorage.setItem('bis_access_token', tokens.access_token)
 
   return { ...tokens, bis_sub: sub, bis_email: email, bis_name: name }
 }
@@ -109,7 +109,7 @@ export async function exchangePkceCode(code) {
  * Используется для синхронизации объектов и позиций пока IP не вайтлистен.
  */
 export function getBisToken() {
-  return sessionStorage.getItem('bis_access_token')
+  return localStorage.getItem('bis_access_token')
 }
 
 export async function fetchBisCasesDirect() {
@@ -191,4 +191,5 @@ export function clearRole() {
 export function clearAll() {
   clearToken()
   clearRole()
+  localStorage.removeItem('bis_access_token')
 }
