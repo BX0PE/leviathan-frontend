@@ -176,4 +176,6 @@ export function clearAll() {
   clearToken()
   clearRole()
   localStorage.removeItem('bis_access_token')
+  localStorage.removeItem('leviathan_onboarded')
+  localStorage.removeItem('leviathan_pending_invite')
 }
