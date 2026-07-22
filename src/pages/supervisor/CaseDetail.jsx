@@ -52,7 +52,16 @@ export default function SupervisorCaseDetail() {
   if (loading) return (
     <div className="min-h-screen bg-blueprint">
       <Header title="…" onBack />
-      <p className="px-4 pt-6 font-mono text-sm text-white/40 tracking-wide">Ielādējam…</p>
+      <div className="px-4 pt-5 flex flex-col gap-4">
+        <div className="bg-white/5 border border-white/10 p-4 animate-pulse">
+          <div className="h-4 w-1/3 bg-white/10 mb-3" />
+          <div className="h-1.5 w-full bg-white/10" />
+        </div>
+        <div className="bg-white/5 border border-white/10 p-4 animate-pulse">
+          <div className="h-3 w-1/2 bg-white/10 mb-2" />
+          <div className="h-3 w-1/3 bg-white/10" />
+        </div>
+      </div>
     </div>
   )
 

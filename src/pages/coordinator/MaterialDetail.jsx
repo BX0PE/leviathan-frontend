@@ -274,7 +274,18 @@ export default function MaterialDetail() {
   if (loading) return (
     <div className="min-h-screen bg-concrete">
       <Header title="…" onBack />
-      <p className="px-4 pt-6 font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam…</p>
+      <div className="px-4 pt-5 flex flex-col gap-3">
+        <div className="bg-card border border-concrete-dim p-4 animate-pulse">
+          <div className="h-4 w-1/3 bg-concrete-dim/60 mb-3" />
+          <div className="h-3 w-2/3 bg-concrete-dim/40 mb-2" />
+          <div className="h-3 w-1/2 bg-concrete-dim/40" />
+        </div>
+        <div className="bg-card border border-concrete-dim p-4 animate-pulse">
+          <div className="h-4 w-1/4 bg-concrete-dim/60 mb-3" />
+          <div className="h-3 w-full bg-concrete-dim/40 mb-2" />
+          <div className="h-3 w-3/4 bg-concrete-dim/40" />
+        </div>
+      </div>
     </div>
   )
 

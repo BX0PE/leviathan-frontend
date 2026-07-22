@@ -273,7 +273,17 @@ export default function LinkPositionMaterial() {
   if (loading) return (
     <div className="min-h-screen bg-concrete">
       <Header title="Materiālu piesaiste" onBack />
-      <p className="px-4 pt-6 font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam pozīcijas…</p>
+      <div className="px-4 pt-5 flex flex-col gap-3">
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="bg-card border border-concrete-dim px-4 py-3 flex justify-between gap-3 animate-pulse">
+            <div className="flex-1">
+              <div className="h-3 w-2/3 bg-concrete-dim/60 mb-1.5" />
+              <div className="h-2.5 w-1/3 bg-concrete-dim/40" />
+            </div>
+            <div className="h-6 w-20 bg-concrete-dim/40 shrink-0" />
+          </div>
+        ))}
+      </div>
     </div>
   )
 

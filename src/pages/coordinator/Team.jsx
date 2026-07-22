@@ -82,7 +82,7 @@ export default function Team() {
               <button
                 onClick={handleGenerate}
                 disabled={generating}
-                className="bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-3 hover:bg-brand-dark transition disabled:opacity-40 disabled:cursor-not-allowed"
+                className="bg-brand text-white font-mono text-[12px] tracking-widest uppercase py-3 hover:bg-brand-dark transition-all duration-150 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
               >
                 {generating ? 'Veido saiti…' : 'Izveidot ielūguma saiti →'}
               </button>
@@ -130,7 +130,17 @@ export default function Team() {
           </div>
 
           {loading && (
-            <p className="px-4 py-5 font-mono text-sm text-asphalt-soft tracking-wide">Ielādējam…</p>
+            <div className="px-4 py-4 flex flex-col gap-3">
+              {[0, 1].map((i) => (
+                <div key={i} className="flex items-center gap-3 animate-pulse">
+                  <div className="w-9 h-9 bg-concrete-dim/60 shrink-0" />
+                  <div className="flex-1">
+                    <div className="h-3.5 w-24 bg-concrete-dim/60 mb-1.5" />
+                    <div className="h-2.5 w-16 bg-concrete-dim/40" />
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
 
           {!loading && members.length === 0 && (
