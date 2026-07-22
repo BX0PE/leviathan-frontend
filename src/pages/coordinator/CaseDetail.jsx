@@ -85,6 +85,17 @@ export default function CoordinatorCaseDetail() {
     <div className="min-h-screen bg-concrete pb-10">
       <Header title={c.name} onBack />
 
+      {/* BIS ID banner */}
+      {c.bis_case_number && (
+        <div className="bg-asphalt px-4 py-2 flex items-center gap-3">
+          <span className="font-mono text-[10px] text-white/40 tracking-widest uppercase">BIS lieta</span>
+          <span className="font-mono text-[11px] text-white/70">{c.bis_case_number}</span>
+          {c.stage === 'active' && (
+            <span className="font-mono text-[10px] text-brand tracking-widest uppercase ml-auto">● Aktīvs</span>
+          )}
+        </div>
+      )}
+
       <div className="px-4 pt-5 flex flex-col gap-5">
 
         {/* ── Kopējais progress ── */}

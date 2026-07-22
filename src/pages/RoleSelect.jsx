@@ -59,7 +59,7 @@ export default function RoleSelect() {
             <button
               key={r.key}
               onClick={() => handleSelect(r.key)}
-              className="w-full text-left flex items-stretch border-b border-white/10 last:border-b-0 hover:bg-white/5 active:bg-white/10 transition min-h-tap group"
+              className="w-full text-left flex items-stretch border-b border-white/10 last:border-b-0 hover:bg-white/5 active:bg-white/10 transition-all duration-150 active:scale-[0.995] min-h-tap group"
             >
               {/* Orange left strip on hover */}
               <div className="w-[3px] shrink-0 bg-transparent group-hover:bg-brand transition-colors" />
