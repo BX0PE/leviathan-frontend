@@ -41,7 +41,17 @@ export default function Login() {
       setTimeout(() => navigate('/cases'), 400)
     } catch (e) {
       setDemoLoading(false)
-      setError('Demo režīms pašlaik nav pieejams. Sazinies ar mums pa e-pastu.')
+      const status = e?.response?.status
+      const detail = e?.response?.data?.detail
+      if (status === 404) {
+        setError('Demo režīms nav ieslēgts serverī.')
+      } else if (status === 500) {
+        setError(`Servera kļūda: ${(detail || '').slice(0, 120) || 'iekšēja kļūda'}`)
+      } else if (!e?.response) {
+        setError('Nevar sazināties ar serveri. Pārbaudi interneta savienojumu.')
+      } else {
+        setError(`Kļūda (${status}): ${(detail || '').slice(0, 120)}`)
+      }
     }
   }
 
