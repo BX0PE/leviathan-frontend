@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>LEVIATHAN — Tehniskais pārskats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── Print setup ───────────────────────────────────────────── */
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --asphalt: #0F1115;
+  --asphalt-soft: #374151;
+  --concrete: #F4F6F8;
+  --concrete-dim: #E2E6EA;
+  --card: #FFFFFF;
+  --brand: #FF6B00;
+  --brand-dark: #CC5500;
+  --rebar: #0052FF;
+  --go: #00875A;
+  --caution: #FF8B00;
+  --danger: #DE350B;
+}
+
+html, body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--asphalt);
+  background: #999;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mono { font-family: 'Roboto Mono', monospace; }
+
+/* ─── Page container ────────────────────────────────────────── */
+.page {
+  width: 210mm;
+  height: 297mm;
+  padding: 20mm 18mm;
+  background: var(--card);
+  margin: 0 auto 8mm;
+  position: relative;
+  page-break-after: always;
+  overflow: hidden;
+}
+.page:last-child { page-break-after: auto; }
+
+@media print {
+  body { background: white; }
+  .page { margin: 0; box-shadow: none; }
+}
+
+/* ─── Cover ─────────────────────────────────────────────────── */
+.cover {
+  padding: 0;
+  background: #0F1115;
+  background-image:
+    linear-gradient(rgba(0, 82, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 82, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(0, 82, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 82, 255, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20mm;
+}
+.cover-top {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 107, 0, 0.5);
+  text-transform: uppercase;
+}
+.cover-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.cover-hero .brand-bar {
+  width: 60px;
+  height: 3px;
+  background: var(--brand);
+}
+.cover-hero h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 88px;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+.cover-hero h1 span { color: var(--brand); }
+.cover-hero .subtitle {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 8px;
+}
+.cover-hero .doc-type {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 32px;
+}
+.cover-meta {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+}
+.cover-meta .label {
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 6px;
+}
+.cover-meta .value {
+  color: white;
+  font-size: 13px;
+}
+
+/* ─── Section headers ───────────────────────────────────────── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--asphalt-soft);
+  margin-bottom: 20px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 3px;
+  height: 14px;
+  background: var(--brand);
+}
+
+h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--asphalt);
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+h3 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--asphalt);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--asphalt);
+  margin-bottom: 12px;
+}
+
+.lead {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--asphalt-soft);
+  margin-bottom: 20px;
+}
+
+.page-num {
+  position: absolute;
+  bottom: 12mm;
+  right: 18mm;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 9px;
+  color: var(--asphalt-soft);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--concrete-dim);
+}
+.page-header .logo {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: var(--asphalt);
+}
+.page-header .logo span { color: var(--brand); }
+.page-header .path {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--asphalt-soft);
+}
+
+/* ─── Table ─────────────────────────────────────────────────── */
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+.compare th {
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--concrete);
+  border: 1px solid var(--concrete-dim);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--asphalt-soft);
+  font-weight: 600;
+}
+.compare th.bad { color: var(--danger); }
+.compare th.good { color: var(--go); }
+.compare td {
+  padding: 10px 12px;
+  border: 1px solid var(--concrete-dim);
+  vertical-align: top;
+}
+
+/* ─── Callouts ──────────────────────────────────────────────── */
+.callout {
+  border-left: 3px solid var(--brand);
+  background: rgba(255, 107, 0, 0.05);
+  padding: 14px 18px;
+  margin: 20px 0;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.callout strong { color: var(--brand-dark); }
+
+.callout-blue {
+  border-left-color: var(--rebar);
+  background: rgba(0, 82, 255, 0.05);
+}
+.callout-blue strong { color: var(--rebar); }
+
+.callout-dark {
+  background: var(--asphalt);
+  color: white;
+  border-left: 3px solid var(--brand);
+  padding: 22px 24px;
+  margin: 24px 0;
+}
+.callout-dark .quote {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  color: white;
+}
+.callout-dark .quote-label {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 8px;
+}
+
+/* ─── Feature grid ──────────────────────────────────────────── */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+.metric {
+  border: 1px solid var(--concrete-dim);
+  padding: 16px 14px;
+}
+.metric .num {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--asphalt);
+  line-height: 1;
+}
+.metric .num.brand { color: var(--brand); }
+.metric .num.good { color: var(--go); }
+.metric .label {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--asphalt-soft);
+  margin-top: 6px;
+  line-height: 1.3;
+}
+
+/* ─── Architecture diagram ──────────────────────────────────── */
+.arch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0;
+  padding: 20px;
+  background: var(--concrete);
+  border: 1px solid var(--concrete-dim);
+}
+.arch-box {
+  flex: 1;
+  background: white;
+  border: 1px solid var(--concrete-dim);
+  padding: 12px;
+  text-align: center;
+}
+.arch-box .title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--asphalt);
+  margin-bottom: 4px;
+}
+.arch-box .stack {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--asphalt-soft);
+  text-transform: uppercase;
+}
+.arch-box.bis {
+  background: var(--asphalt);
+  color: white;
+  border-color: var(--brand);
+}
+.arch-box.bis .title { color: white; }
+.arch-box.bis .stack { color: rgba(255, 255, 255, 0.5); }
+.arch-arrow {
+  font-family: 'Roboto Mono', monospace;
+  color: var(--brand);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* ─── Endpoint list ─────────────────────────────────────────── */
+.endpoints {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+  background: var(--asphalt);
+  color: white;
+  padding: 16px 20px;
+  margin: 16px 0;
+  line-height: 1.9;
+}
+.endpoints .method {
+  color: var(--brand);
+  font-weight: 600;
+  display: inline-block;
+  width: 44px;
+}
+.endpoints .comment {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 10px;
+}
+
+/* ─── Status list ───────────────────────────────────────────── */
+.status-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+.status-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--concrete-dim);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.status-list li:last-child { border-bottom: none; }
+.status-list .icon {
+  flex-shrink: 0;
+  width: 20px;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: bold;
+}
+.status-list .icon.done { color: var(--go); }
+.status-list .icon.pending { color: var(--caution); }
+.status-list .icon.needed { color: var(--brand); }
+
+/* ─── Numbered ask list ─────────────────────────────────────── */
+.ask-list {
+  counter-reset: ask;
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+}
+.ask-list li {
+  counter-increment: ask;
+  padding: 12px 0 12px 42px;
+  position: relative;
+  font-size: 12px;
+  line-height: 1.5;
+  border-bottom: 1px solid var(--concrete-dim);
+}
+.ask-list li::before {
+  content: counter(ask, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 12px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--brand);
+  letter-spacing: 0.05em;
+}
+.ask-list li strong {
+  display: block;
+  color: var(--asphalt);
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.ask-list li .detail {
+  color: var(--asphalt-soft);
+  font-size: 11px;
+}
+
+/* ─── Footer contact strip ──────────────────────────────────── */
+.contact-strip {
+  margin-top: auto;
+  background: var(--asphalt);
+  color: white;
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+}
+.contact-strip .label {
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 6px;
+  font-size: 9px;
+}
+.contact-strip .value { color: white; font-size: 12px; }
+.contact-strip .value.brand { color: var(--brand); }
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 16px 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE 1 · Cover                                                -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-top">
+    <span>LEVIATHAN · Tehniskais pārskats</span>
+    <span>2026-07-22</span>
+  </div>
+
+  <div class="cover-hero">
+    <div class="brand-bar"></div>
+    <h1>BIS<br>žurnāls<br><span>bez manuālā</span><br>darba.</h1>
+    <p class="subtitle">Būvniecības dokumentāciju automatizācija · Latvija</p>
+    <p class="doc-type">Tehniskais pārskats · v1.0</p>
+  </div>
+
+  <div class="cover-meta">
+    <div>
+      <div class="label">Autors</div>
+      <div class="value">Maksims Markuls</div>
+    </div>
+    <div>
+      <div class="label">Datums</div>
+      <div class="value">22.07.2026</div>
+    </div>
+    <div>
+      <div class="label">Kontakti</div>
+      <div class="value">leviathanworkgroup@gmail.com</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE 2 · Executive summary                                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">LEVI<span>ATHAN</span></div>
+    <div class="path">01 · Kopsavilkums</div>
+  </div>
+
+  <div class="section-label">Kas ir LEVIATHAN</div>
+  <h2>BIS Būvdarbu žurnāla<br>automatizācijas platforma.</h2>
+
+  <p class="lead">
+    LEVIATHAN ir SaaS lietojumprogramma, kas automatizē datu ievadi
+    Būvniecības informācijas sistēmas (BIS) Būvdarbu žurnālā.
+    Sistēma paredzēta būvfirmu koordinatoriem, priekšniekiem un
+    būvuzraugiem, kuri ikdienā strādā ar tāmēm un tehniskajām deklarācijām.
+  </p>
+
+  <p>
+    Vietā, lai ievadītu katru izpildīto darbu manuāli BIS portālā,
+    lietotājs augšupielādē Excel tāmi (LBN 501-17 formāts) un PDF
+    sertifikātus, sistēma automātiski atpazīst pozīcijas, sasaista
+    dokumentus un ļauj priekšniekam laukā mobili ievadīt izpildītos apjomus.
+  </p>
+
+  <div class="grid-3">
+    <div class="metric">
+      <div class="num brand">80%</div>
+      <div class="label">mazāk manuālā<br>darba*</div>
+    </div>
+    <div class="metric">
+      <div class="num">10×</div>
+      <div class="label">ātrāk<br>nekā manuāli*</div>
+    </div>
+    <div class="metric">
+      <div class="num good">€850</div>
+      <div class="label">ietaupīts<br>mēnesī*</div>
+    </div>
+  </div>
+  <p style="font-family:'Roboto Mono',monospace; font-size:9px; color:var(--asphalt-soft); letter-spacing:0.05em; margin-top:-8px;">
+    * aptuvenie rādītāji vienam vidēja izmēra objektam
+  </p>
+
+  <div class="section-label" style="margin-top: 28px;">Salīdzinājums</div>
+  <table class="compare">
+    <thead>
+      <tr>
+        <th class="bad">Tagad (manuāli)</th>
+        <th class="good">Ar LEVIATHAN</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Excel tāme + manuāla datu ievade BIS portālā</td>
+        <td>Excel tāme → automātiska pozīciju atpazīšana</td>
+      </tr>
+      <tr>
+        <td>PDF sertifikātu manuāla meklēšana mapēs</td>
+        <td>PDF drag &amp; drop → automātiska sasaiste ar pozīciju</td>
+      </tr>
+      <tr>
+        <td>Pārrakstīšanas kļūdas un labošana</td>
+        <td>Automātiska validācija pirms nosūtīšanas</td>
+      </tr>
+      <tr>
+        <td>Nav pārskata par kopējo progresu</td>
+        <td>Reālā laika progress pa sadaļām</td>
+      </tr>
+      <tr>
+        <td>3–4h vienam objektam nedēļā</td>
+        <td>10 min. melnraksts</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-label" style="margin-top: 24px;">Mērķauditorija</div>
+  <p>
+    Latvijas SIA būvfirmas ar 1–5 aktīviem objektiem, kur koordinators
+    pilda arī administratīvos pienākumus. Lomas sistēmā:
+    <strong>Koordinators</strong> (tāmes un dokumentu pārvaldība),
+    <strong>Priekšnieks</strong> (ikdienas darbu ievade laukā),
+    <strong>Būvuzraugs</strong> (ierakstu pārbaude un apstiprināšana).
+  </p>
+
+  <div class="page-num">01 / 05</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE 3 · Technical architecture                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">LEVI<span>ATHAN</span></div>
+    <div class="path">02 · Tehniskā arhitektūra</div>
+  </div>
+
+  <div class="section-label">Sistēmas komponentes</div>
+  <h2>Trīs slāņu arhitektūra ar<br>BIS API integrāciju.</h2>
+
+  <div class="arch">
+    <div class="arch-box">
+      <div class="title">Frontend</div>
+      <div class="stack">PWA · React · Vite</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box">
+      <div class="title">Backend</div>
+      <div class="stack">FastAPI · PostgreSQL</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box bis">
+      <div class="title">BIS API</div>
+      <div class="stack">OAuth 2.0 PKCE</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3>Frontend</h3>
+      <p style="font-size:11px;">
+        Progressive Web App uz React + Vite, ar offline atbalstu
+        (IndexedDB rindā turētie ieraksti, ServiceWorker cache).
+        Reaģē uz <span class="mono">navigator.onLine</span> notikumiem,
+        atkārto neveiksmīgas API operācijas, kad savienojums atjaunojas.
+      </p>
+    </div>
+    <div>
+      <h3>Backend</h3>
+      <p style="font-size:11px;">
+        FastAPI (Python 3.12) uz Railway ar PostgreSQL. JWT
+        autentifikācija, BIS OAuth token pārvaldība ar automātisku
+        refresh. Excel parseris (openpyxl) un PDF apstrāde
+        (pdfplumber) tekstu ekstrakcijai un pozīciju sasaistei.
+      </p>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top: 24px;">BIS API endpoints</div>
+  <p>Sistēma izmanto sekojošos BIS API endpoints:</p>
+
+  <div class="endpoints">
+    <div><span class="method">GET</span>&nbsp;/bisp/api/portal/bis_cases</div>
+    <div><span class="comment">// Lietotāja būvniecības lietas</span></div>
+    <br>
+    <div><span class="method">GET</span>&nbsp;/services/portal/bis_cases/{id}/logbook/estimate_positions</div>
+    <div><span class="comment">// Tāmes pozīcijas (filter[type_eq]=element)</span></div>
+    <br>
+    <div><span class="method">GET</span>&nbsp;/services/portal/bis_cases/{id}/logbook/available_responsible_persons</div>
+    <div><span class="comment">// Atbildīgās personas</span></div>
+    <br>
+    <div><span class="method">POST</span>&nbsp;/services/portal/bis_cases/{id}/logbook/performed_works</div>
+    <div><span class="comment">// Žurnāla ieraksta izveide</span></div>
+    <br>
+    <div><span class="method">GET</span>&nbsp;/services/portal/classifiers</div>
+    <div><span class="comment">// Mērvienību klasifikators</span></div>
+  </div>
+
+  <div class="callout callout-blue">
+    <strong>Autentifikācija:</strong> OAuth 2.0 ar PKCE (Proof Key for Code Exchange).
+    Reģistrētā lietojumprogramma: <strong>LEVIATHAN</strong>,
+    statuss: <strong>Aktīva</strong> (testa vidē).
+    Tiesības: <span class="mono">logbooks:read</span>, <span class="mono">logbooks:manage</span>,
+    <span class="mono">projects:read</span>, <span class="mono">bis_case_documents:read</span>.
+  </div>
+
+  <div class="page-num">02 / 05</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE 4 · Offline-safe story                                   -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">LEVI<span>ATHAN</span></div>
+    <div class="path">03 · Noturība pret API pārtraukumiem</div>
+  </div>
+
+  <div class="section-label">Ko darām, kad BIS nav pieejams</div>
+  <h2>Integrācija ir uzbūvēta ar<br>pieņēmumu, ka API var nebūt.</h2>
+
+  <p class="lead">
+    Reālā ekspluatācijā valsts sistēmām nepieciešami apkopes logi,
+    tīkla ierobežojumi vai citas pārtraukuma situācijas. LEVIATHAN
+    ir izstrādāts tā, lai lietotāja darbs neapstātos un dati netiktu
+    zaudēti nevienā scenārijā.
+  </p>
+
+  <div class="callout-dark">
+    <div class="quote-label">Ziņojums lietotājam pēc "Nosūtīt uz BIS"</div>
+    <div class="quote">
+      "BIS API pagaidām nav pieejams. Ieraksts saglabāts un tiks
+      nosūtīts automātiski, tiklīdz atjaunosies pieeja."
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3>Klienta pusē</h3>
+      <p style="font-size:11px;">
+        <strong>IndexedDB rinda</strong> — ja lietotājs ievada ierakstu
+        bez interneta, tas glabājas lokāli. Kad <span class="mono">navigator.onLine</span>
+        notikums izšaujas, rinda tiek automātiski nosūtīta.
+      </p>
+      <p style="font-size:11px;">
+        <strong>Iepriekš aizpildīti lauki</strong> — apraksts un
+        darbinieku skaits tiek prefill'oti no pēdējā ieraksta, lai
+        priekšniekam nav manuāli jāaizpilda katru dienu no jauna.
+      </p>
+    </div>
+    <div>
+      <h3>Servera pusē</h3>
+      <p style="font-size:11px;">
+        <strong>PostgreSQL rinda ar synced=False</strong> — ja BIS API
+        atbild ar kļūdu, ieraksts saglabājas datubāzē ar karodziņu.
+        Nekas netiek pazaudēts.
+      </p>
+      <p style="font-size:11px;">
+        <strong>Retry endpoint</strong> — <span class="mono">POST /api/entries/retry-pending</span>
+        atkārto visus nesinhronizētos ierakstus. Izsaukts automātiski,
+        kad savienojums atjaunojas.
+      </p>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top: 24px;">Redzamība lietotājam</div>
+
+  <ul class="status-list">
+    <li>
+      <span class="icon done">✓</span>
+      <div><strong>Katrā objektu sarakstā</strong> parādās skaitītājs "N ieraksti gaida BIS" — koordinators vienmēr redz, kas vēl nav sinhronizēts.</div>
+    </li>
+    <li>
+      <span class="icon done">✓</span>
+      <div><strong>Ierakstu vēsturē</strong> katram ierakstam ir statusa zīmogs: <span class="mono" style="color:var(--go)">✓ BIS</span> vai <span class="mono" style="color:var(--caution)">⏳ rinda</span>.</div>
+    </li>
+    <li>
+      <span class="icon done">✓</span>
+      <div><strong>Bezsaistes brīdinājums</strong> — sticky top-bar informē lietotāju, ka pašlaik nav interneta.</div>
+    </li>
+    <li>
+      <span class="icon done">✓</span>
+      <div><strong>Audit trail</strong> — visas darbības ar objektu, arī neizdevušies BIS mēģinājumi, tiek reģistrētas.</div>
+    </li>
+  </ul>
+
+  <div class="page-num">03 / 05</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE 5 · Status & next steps                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">LEVI<span>ATHAN</span></div>
+    <div class="path">04 · Statuss un nākamie soļi</div>
+  </div>
+
+  <div class="section-label">Kur mēs esam</div>
+  <h2>Integrācijas process<br>testa vidē.</h2>
+
+  <ul class="status-list">
+    <li>
+      <span class="icon done">✓</span>
+      <div><strong>OAuth aplikācija reģistrēta un aktīva.</strong> LEVIATHAN reģistrēts testa vidē (test.bis.gov.lv), statuss Aktīva, tiesības apstiprinātas.</div>
+    </li>
+    <li>
+      <span class="icon done">✓</span>
+      <div><strong>Frontend produkcijas gatavībā.</strong> Publicēts leviathan-app-one.vercel.app ar pilnu darba plūsmu (Koordinators / Priekšnieks / Būvuzraugs).</div>
+    </li>
+    <li>
+      <span class="icon done">✓</span>
+      <div><strong>Backend produkcijas gatavībā.</strong> FastAPI uz Railway ar PostgreSQL, BIS OAuth token pārvaldība, retry loģika.</div>
+    </li>
+    <li>
+      <span class="icon done">✓</span>
+      <div><strong>Demo režīms.</strong> Pilna lietotāja pieredze bez BIS savienojuma pieejama publiski demonstrēšanai (Iepazīties ar demo).</div>
+    </li>
+    <li>
+      <span class="icon pending">◐</span>
+      <div><strong>PTK-190111: IP baltais saraksts.</strong> Gaidām servera IP iekļaušanu baltajā sarakstā, lai backend varētu piekļūt BIS testa vides API.</div>
+    </li>
+    <li>
+      <span class="icon pending">◐</span>
+      <div><strong>PTK-190801: Testa lieta uz Būvdarbu posmu.</strong> Iesniedzam pakāpeniskus iesniegumus par testa lietu TMP-386232-16302, lai to virzītu uz Būvdarbu posmu.</div>
+    </li>
+  </ul>
+
+  <div class="section-label" style="margin-top: 20px;">Kas nepieciešams no BVKB</div>
+
+  <ol class="ask-list">
+    <li>
+      <strong>IP baltais saraksts serverim</strong>
+      <div class="detail">
+        Railway servera IP <span class="mono">162.220.232.72</span> pievienošana
+        testa vides atļautajos IP sarakstā, lai backend varētu veikt
+        API izsaukumus (šobrīd tiek bloķēts ar ConnectTimeout).
+      </div>
+    </li>
+    <li>
+      <strong>Testa lieta Būvdarbu posmā</strong>
+      <div class="detail">
+        Lieta TMP-386232-16302 sasniedz Būvdarbu posmu, lai varētu
+        pārbaudīt reālu <span class="mono">performed_works</span> ieraksta izveidi
+        caur mūsu integrāciju.
+      </div>
+    </li>
+    <li>
+      <strong>Vadlīnijas produkcijas vides pieejai</strong>
+      <div class="detail">
+        Kad testa integrācija būs pilnībā verificēta — informācija par
+        procesu, dokumentāciju un prasībām, kas nepieciešamas produkcijas
+        vides OAuth reģistrācijai un lietošanai.
+      </div>
+    </li>
+    <li>
+      <strong>Tehniskais dialogs</strong>
+      <div class="detail">
+        Esam atvērti diskusijai par arhitektūras pieeju, atbilstības
+        jautājumiem un jebkādiem BIS speciālistu ieteikumiem.
+      </div>
+    </li>
+  </ol>
+
+  <div class="contact-strip">
+    <div>
+      <div class="label">Kontakti</div>
+      <div class="value brand">leviathanworkgroup@gmail.com</div>
+    </div>
+    <div>
+      <div class="label">Aplikācija</div>
+      <div class="value">leviathan-app-one.vercel.app</div>
+    </div>
+    <div>
+      <div class="label">Autors</div>
+      <div class="value">Maksims Markuls</div>
+    </div>
+  </div>
+
+  <div class="page-num">04 / 05</div>
+</div>
+
+</body>
+</html>
