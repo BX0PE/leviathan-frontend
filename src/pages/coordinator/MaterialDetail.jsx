@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Header from '../../components/Header.jsx'
+import { useToast } from '../../components/Toast.jsx'
 import { fetchMaterial, uploadDeclaration, deleteDeclaration, updateMaterial, fetchCategories } from '../../api/materials.js'
 
 const APPROVAL_METHODS = [
@@ -200,6 +201,7 @@ function EditDrawer({ material, categories, onClose, onSaved }) {
 export default function MaterialDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const toast = useToast()
   const [material, setMaterial] = useState(null)
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
@@ -263,8 +265,9 @@ export default function MaterialDetail() {
     try {
       await deleteDeclaration(declId)
       setMaterial(m => ({ ...m, declarations: m.declarations.filter(d => d.id !== declId) }))
+      toast.add({ type: 'success', message: 'Deklarācija dzēsta' })
     } catch (e) {
-      alert(e?.response?.data?.detail || e.message)
+      toast.add({ type: 'error', message: e?.response?.data?.detail || e.message || 'Neizdevās dzēst' })
     }
   }
 
@@ -361,7 +364,7 @@ export default function MaterialDetail() {
             <button
               onClick={() => fileRef.current?.click()}
               disabled={uploading}
-              className="w-full flex items-center gap-3 py-3 px-4 border border-dashed border-brand/40 text-brand hover:bg-brand/5 active:bg-brand/10 transition disabled:opacity-50"
+              className="w-full flex items-center gap-3 py-3 px-4 border border-dashed border-brand/40 text-brand hover:bg-brand/5 active:bg-brand/10 transition-all duration-150 active:scale-[0.99] disabled:opacity-50 disabled:active:scale-100"
             >
               <span className="text-lg">📤</span>
               <div className="text-left">
