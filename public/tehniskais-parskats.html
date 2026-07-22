@@ -2,7 +2,7 @@
 <html lang="lv">
 <head>
 <meta charset="UTF-8">
-<title>LEVIATHAN — Tehniskais pārskats</title>
+<title>LEVIATHAN — MVP demonstrācija</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -489,7 +489,7 @@ p {
 <!-- ═══════════════════════════════════════════════════════════ -->
 <div class="page cover">
   <div class="cover-top">
-    <span>LEVIATHAN · Tehniskais pārskats</span>
+    <span>LEVIATHAN · Demonstrācija</span>
     <span>2026-07-22</span>
   </div>
 
@@ -497,7 +497,7 @@ p {
     <div class="brand-bar"></div>
     <h1>BIS<br>žurnāls<br><span>bez manuālā</span><br>darba.</h1>
     <p class="subtitle">Būvniecības dokumentāciju automatizācija · Latvija</p>
-    <p class="doc-type">Tehniskais pārskats · v1.0</p>
+    <p class="doc-type">MVP demonstrācija · 2026-07</p>
   </div>
 
   <div class="cover-meta">
@@ -654,33 +654,13 @@ p {
     </div>
   </div>
 
-  <div class="section-label" style="margin-top: 24px;">BIS API endpoints</div>
-  <p>Sistēma izmanto sekojošos BIS API endpoints:</p>
-
-  <div class="endpoints">
-    <div><span class="method">GET</span>&nbsp;/bisp/api/portal/bis_cases</div>
-    <div><span class="comment">// Lietotāja būvniecības lietas</span></div>
-    <br>
-    <div><span class="method">GET</span>&nbsp;/services/portal/bis_cases/{id}/logbook/estimate_positions</div>
-    <div><span class="comment">// Tāmes pozīcijas (filter[type_eq]=element)</span></div>
-    <br>
-    <div><span class="method">GET</span>&nbsp;/services/portal/bis_cases/{id}/logbook/available_responsible_persons</div>
-    <div><span class="comment">// Atbildīgās personas</span></div>
-    <br>
-    <div><span class="method">POST</span>&nbsp;/services/portal/bis_cases/{id}/logbook/performed_works</div>
-    <div><span class="comment">// Žurnāla ieraksta izveide</span></div>
-    <br>
-    <div><span class="method">GET</span>&nbsp;/services/portal/classifiers</div>
-    <div><span class="comment">// Mērvienību klasifikators</span></div>
-  </div>
-
-  <div class="callout callout-blue">
-    <strong>Autentifikācija:</strong> OAuth 2.0 ar PKCE (Proof Key for Code Exchange).
-    Reģistrētā lietojumprogramma: <strong>LEVIATHAN</strong>,
-    statuss: <strong>Aktīva</strong> (testa vidē).
-    Tiesības: <span class="mono">logbooks:read</span>, <span class="mono">logbooks:manage</span>,
-    <span class="mono">projects:read</span>, <span class="mono">bis_case_documents:read</span>.
-  </div>
+  <div class="section-label" style="margin-top: 24px;">Integrācija</div>
+  <p>
+    Integrācija izmanto BIS publiski pieejamās REST saskarnes un
+    OAuth 2.0 autentifikāciju. Reģistrētā lietojumprogramma
+    <strong>LEVIATHAN</strong> testa vidē — statuss
+    <strong style="color:var(--go)">Aktīva</strong>.
+  </p>
 
   <div class="page-num">02 / 05</div>
 </div>
@@ -771,16 +751,16 @@ p {
 <div class="page">
   <div class="page-header">
     <div class="logo">LEVI<span>ATHAN</span></div>
-    <div class="path">04 · Statuss un nākamie soļi</div>
+    <div class="path">04 · Statuss</div>
   </div>
 
   <div class="section-label">Kur mēs esam</div>
-  <h2>Integrācijas process<br>testa vidē.</h2>
+  <h2>MVP gatavs, integrācija<br>testa vidē procesā.</h2>
 
   <ul class="status-list">
     <li>
       <span class="icon done">✓</span>
-      <div><strong>OAuth aplikācija reģistrēta un aktīva.</strong> LEVIATHAN reģistrēts testa vidē (test.bis.gov.lv), statuss Aktīva, tiesības apstiprinātas.</div>
+      <div><strong>OAuth aplikācija reģistrēta un aktīva.</strong> LEVIATHAN reģistrēts testa vidē, statuss Aktīva, tiesības apstiprinātas.</div>
     </li>
     <li>
       <span class="icon done">✓</span>
@@ -788,54 +768,35 @@ p {
     </li>
     <li>
       <span class="icon done">✓</span>
-      <div><strong>Backend produkcijas gatavībā.</strong> FastAPI uz Railway ar PostgreSQL, BIS OAuth token pārvaldība, retry loģika.</div>
+      <div><strong>Backend produkcijas gatavībā.</strong> FastAPI + PostgreSQL, OAuth token pārvaldība, retry loģika.</div>
     </li>
     <li>
       <span class="icon done">✓</span>
-      <div><strong>Demo režīms.</strong> Pilna lietotāja pieredze bez BIS savienojuma pieejama publiski demonstrēšanai (Iepazīties ar demo).</div>
-    </li>
-    <li>
-      <span class="icon pending">◐</span>
-      <div><strong>PTK-190111: IP baltais saraksts.</strong> Gaidām servera IP iekļaušanu baltajā sarakstā, lai backend varētu piekļūt BIS testa vides API.</div>
-    </li>
-    <li>
-      <span class="icon pending">◐</span>
-      <div><strong>PTK-190801: Testa lieta uz Būvdarbu posmu.</strong> Iesniedzam pakāpeniskus iesniegumus par testa lietu TMP-386232-16302, lai to virzītu uz Būvdarbu posmu.</div>
+      <div><strong>Demo režīms.</strong> Pilna lietotāja pieredze pieejama publiski demonstrēšanai (Iepazīties ar demo).</div>
     </li>
   </ul>
 
-  <div class="section-label" style="margin-top: 20px;">Kas nepieciešams no BVKB</div>
+  <div class="section-label" style="margin-top: 20px;">Turpmākie tehniskie soļi</div>
 
   <ol class="ask-list">
     <li>
-      <strong>IP baltais saraksts serverim</strong>
+      <strong>Servera piekļuves konfigurācija</strong>
       <div class="detail">
-        Railway servera IP <span class="mono">162.220.232.72</span> pievienošana
-        testa vides atļautajos IP sarakstā, lai backend varētu veikt
-        API izsaukumus (šobrīd tiek bloķēts ar ConnectTimeout).
+        Backend savienojuma iestatījumi darbam ar BIS testa vides API.
       </div>
     </li>
     <li>
-      <strong>Testa lieta Būvdarbu posmā</strong>
+      <strong>Pilna Būvdarbu scenārija testēšana</strong>
       <div class="detail">
-        Lieta TMP-386232-16302 sasniedz Būvdarbu posmu, lai varētu
-        pārbaudīt reālu <span class="mono">performed_works</span> ieraksta izveidi
-        caur mūsu integrāciju.
+        End-to-end pārbaude — no tāmes augšupielādes līdz žurnāla
+        ieraksta izveidei un statusa apstiprināšanai BIS pusē.
       </div>
     </li>
     <li>
-      <strong>Vadlīnijas produkcijas vides pieejai</strong>
+      <strong>Produkcijas vides integrācijas process</strong>
       <div class="detail">
-        Kad testa integrācija būs pilnībā verificēta — informācija par
-        procesu, dokumentāciju un prasībām, kas nepieciešamas produkcijas
-        vides OAuth reģistrācijai un lietošanai.
-      </div>
-    </li>
-    <li>
-      <strong>Tehniskais dialogs</strong>
-      <div class="detail">
-        Esam atvērti diskusijai par arhitektūras pieeju, atbilstības
-        jautājumiem un jebkādiem BIS speciālistu ieteikumiem.
+        Pāreja no testa vides uz produkcijas OAuth reģistrāciju
+        pēc testa integrācijas verifikācijas.
       </div>
     </li>
   </ol>

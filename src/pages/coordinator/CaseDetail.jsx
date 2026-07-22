@@ -161,7 +161,7 @@ export default function CoordinatorCaseDetail() {
             <span className="text-xl shrink-0">👷</span>
             <div>
               <p className="tracking-wide">Ievadīt izpildītos darbus</p>
-              <p className="font-mono font-normal opacity-60 text-[11px] tracking-widest uppercase mt-0.5">Prorāba skats</p>
+              <p className="font-mono font-normal opacity-60 text-[11px] tracking-widest uppercase mt-0.5">Priekšnieka skats</p>
             </div>
           </button>
 
