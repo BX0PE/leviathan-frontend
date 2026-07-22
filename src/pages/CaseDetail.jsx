@@ -169,7 +169,7 @@ export default function CaseDetail() {
         )}
         <button
           onClick={() => navigate(`/cases/${id}/history`)}
-          className="ml-auto font-mono text-[10px] text-white/30 tracking-widests uppercase hover:text-white/60 transition-all duration-150 active:scale-95"
+          className="ml-auto font-mono text-[10px] text-white/30 tracking-widest uppercase hover:text-white/60 transition-all duration-150 active:scale-95"
         >
           Vēsture ›
         </button>
@@ -239,7 +239,7 @@ export default function CaseDetail() {
                 onChange={(e) => setEmployees(e.target.value)}
                 className="bg-concrete border border-concrete-dim px-2 py-1.5 font-mono text-sm text-asphalt text-center focus:outline-none focus:border-brand w-[52px]"
               />
-              <label className="font-mono text-[10px] text-asphalt-soft tracking-widests uppercase">cilv.</label>
+              <label className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase">cilv.</label>
             </div>
           </div>
         </div>
@@ -252,7 +252,7 @@ export default function CaseDetail() {
           </div>
           <div className="px-4 py-3 flex items-center gap-4">
             <div className="flex items-center gap-2 flex-1">
-              <label className="font-mono text-[11px] text-asphalt-soft tracking-widests uppercase whitespace-nowrap">Temp.</label>
+              <label className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase whitespace-nowrap">Temp.</label>
               <div className="relative flex-1 max-w-[100px]">
                 <input
                   type="number"
@@ -268,7 +268,7 @@ export default function CaseDetail() {
             </div>
             <div className="w-px h-8 bg-concrete-dim" />
             <div className="flex items-center gap-2">
-              <label className="font-mono text-[11px] text-asphalt-soft tracking-widests uppercase">Nokrišņi</label>
+              <label className="font-mono text-[11px] text-asphalt-soft tracking-widest uppercase">Nokrišņi</label>
               <button
                 type="button"
                 onClick={() => setPrecipitation((p) => !p)}

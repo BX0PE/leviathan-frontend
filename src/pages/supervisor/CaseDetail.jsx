@@ -80,7 +80,7 @@ export default function SupervisorCaseDetail() {
 
       {/* Status bar */}
       <div className="bg-asphalt px-4 py-2 flex items-center gap-4">
-        <span className="font-mono text-[11px] text-white/40 tracking-widests uppercase">Uzraudzība</span>
+        <span className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Uzraudzība</span>
         {pendingEntries > 0 && (
           <span className="font-mono text-[11px] text-caution tracking-wide">
             ⏳ {pendingEntries} gaida BIS
@@ -98,7 +98,7 @@ export default function SupervisorCaseDetail() {
         {/* ── Progress overview ── */}
         <div className="bg-white/5 border border-white/10">
           <div className="px-4 pt-4 pb-1 border-b border-white/10 flex justify-between items-center">
-            <span className="font-mono text-[11px] text-white/40 tracking-widests uppercase">Kopējais progress</span>
+            <span className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Kopējais progress</span>
             <span className="font-mono font-bold text-2xl text-brand">{progress.overall_percent ?? 0}%</span>
           </div>
           <div className="px-4 py-3">
@@ -115,7 +115,7 @@ export default function SupervisorCaseDetail() {
         {groups.length > 0 && (
           <div className="bg-white/5 border border-white/10">
             <div className="px-4 py-3 border-b border-white/10">
-              <span className="font-mono text-[11px] text-white/40 tracking-widests uppercase">Pa sadaļām</span>
+              <span className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Pa sadaļām</span>
             </div>
             <div className="divide-y divide-white/10">
               {groups.map((g) => (
@@ -137,7 +137,7 @@ export default function SupervisorCaseDetail() {
         {/* ── Darbu ieraksti ── */}
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[11px] text-white/40 tracking-widests uppercase">Darbu ieraksti</span>
+            <span className="font-mono text-[11px] text-white/40 tracking-widest uppercase">Darbu ieraksti</span>
             {totalEntries > 0 && (
               <span className="font-mono text-[10px] text-white/20">{totalEntries} kopā</span>
             )}
@@ -209,11 +209,11 @@ export default function SupervisorCaseDetail() {
         {/* ── eParaksts placeholder ── */}
         {entries.some((e) => e.synced && !e.signed) && (
           <div className="bg-white/5 border border-white/10 px-4 py-5 text-center">
-            <p className="font-mono text-[11px] text-white/40 tracking-widests uppercase mb-2">Nodot apstiprināšanai</p>
+            <p className="font-mono text-[11px] text-white/40 tracking-widest uppercase mb-2">Nodot apstiprināšanai</p>
             <p className="font-mono text-[11px] text-white/20 tracking-wide mb-4 leading-relaxed">
               eParaksts integrācija — drīzumā. Ierakstus varēs parakstīt digitāli un nosūtīt uz BIS apstiprināšanai.
             </p>
-            <div className="border border-white/10 py-2 font-mono text-[11px] text-white/20 tracking-widests uppercase">
+            <div className="border border-white/10 py-2 font-mono text-[11px] text-white/20 tracking-widest uppercase">
               Drīzumā ›
             </div>
           </div>

@@ -154,7 +154,7 @@ export default function CasesList() {
             )}
             <button
               onClick={handleLogout}
-              className="text-[11px] font-mono text-white/50 tracking-widests uppercase hover:text-white transition min-h-tap px-2"
+              className="text-[11px] font-mono text-white/50 tracking-widest uppercase hover:text-white transition min-h-tap px-2"
             >
               Iziet
             </button>

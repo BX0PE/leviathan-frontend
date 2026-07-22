@@ -88,7 +88,7 @@ export default function CaseHistory() {
               {/* Date divider */}
               <div className="flex items-center gap-3 mb-2">
                 <div className="h-[1px] w-3 bg-concrete-dim shrink-0" />
-                <span className="font-mono text-[10px] text-asphalt-soft tracking-widests uppercase whitespace-nowrap">
+                <span className="font-mono text-[10px] text-asphalt-soft tracking-widest uppercase whitespace-nowrap">
                   {fmtDate(date)}
                 </span>
                 {timeLabel && (
